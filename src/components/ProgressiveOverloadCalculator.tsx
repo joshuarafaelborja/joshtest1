@@ -79,16 +79,16 @@ export function ProgressiveOverloadCalculator() {
   };
 
   return (
-    <Card className="border-border/50">
+    <Card className="border-border/50 transition-all duration-300 hover:shadow-lg">
       <CardHeader className="pb-4">
         <CardTitle className="text-lg flex items-center gap-2">
-          <TrendingUp className="w-5 h-5 text-primary" />
+          <TrendingUp className="w-5 h-5 text-primary animate-pulse" />
           Progressive Overload Calculator
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-3 gap-3">
-          <div className="space-y-2">
+          <div className="space-y-2 animate-fade-in" style={{ animationDelay: '0ms' }}>
             <Label htmlFor="currentWeight" className="text-sm text-muted-foreground">
               Current Weight
             </Label>
@@ -99,10 +99,10 @@ export function ProgressiveOverloadCalculator() {
               placeholder="135"
               value={currentWeight}
               onChange={(e) => setCurrentWeight(e.target.value)}
-              className="h-12 text-lg rounded-xl"
+              className="h-12 text-lg rounded-xl transition-all duration-200 focus:scale-[1.02]"
             />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2 animate-fade-in" style={{ animationDelay: '50ms' }}>
             <Label htmlFor="targetReps" className="text-sm text-muted-foreground">
               Target Reps
             </Label>
@@ -113,10 +113,10 @@ export function ProgressiveOverloadCalculator() {
               placeholder="8"
               value={targetReps}
               onChange={(e) => setTargetReps(e.target.value)}
-              className="h-12 text-lg rounded-xl"
+              className="h-12 text-lg rounded-xl transition-all duration-200 focus:scale-[1.02]"
             />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2 animate-fade-in" style={{ animationDelay: '100ms' }}>
             <Label htmlFor="repsCompleted" className="text-sm text-muted-foreground">
               Reps Done
             </Label>
@@ -127,23 +127,23 @@ export function ProgressiveOverloadCalculator() {
               placeholder="10"
               value={repsCompleted}
               onChange={(e) => setRepsCompleted(e.target.value)}
-              className="h-12 text-lg rounded-xl"
+              className="h-12 text-lg rounded-xl transition-all duration-200 focus:scale-[1.02]"
             />
           </div>
         </div>
 
         <Button
           onClick={calculateProgression}
-          className="w-full h-12 text-base font-semibold rounded-xl"
+          className="w-full h-12 text-base font-semibold rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
           disabled={!currentWeight || !targetReps || !repsCompleted}
         >
           Calculate Recommendation
         </Button>
 
         {result && (
-          <div className={`mt-4 p-4 rounded-xl border-2 ${getStatusColor()}`}>
+          <div className={`mt-4 p-4 rounded-xl border-2 animate-scale-in ${getStatusColor()}`}>
             <div className="flex items-center gap-3 mb-2">
-              {getStatusIcon()}
+              <span className="animate-bounce">{getStatusIcon()}</span>
               <span className="font-bold text-lg">{result.message}</span>
             </div>
             <p className="text-sm opacity-80 leading-relaxed">{result.rationale}</p>

@@ -29,15 +29,15 @@ export function WarmupCalculator() {
   };
 
   return (
-    <Card className="border-border/50">
+    <Card className="border-border/50 transition-all duration-300 hover:shadow-lg">
       <CardHeader className="pb-4">
         <CardTitle className="text-lg flex items-center gap-2">
-          <Flame className="w-5 h-5 text-warning" />
+          <Flame className="w-5 h-5 text-warning animate-pulse" />
           Warm-up Calculator
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="space-y-2">
+        <div className="space-y-2 animate-fade-in">
           <Label htmlFor="workingWeight" className="text-sm text-muted-foreground">
             Working Weight (lbs)
           </Label>
@@ -48,20 +48,20 @@ export function WarmupCalculator() {
             placeholder="Enter your working weight"
             value={workingWeight}
             onChange={(e) => setWorkingWeight(e.target.value)}
-            className="h-12 text-lg rounded-xl"
+            className="h-12 text-lg rounded-xl transition-all duration-200 focus:scale-[1.02]"
           />
         </div>
 
         <Button
           onClick={calculateWarmup}
-          className="w-full h-12 text-base font-semibold rounded-xl"
+          className="w-full h-12 text-base font-semibold rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
           disabled={!workingWeight}
         >
           Calculate Warm-up Sets
         </Button>
 
         {warmupSets && (
-          <div className="mt-4 space-y-3">
+          <div className="mt-4 space-y-3 animate-fade-in">
             <p className="text-sm text-muted-foreground">
               Complete these warm-up sets before your working sets to prepare your muscles and nervous system.
             </p>
@@ -70,7 +70,8 @@ export function WarmupCalculator() {
               {warmupSets.map((set, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-4 rounded-xl bg-secondary/50 border border-border/50"
+                  className="flex items-center justify-between p-4 rounded-xl bg-secondary/50 border border-border/50 animate-scale-in transition-all duration-200 hover:bg-secondary/70"
+                  style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">

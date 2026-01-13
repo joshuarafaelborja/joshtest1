@@ -1,7 +1,8 @@
-import { Plus, Dumbbell } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ExerciseCard } from './ExerciseCard';
 import { AppData, Exercise } from '@/lib/types';
+import dogLogo from '@/assets/dog-logo.png';
 
 interface HomeScreenProps {
   data: AppData;
@@ -23,9 +24,7 @@ export function HomeScreen({ data, onLogNew, onSelectExercise }: HomeScreenProps
       {/* Header */}
       <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b px-4 py-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-            <Dumbbell className="w-5 h-5 text-primary" />
-          </div>
+          <img src={dogLogo} alt="Coach" className="w-10 h-10 object-contain" />
           <h1 className="text-2xl font-bold">Coach</h1>
         </div>
       </header>
@@ -34,9 +33,7 @@ export function HomeScreen({ data, onLogNew, onSelectExercise }: HomeScreenProps
       <div className="flex-1 p-4 pb-24">
         {sortedExercises.length === 0 ? (
           <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
-            <div className="w-20 h-20 rounded-full bg-secondary flex items-center justify-center mb-6">
-              <Dumbbell className="w-10 h-10 text-muted-foreground" />
-            </div>
+            <img src={dogLogo} alt="Coach mascot" className="w-24 h-24 object-contain mb-6 opacity-60" />
             <h2 className="text-xl font-semibold mb-2">No exercises yet</h2>
             <p className="text-muted-foreground mb-6">
               Start by logging your first set

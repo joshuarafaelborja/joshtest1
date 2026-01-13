@@ -1,5 +1,6 @@
-import { Dumbbell, TrendingUp, Target, BarChart3 } from 'lucide-react';
+import { TrendingUp, Target, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import dogLogo from '@/assets/dog-logo.png';
 
 interface WelcomeScreenProps {
   onGetStarted: () => void;
@@ -11,14 +12,14 @@ export function WelcomeScreen({ onGetStarted }: WelcomeScreenProps) {
       <div className="flex-1 flex flex-col justify-center max-w-md mx-auto w-full">
         {/* Logo & Title */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-primary/10 mb-6">
-            <Dumbbell className="w-10 h-10 text-primary" />
+          <div className="inline-flex items-center justify-center w-24 h-24 mb-6">
+            <img src={dogLogo} alt="Coach mascot" className="w-24 h-24 object-contain" />
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight mb-3">
             Welcome to Coach
           </h1>
           <p className="text-lg text-muted-foreground">
-            Smart weight progression for your workouts
+            Your gym buddy for smart weight progression
           </p>
         </div>
 

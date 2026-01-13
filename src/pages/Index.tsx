@@ -5,6 +5,7 @@ import { LogEntryForm } from '@/components/LogEntryForm';
 import { ExerciseHistory } from '@/components/ExerciseHistory';
 import { RepRangeModal } from '@/components/RepRangeModal';
 import { RecommendationModal } from '@/components/RecommendationModal';
+import { CalculatorsScreen } from '@/components/CalculatorsScreen';
 import { 
   AppData, 
   Exercise, 
@@ -22,7 +23,7 @@ import {
 } from '@/lib/storage';
 import { analyzePerformance } from '@/lib/recommendations';
 
-type Screen = 'welcome' | 'home' | 'log' | 'history';
+type Screen = 'welcome' | 'home' | 'log' | 'history' | 'calculators';
 
 interface PendingLog {
   exerciseName: string;
@@ -178,12 +179,18 @@ export default function Index() {
           />
         );
       
+      case 'calculators':
+        return (
+          <CalculatorsScreen onBack={() => setScreen('home')} />
+        );
+      
       default:
         return (
           <HomeScreen
             data={data}
             onLogNew={() => setScreen('log')}
             onSelectExercise={handleSelectExercise}
+            onOpenCalculators={() => setScreen('calculators')}
           />
         );
     }

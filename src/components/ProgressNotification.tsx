@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { RecommendationType } from '@/lib/types';
+import mascotNotification from '@/assets/mascot-notification.svg';
 
 interface ProgressNotificationProps {
   type: RecommendationType;
@@ -9,6 +10,7 @@ interface ProgressNotificationProps {
   onClose: () => void;
   autoClose?: boolean;
   duration?: number;
+  showMascot?: boolean;
 }
 
 export function ProgressNotification({
@@ -17,7 +19,8 @@ export function ProgressNotification({
   message,
   onClose,
   autoClose = true,
-  duration = 4000
+  duration = 4000,
+  showMascot = true
 }: ProgressNotificationProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
@@ -73,11 +76,20 @@ export function ProgressNotification({
     }
   };
 
-  const getIcon = () => {
+  const getMascotOrIcon = () => {
+    if (showMascot) {
+      return (
+        <img 
+          src={mascotNotification} 
+          alt="Coach" 
+          className="w-12 h-12 object-contain flex-shrink-0"
+        />
+      );
+    }
+    
     const colorClass = getIconColor();
     return (
-      <div className={`relative w-10 h-10 flex items-center justify-center`}>
-        {/* Outer ring */}
+      <div className={`relative w-10 h-10 flex items-center justify-center flex-shrink-0`}>
         <svg
           className={`absolute inset-0 w-10 h-10 ${colorClass}`}
           viewBox="0 0 40 40"
@@ -92,7 +104,6 @@ export function ProgressNotification({
             fill="none"
           />
         </svg>
-        {/* Inner dot */}
         <div className={`w-3 h-3 rounded-full bg-current ${colorClass}`} />
       </div>
     );
@@ -117,8 +128,8 @@ export function ProgressNotification({
           flex items-start gap-4
         `}
       >
-        {/* Icon */}
-        {getIcon()}
+        {/* Mascot or Icon */}
+        {getMascotOrIcon()}
 
         {/* Content */}
         <div className="flex-1 min-w-0">

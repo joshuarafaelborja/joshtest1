@@ -5,6 +5,7 @@ import { LogEntryForm } from '@/components/LogEntryForm';
 import { ExerciseHistory } from '@/components/ExerciseHistory';
 import { RepRangeModal } from '@/components/RepRangeModal';
 import { RecommendationModal } from '@/components/RecommendationModal';
+import { ProgressNotification } from '@/components/ProgressNotification';
 import { CalculatorsScreen } from '@/components/CalculatorsScreen';
 import { 
   AppData, 
@@ -39,6 +40,7 @@ export default function Index() {
   const [showRepRangeModal, setShowRepRangeModal] = useState(false);
   const [pendingLog, setPendingLog] = useState<PendingLog | null>(null);
   const [recommendation, setRecommendation] = useState<RecommendationResult | null>(null);
+  const [notification, setNotification] = useState<RecommendationResult | null>(null);
 
   // Check if welcome screen should show
   useEffect(() => {
@@ -104,8 +106,11 @@ export default function Index() {
     newData = addLogToExercise(newData, newExercise.id, log);
     updateData(newData);
 
-    // Show recommendation
-    setRecommendation(result);
+    // Show notification first, then modal
+    setNotification(result);
+    setTimeout(() => {
+      setRecommendation(result);
+    }, 500);
 
     // Clean up
     setShowRepRangeModal(false);
@@ -129,12 +134,16 @@ export default function Index() {
     const newData = addLogToExercise(data, exercise.id, log);
     updateData(newData);
 
-    // Show recommendation
-    setRecommendation(result);
+    // Show notification first, then modal
+    setNotification(result);
+    setTimeout(() => {
+      setRecommendation(result);
+    }, 500);
   };
 
   const handleRecommendationClose = () => {
     setRecommendation(null);
+    setNotification(null);
     setScreen('home');
   };
 
@@ -209,6 +218,18 @@ export default function Index() {
             setShowRepRangeModal(false);
             setPendingLog(null);
           }}
+        />
+      )}
+
+      {/* Progress Notification */}
+      {notification && (
+        <ProgressNotification
+          type={notification.type}
+          title={notification.headline}
+          message={notification.message}
+          onClose={() => setNotification(null)}
+          autoClose={true}
+          duration={3000}
         />
       )}
 

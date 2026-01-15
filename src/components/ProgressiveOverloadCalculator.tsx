@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ProgressNotification } from '@/components/ProgressNotification';
+import { RecommendationType } from '@/lib/types';
 
 interface CalculatorResult {
   status: 'increase' | 'maintain' | 'decrease';
@@ -12,11 +14,18 @@ interface CalculatorResult {
   rationale: string;
 }
 
+interface NotificationState {
+  type: RecommendationType;
+  title: string;
+  message: string;
+}
+
 export function ProgressiveOverloadCalculator() {
   const [currentWeight, setCurrentWeight] = useState<string>('');
   const [targetReps, setTargetReps] = useState<string>('');
   const [repsCompleted, setRepsCompleted] = useState<string>('');
   const [result, setResult] = useState<CalculatorResult | null>(null);
+  const [notification, setNotification] = useState<NotificationState | null>(null);
 
   const calculateProgression = () => {
     const weight = parseFloat(currentWeight);
@@ -52,6 +61,18 @@ export function ProgressiveOverloadCalculator() {
     }
 
     setResult(calcResult);
+    
+    // Show notification
+    const notifType: RecommendationType = 
+      calcResult.status === 'increase' ? 'progressive_overload' : 
+      calcResult.status === 'maintain' ? 'maintain' : 'acute_deload';
+    
+    setNotification({
+      type: notifType,
+      title: calcResult.status === 'increase' ? 'Time to Level Up!' : 
+             calcResult.status === 'maintain' ? 'Keep Pushing!' : 'Focus on Form',
+      message: calcResult.message,
+    });
   };
 
   const getStatusColor = () => {
@@ -79,13 +100,24 @@ export function ProgressiveOverloadCalculator() {
   };
 
   return (
-    <Card className="border-border/50 transition-all duration-300 hover:shadow-lg">
-      <CardHeader className="pb-4">
-        <CardTitle className="text-lg flex items-center gap-2">
-          <TrendingUp className="w-5 h-5 text-primary animate-pulse" />
-          Progressive Overload Calculator
-        </CardTitle>
-      </CardHeader>
+    <>
+      {notification && (
+        <ProgressNotification
+          type={notification.type}
+          title={notification.title}
+          message={notification.message}
+          onClose={() => setNotification(null)}
+          duration={3500}
+        />
+      )}
+      
+      <Card className="border-border/50 transition-all duration-300 hover:shadow-lg">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg flex items-center gap-2">
+            <TrendingUp className="w-5 h-5 text-primary animate-pulse" />
+            Progressive Overload Calculator
+          </CardTitle>
+        </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-3 gap-3">
           <div className="space-y-2 animate-fade-in" style={{ animationDelay: '0ms' }}>
@@ -149,7 +181,8 @@ export function ProgressiveOverloadCalculator() {
             <p className="text-sm opacity-80 leading-relaxed">{result.rationale}</p>
           </div>
         )}
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </>
   );
 }

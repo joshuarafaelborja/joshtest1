@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ProgressNotification } from '@/components/ProgressNotification';
 
 interface WarmupSet {
   percentage: number;
@@ -11,9 +12,15 @@ interface WarmupSet {
   reps: number;
 }
 
+interface NotificationState {
+  title: string;
+  message: string;
+}
+
 export function WarmupCalculator() {
   const [workingWeight, setWorkingWeight] = useState<string>('');
   const [warmupSets, setWarmupSets] = useState<WarmupSet[] | null>(null);
+  const [notification, setNotification] = useState<NotificationState | null>(null);
 
   const calculateWarmup = () => {
     const weight = parseFloat(workingWeight);
@@ -26,16 +33,33 @@ export function WarmupCalculator() {
     ];
 
     setWarmupSets(sets);
+    
+    // Show notification
+    setNotification({
+      title: 'Warm-up Ready!',
+      message: `Complete 3 warm-up sets before lifting ${weight} lbs`,
+    });
   };
 
   return (
-    <Card className="border-border/50 transition-all duration-300 hover:shadow-lg">
-      <CardHeader className="pb-4">
-        <CardTitle className="text-lg flex items-center gap-2">
-          <Flame className="w-5 h-5 text-warning animate-pulse" />
-          Warm-up Calculator
-        </CardTitle>
-      </CardHeader>
+    <>
+      {notification && (
+        <ProgressNotification
+          type="maintain"
+          title={notification.title}
+          message={notification.message}
+          onClose={() => setNotification(null)}
+          duration={3500}
+        />
+      )}
+      
+      <Card className="border-border/50 transition-all duration-300 hover:shadow-lg">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg flex items-center gap-2">
+            <Flame className="w-5 h-5 text-warning animate-pulse" />
+            Warm-up Calculator
+          </CardTitle>
+        </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2 animate-fade-in">
           <Label htmlFor="workingWeight" className="text-sm text-muted-foreground">
@@ -91,7 +115,8 @@ export function WarmupCalculator() {
             </div>
           </div>
         )}
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </>
   );
 }

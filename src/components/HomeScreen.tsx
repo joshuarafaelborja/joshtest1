@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { Plus, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ExerciseCard } from './ExerciseCard';
+import { AICoachPanel } from './AICoachPanel';
 import { AppData, Exercise } from '@/lib/types';
 import coachLogo from '@/assets/coach-logo.svg';
 
@@ -12,6 +14,7 @@ interface HomeScreenProps {
 }
 
 export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators }: HomeScreenProps) {
+  const [showCoachPanel, setShowCoachPanel] = useState(false);
   const sortedExercises = [...data.exercises].sort((a, b) => {
     const aLastLog = a.logs[a.logs.length - 1];
     const bLastLog = b.logs[b.logs.length - 1];
@@ -26,7 +29,13 @@ export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators
       <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src={coachLogo} alt="Coach" className="w-10 h-10 object-contain" />
+            <button 
+              onClick={() => setShowCoachPanel(true)}
+              className="group relative transition-transform duration-200 hover:scale-110 active:scale-95"
+            >
+              <img src={coachLogo} alt="Coach" className="w-10 h-10 object-contain" />
+              <span className="absolute -bottom-1 -right-1 w-3 h-3 bg-primary rounded-full border-2 border-background animate-pulse" />
+            </button>
             <h1 className="text-2xl font-bold">Coach</h1>
           </div>
           <Button variant="ghost" size="icon" onClick={onOpenCalculators}>
@@ -69,6 +78,12 @@ export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators
           Log New Set
         </Button>
       </div>
+
+      {/* AI Coach Panel */}
+      <AICoachPanel 
+        isOpen={showCoachPanel} 
+        onClose={() => setShowCoachPanel(false)} 
+      />
     </div>
   );
 }

@@ -1,37 +1,38 @@
 import { useState, useEffect } from 'react';
-import { X, TrendingUp, Dumbbell, Flame } from 'lucide-react';
+import { X, TrendingUp, Target, Zap, Calculator } from 'lucide-react';
 import mascotNotification from '@/assets/mascot-notification.svg';
 
 interface AICoachPanelProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpenCalculators?: () => void;
 }
 
-const coachTips = [
+const howCoachWorks = [
   {
     icon: TrendingUp,
-    title: "Progressive Overload",
-    description: "Gradually increase weight or reps each session to build strength.",
+    title: "Analyzes your performance",
+    description: "Tracks reps, sets, consistency and recovery",
     color: "text-primary",
     bgColor: "bg-primary/10"
   },
   {
-    icon: Dumbbell,
-    title: "Consistency is Key",
-    description: "Aim for 3-4 workouts per week for optimal muscle growth.",
-    color: "text-success",
-    bgColor: "bg-success/10"
+    icon: Target,
+    title: "Calculates optimal progression",
+    description: "Uses 5-10% rule based on your readiness",
+    color: "text-destructive",
+    bgColor: "bg-destructive/10"
   },
   {
-    icon: Flame,
-    title: "Rest & Recovery",
-    description: "Muscles grow during rest. Get 7-8 hours of sleep.",
+    icon: Zap,
+    title: "Recovery rate: Excellent",
+    description: "Smart recommendations keep you progressing safely",
     color: "text-warning",
     bgColor: "bg-warning/10"
   }
 ];
 
-export function AICoachPanel({ isOpen, onClose }: AICoachPanelProps) {
+export function AICoachPanel({ isOpen, onClose, onOpenCalculators }: AICoachPanelProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
 
@@ -50,6 +51,13 @@ export function AICoachPanel({ isOpen, onClose }: AICoachPanelProps) {
       setIsVisible(false);
       onClose();
     }, 300);
+  };
+
+  const handleOpenCalculators = () => {
+    handleClose();
+    setTimeout(() => {
+      onOpenCalculators?.();
+    }, 350);
   };
 
   if (!isOpen) return null;
@@ -107,37 +115,44 @@ export function AICoachPanel({ isOpen, onClose }: AICoachPanelProps) {
             </div>
           </div>
 
-          {/* Tips Section */}
-          <div className="bg-white/60 backdrop-blur-sm rounded-t-2xl px-4 py-4 mx-2 mb-2 rounded-b-xl">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-lg bg-success/10 flex items-center justify-center">
-                <TrendingUp className="w-4 h-4 text-success" />
+          {/* Content Section */}
+          <div className="bg-card/95 backdrop-blur-sm rounded-t-2xl px-4 py-4 mx-2 mb-2 rounded-b-xl space-y-4">
+            {/* Calculator CTA */}
+            <button
+              onClick={handleOpenCalculators}
+              className="w-full flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-primary to-primary/80 text-white shadow-lg animate-fade-in"
+            >
+              <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                <Calculator className="w-6 h-6 text-white" />
               </div>
-              <span className="text-sm font-medium text-foreground/80">
-                Your ready to progress tips
-              </span>
-            </div>
-            
-            <div className="space-y-2">
-              {coachTips.map((tip, index) => (
-                <div 
-                  key={index}
-                  className={`
-                    flex items-start gap-3 p-3 rounded-xl bg-card/80 border border-border/50
-                    transition-all duration-300 hover:shadow-md hover:scale-[1.02]
-                    animate-fade-in
-                  `}
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <div className={`w-10 h-10 rounded-xl ${tip.bgColor} flex items-center justify-center flex-shrink-0`}>
-                    <tip.icon className={`w-5 h-5 ${tip.color}`} />
+              <div className="flex-1 text-left">
+                <h4 className="font-bold text-base">Open Calculators</h4>
+                <p className="text-sm text-white/80">Warm-up sets & progressive overload</p>
+              </div>
+              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                <span className="text-white text-lg">→</span>
+              </div>
+            </button>
+
+            {/* How Coach Works */}
+            <div className="animate-fade-in" style={{ animationDelay: '100ms' }}>
+              <h3 className="text-base font-bold text-foreground mb-3">How Coach works</h3>
+              <div className="space-y-3">
+                {howCoachWorks.map((item, index) => (
+                  <div 
+                    key={index}
+                    className="flex items-start gap-3"
+                  >
+                    <div className={`w-8 h-8 rounded-lg ${item.bgColor} flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                      <item.icon className={`w-4 h-4 ${item.color}`} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-semibold text-sm text-foreground">{item.title}</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{item.description}</p>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-sm text-foreground">{tip.title}</h4>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{tip.description}</p>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>

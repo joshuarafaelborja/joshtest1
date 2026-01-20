@@ -82,7 +82,8 @@ export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators
       {/* AI Coach Panel */}
       <AICoachPanel 
         isOpen={showCoachPanel} 
-        onClose={() => setShowCoachPanel(false)} 
+        onClose={() => setShowCoachPanel(false)}
+        onOpenCalculators={onOpenCalculators}
       />
     </div>
   );

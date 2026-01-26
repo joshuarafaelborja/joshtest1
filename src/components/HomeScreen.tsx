@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Plus, Calculator } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ExerciseCard } from './ExerciseCard';
 import { AICoachPanel } from './AICoachPanel';
+import { CalculatorFAB } from './CalculatorFAB';
 import { AppData, Exercise } from '@/lib/types';
 import coachLogo from '@/assets/coach-logo.svg';
 
@@ -38,9 +39,7 @@ export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators
             </button>
             <h1 className="text-2xl font-bold">Coach</h1>
           </div>
-          <Button variant="ghost" size="icon" onClick={onOpenCalculators}>
-            <Calculator className="w-5 h-5" />
-          </Button>
+          <div className="w-10" /> {/* Spacer for balance */}
         </div>
       </header>
 
@@ -78,6 +77,12 @@ export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators
           Log New Set
         </Button>
       </div>
+
+      {/* Calculator FAB */}
+      <CalculatorFAB 
+        onClick={onOpenCalculators} 
+        className="bottom-24 right-4"
+      />
 
       {/* AI Coach Panel */}
       <AICoachPanel 

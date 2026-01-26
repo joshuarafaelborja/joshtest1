@@ -26,6 +26,8 @@ export interface Exercise {
 export interface UserPreferences {
   defaultUnit: 'lbs' | 'kg';
   hasSeenWelcome: boolean;
+  hasCompletedOnboarding: boolean;
+  userName?: string;
 }
 
 export interface AppMetadata {

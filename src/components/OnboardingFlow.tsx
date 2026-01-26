@@ -24,16 +24,16 @@ interface OnboardingFlowProps {
   onSkip: () => void;
 }
 
-type OnboardingStep = 1 | 2 | 3 | 4 | 5 | 6;
+type OnboardingStep = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 export function OnboardingFlow({ onComplete, onSkip }: OnboardingFlowProps) {
   const [currentStep, setCurrentStep] = useState<OnboardingStep>(1);
   const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const [exerciseName, setExerciseName] = useState('');
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [selectedPath, setSelectedPath] = useState<'calculator' | 'setup' | null>(null);
 
-  const totalSteps = 6;
+  const totalSteps = 7;
   const progress = (currentStep / totalSteps) * 100;
 
   const handleNext = (nextStep: OnboardingStep) => {
@@ -45,7 +45,6 @@ export function OnboardingFlow({ onComplete, onSkip }: OnboardingFlowProps) {
   };
 
   const handlePathSelect = (path: 'calculator' | 'setup') => {
-    setSelectedPath(path);
     if (path === 'calculator') {
       onComplete(undefined, true);
     } else {
@@ -59,6 +58,10 @@ export function OnboardingFlow({ onComplete, onSkip }: OnboardingFlowProps) {
     }
   };
 
+  const handleEmailSubmit = () => {
+    handleNext(7);
+  };
+
   const handleFirstExerciseComplete = () => {
     onComplete(userName.trim() || undefined, false);
   };
@@ -66,28 +69,40 @@ export function OnboardingFlow({ onComplete, onSkip }: OnboardingFlowProps) {
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <WelcomeStep onNext={() => handleNext(2)} />;
+        return <WelcomeStep onNext={() => handleNext(2)} onSkip={onSkip} />;
       case 2:
-        return <HowItWorksStep onNext={() => handleNext(3)} />;
+        return <HowItWorksStep onNext={() => handleNext(3)} onSkip={onSkip} />;
       case 3:
-        return <FeaturesStep onNext={() => handleNext(4)} />;
+        return <FeaturesStep onNext={() => handleNext(4)} onSkip={onSkip} />;
       case 4:
-        return <ChoosePathStep onSelectPath={handlePathSelect} />;
+        return <ChoosePathStep onSelectPath={handlePathSelect} onSkip={onSkip} />;
       case 5:
         return (
           <NameInputStep 
             userName={userName} 
             setUserName={setUserName} 
-            onNext={handleNameSubmit} 
+            onNext={handleNameSubmit}
+            onSkip={onSkip}
           />
         );
       case 6:
+        return (
+          <EmailInputStep
+            userEmail={userEmail}
+            setUserEmail={setUserEmail}
+            userName={userName}
+            onNext={handleEmailSubmit}
+            onSkip={onSkip}
+          />
+        );
+      case 7:
         return (
           <FirstExerciseStep
             exerciseName={exerciseName}
             setExerciseName={setExerciseName}
             userName={userName}
             onComplete={handleFirstExerciseComplete}
+            onSkip={onSkip}
           />
         );
       default:
@@ -104,14 +119,6 @@ export function OnboardingFlow({ onComplete, onSkip }: OnboardingFlowProps) {
             <img src={coachLogo} alt="Coach" className="w-8 h-8 object-contain" />
             <span className="font-semibold">Coach AI</span>
           </div>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={onSkip}
-            className="text-muted-foreground"
-          >
-            Skip
-          </Button>
         </div>
         <Progress value={progress} className="h-1" />
       </header>
@@ -128,11 +135,23 @@ export function OnboardingFlow({ onComplete, onSkip }: OnboardingFlowProps) {
   );
 }
 
+// Skip Setup Link Component
+function SkipSetupLink({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="text-muted-foreground hover:text-foreground text-sm transition-colors mt-4"
+    >
+      Skip Setup
+    </button>
+  );
+}
+
 // Step 1: Welcome
-function WelcomeStep({ onNext }: { onNext: () => void }) {
+function WelcomeStep({ onNext, onSkip }: { onNext: () => void; onSkip: () => void }) {
   return (
     <div className="flex-1 flex flex-col justify-center px-6 py-12 animate-fade-in">
-      <div className="max-w-md mx-auto w-full text-center">
+      <div className="max-w-md mx-auto w-full text-center flex flex-col items-center">
         <div className="inline-flex items-center justify-center w-32 h-32 mb-8">
           <img 
             src={coachLogo} 
@@ -154,13 +173,14 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
           Get Started
           <ArrowRight className="w-5 h-5 ml-2" />
         </Button>
+        <SkipSetupLink onClick={onSkip} />
       </div>
     </div>
   );
 }
 
 // Step 2: How It Works
-function HowItWorksStep({ onNext }: { onNext: () => void }) {
+function HowItWorksStep({ onNext, onSkip }: { onNext: () => void; onSkip: () => void }) {
   const steps = [
     {
       icon: Dumbbell,
@@ -211,42 +231,48 @@ function HowItWorksStep({ onNext }: { onNext: () => void }) {
           ))}
         </div>
 
-        <Button
-          size="lg"
-          onClick={onNext}
-          className="w-full h-14 text-lg font-semibold mt-8"
-        >
-          Next
-          <ChevronRight className="w-5 h-5 ml-2" />
-        </Button>
+        <div className="flex flex-col items-center mt-8">
+          <Button
+            size="lg"
+            onClick={onNext}
+            className="w-full h-14 text-lg font-semibold"
+          >
+            Next
+            <ChevronRight className="w-5 h-5 ml-2" />
+          </Button>
+          <SkipSetupLink onClick={onSkip} />
+        </div>
       </div>
     </div>
   );
 }
 
 // Step 3: Features Overview
-function FeaturesStep({ onNext }: { onNext: () => void }) {
+function FeaturesStep({ onNext, onSkip }: { onNext: () => void; onSkip: () => void }) {
   const features = [
-    {
-      icon: Dumbbell,
-      title: 'Log Workouts',
-      description: 'Track sets, reps, and weight with ease',
-      color: 'text-primary',
-      bgColor: 'bg-primary/10'
-    },
     {
       icon: Calculator,
       title: 'Smart Calculator',
       description: 'Calculate 1RM, plates, and more',
       color: 'text-success',
-      bgColor: 'bg-success/10'
+      bgColor: 'bg-success/10',
+      isLarge: true
+    },
+    {
+      icon: Dumbbell,
+      title: 'Log Workouts',
+      description: 'Track sets, reps, and weight with ease',
+      color: 'text-primary',
+      bgColor: 'bg-primary/10',
+      isLarge: false
     },
     {
       icon: History,
       title: 'Progress History',
       description: 'See your gains over time',
       color: 'text-warning',
-      bgColor: 'bg-warning/10'
+      bgColor: 'bg-warning/10',
+      isLarge: false
     }
   ];
 
@@ -258,84 +284,85 @@ function FeaturesStep({ onNext }: { onNext: () => void }) {
           Everything you need to level up
         </p>
         
-        <div className="grid gap-4 flex-1">
+        <div className="space-y-4 flex-1">
           {features.map((feature, index) => (
             <Card 
               key={index}
-              className="p-5 flex flex-col items-center text-center"
+              className={`flex flex-col items-center text-center ${
+                feature.isLarge ? 'p-8 border-2 border-success/30 bg-success/5' : 'p-5'
+              }`}
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className={`w-14 h-14 rounded-2xl ${feature.bgColor} flex items-center justify-center mb-3`}>
-                <feature.icon className={`w-7 h-7 ${feature.color}`} />
+              <div className={`rounded-2xl ${feature.bgColor} flex items-center justify-center mb-3 ${
+                feature.isLarge ? 'w-20 h-20' : 'w-14 h-14'
+              }`}>
+                <feature.icon className={`${feature.color} ${feature.isLarge ? 'w-10 h-10' : 'w-7 h-7'}`} />
               </div>
-              <h3 className="font-semibold text-lg mb-1">{feature.title}</h3>
-              <p className="text-sm text-muted-foreground">{feature.description}</p>
+              <h3 className={`font-semibold mb-1 ${feature.isLarge ? 'text-xl' : 'text-lg'}`}>
+                {feature.title}
+              </h3>
+              <p className={`text-muted-foreground ${feature.isLarge ? 'text-base' : 'text-sm'}`}>
+                {feature.description}
+              </p>
             </Card>
           ))}
         </div>
 
-        <Button
-          size="lg"
-          onClick={onNext}
-          className="w-full h-14 text-lg font-semibold mt-8"
-        >
-          Continue
-          <ChevronRight className="w-5 h-5 ml-2" />
-        </Button>
+        <div className="flex flex-col items-center mt-8">
+          <Button
+            size="lg"
+            onClick={onNext}
+            className="w-full h-14 text-lg font-semibold"
+          >
+            Continue
+            <ChevronRight className="w-5 h-5 ml-2" />
+          </Button>
+          <SkipSetupLink onClick={onSkip} />
+        </div>
       </div>
     </div>
   );
 }
 
 // Step 4: Choose Your Path
-function ChoosePathStep({ onSelectPath }: { onSelectPath: (path: 'calculator' | 'setup') => void }) {
+function ChoosePathStep({ onSelectPath, onSkip }: { onSelectPath: (path: 'calculator' | 'setup') => void; onSkip: () => void }) {
   return (
     <div className="flex-1 flex flex-col px-6 py-8 animate-fade-in">
       <div className="max-w-md mx-auto w-full flex-1 flex flex-col">
-        <h2 className="text-3xl font-bold mb-2">Let's get you started</h2>
+        <h2 className="text-3xl font-bold mb-2">Ready to start?</h2>
         <p className="text-muted-foreground mb-8">
           Choose how you'd like to begin
         </p>
         
         <div className="space-y-4 flex-1">
-          <button
+          {/* Primary CTA - Calculator */}
+          <Button
             onClick={() => onSelectPath('calculator')}
-            className="w-full p-6 rounded-2xl bg-card border-2 border-transparent hover:border-primary/50 transition-all text-left group"
+            size="lg"
+            className="w-full h-16 text-lg font-semibold bg-success hover:bg-success/90 text-success-foreground"
           >
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-success/10 flex items-center justify-center">
-                <Calculator className="w-7 h-7 text-success" />
-              </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1 group-hover:text-primary transition-colors">
-                  Try the Calculator
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  Explore our plate calculator, 1RM calculator, and warmup sets generator
-                </p>
-              </div>
-              <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors mt-2" />
-            </div>
-          </button>
+            <Calculator className="w-6 h-6 mr-3" />
+            Try the Calculator First
+          </Button>
 
-          <button
+          {/* Secondary CTA - Setup */}
+          <Button
             onClick={() => onSelectPath('setup')}
-            className="w-full p-6 rounded-2xl bg-card border-2 border-transparent hover:border-primary/50 transition-all text-left group"
+            size="lg"
+            variant="outline"
+            className="w-full h-14 text-lg font-semibold"
           >
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center">
-                <Sparkles className="w-7 h-7 text-primary" />
-              </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-1 group-hover:text-primary transition-colors">
-                  Quick Setup
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  Set up your profile and log your first exercise in under a minute
-                </p>
-              </div>
-              <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors mt-2" />
-            </div>
+            <Sparkles className="w-5 h-5 mr-2" />
+            Set Up My Profile
+          </Button>
+        </div>
+
+        <div className="flex flex-col items-center mt-8">
+          <button
+            onClick={onSkip}
+            className="text-muted-foreground hover:text-foreground text-sm transition-colors"
+          >
+            Skip - Take me to the app
           </button>
         </div>
       </div>
@@ -347,11 +374,13 @@ function ChoosePathStep({ onSelectPath }: { onSelectPath: (path: 'calculator' | 
 function NameInputStep({ 
   userName, 
   setUserName, 
-  onNext 
+  onNext,
+  onSkip
 }: { 
   userName: string; 
   setUserName: (name: string) => void; 
   onNext: () => void;
+  onSkip: () => void;
 }) {
   return (
     <div className="flex-1 flex flex-col px-6 py-8 animate-fade-in">
@@ -392,22 +421,94 @@ function NameInputStep({
             <ChevronRight className="w-5 h-5 ml-2" />
           </Button>
         </div>
+
+        <div className="flex justify-center">
+          <SkipSetupLink onClick={onSkip} />
+        </div>
       </div>
     </div>
   );
 }
 
-// Step 6: First Exercise
+// Step 6: Email Input
+function EmailInputStep({ 
+  userEmail, 
+  setUserEmail,
+  userName,
+  onNext,
+  onSkip
+}: { 
+  userEmail: string; 
+  setUserEmail: (email: string) => void;
+  userName: string;
+  onNext: () => void;
+  onSkip: () => void;
+}) {
+  return (
+    <div className="flex-1 flex flex-col px-6 py-8 animate-fade-in">
+      <div className="max-w-md mx-auto w-full flex-1 flex flex-col justify-center">
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-warning/10 mb-6">
+            <Link className="w-10 h-10 text-warning" />
+          </div>
+          <h2 className="text-3xl font-bold mb-2">
+            {userName ? `Hey ${userName}!` : 'Almost there!'}
+          </h2>
+          <p className="text-muted-foreground">
+            Add your email for a magic link to access your data anywhere
+          </p>
+        </div>
+        
+        <div className="space-y-4">
+          <div>
+            <Label htmlFor="userEmail" className="text-base font-medium">
+              Email Address (optional)
+            </Label>
+            <Input
+              id="userEmail"
+              type="email"
+              placeholder="you@example.com"
+              value={userEmail}
+              onChange={(e) => setUserEmail(e.target.value)}
+              className="h-14 text-lg mt-2"
+              autoFocus
+            />
+            <p className="text-xs text-muted-foreground mt-2">
+              We'll send you a magic link - no password needed
+            </p>
+          </div>
+
+          <Button
+            size="lg"
+            onClick={onNext}
+            className="w-full h-14 text-lg font-semibold"
+          >
+            {userEmail.trim() ? 'Continue' : 'Skip for now'}
+            <ChevronRight className="w-5 h-5 ml-2" />
+          </Button>
+        </div>
+
+        <div className="flex justify-center">
+          <SkipSetupLink onClick={onSkip} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Step 7: First Exercise
 function FirstExerciseStep({ 
   exerciseName, 
   setExerciseName,
   userName,
-  onComplete 
+  onComplete,
+  onSkip
 }: { 
   exerciseName: string;
   setExerciseName: (name: string) => void;
   userName: string;
   onComplete: () => void;
+  onSkip: () => void;
 }) {
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -493,15 +594,18 @@ function FirstExerciseStep({
           </div>
         </div>
 
-        <Button
-          size="lg"
-          onClick={handleComplete}
-          disabled={!exerciseName.trim()}
-          className="w-full h-14 text-lg font-semibold mt-8"
-        >
-          <Zap className="w-5 h-5 mr-2" />
-          Start Tracking
-        </Button>
+        <div className="flex flex-col items-center mt-8">
+          <Button
+            size="lg"
+            onClick={handleComplete}
+            disabled={!exerciseName.trim()}
+            className="w-full h-14 text-lg font-semibold"
+          >
+            <Zap className="w-5 h-5 mr-2" />
+            Start Tracking
+          </Button>
+          <SkipSetupLink onClick={onSkip} />
+        </div>
       </div>
     </div>
   );

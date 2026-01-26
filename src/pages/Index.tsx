@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { WelcomeScreen } from '@/components/WelcomeScreen';
+import { OnboardingFlow } from '@/components/OnboardingFlow';
 import { HomeScreen } from '@/components/HomeScreen';
 import { LogEntryForm } from '@/components/LogEntryForm';
 import { ExerciseHistory } from '@/components/ExerciseHistory';
@@ -19,12 +19,12 @@ import {
   getExerciseByName,
   addExercise,
   addLogToExercise,
-  markWelcomeSeen,
+  markOnboardingComplete,
   generateId,
 } from '@/lib/storage';
 import { analyzePerformance } from '@/lib/recommendations';
 
-type Screen = 'welcome' | 'home' | 'log' | 'history' | 'calculators';
+type Screen = 'onboarding' | 'home' | 'log' | 'history' | 'calculators';
 
 interface PendingLog {
   exerciseName: string;
@@ -42,10 +42,10 @@ export default function Index() {
   const [recommendation, setRecommendation] = useState<RecommendationResult | null>(null);
   const [notification, setNotification] = useState<RecommendationResult | null>(null);
 
-  // Check if welcome screen should show
+  // Check if onboarding should show
   useEffect(() => {
-    if (!data.userPreferences.hasSeenWelcome) {
-      setScreen('welcome');
+    if (!data.userPreferences.hasCompletedOnboarding) {
+      setScreen('onboarding');
     }
   }, []);
 
@@ -55,8 +55,14 @@ export default function Index() {
     saveData(newData);
   }, []);
 
-  const handleGetStarted = () => {
-    const newData = markWelcomeSeen(data);
+  const handleOnboardingComplete = (userName?: string, goToCalculator?: boolean) => {
+    const newData = markOnboardingComplete(data, userName);
+    updateData(newData);
+    setScreen(goToCalculator ? 'calculators' : 'home');
+  };
+
+  const handleOnboardingSkip = () => {
+    const newData = markOnboardingComplete(data);
     updateData(newData);
     setScreen('home');
   };
@@ -155,8 +161,13 @@ export default function Index() {
   // Render based on current screen
   const renderScreen = () => {
     switch (screen) {
-      case 'welcome':
-        return <WelcomeScreen onGetStarted={handleGetStarted} />;
+      case 'onboarding':
+        return (
+          <OnboardingFlow 
+            onComplete={handleOnboardingComplete} 
+            onSkip={handleOnboardingSkip}
+          />
+        );
       
       case 'log':
         return (

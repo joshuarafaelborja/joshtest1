@@ -7,6 +7,7 @@ const defaultData: AppData = {
   userPreferences: {
     defaultUnit: 'lbs',
     hasSeenWelcome: false,
+    hasCompletedOnboarding: false,
   },
   metadata: {
     firstLogDate: null,
@@ -86,6 +87,18 @@ export function markWelcomeSeen(data: AppData): AppData {
     userPreferences: {
       ...data.userPreferences,
       hasSeenWelcome: true,
+    },
+  };
+}
+
+export function markOnboardingComplete(data: AppData, userName?: string): AppData {
+  return {
+    ...data,
+    userPreferences: {
+      ...data.userPreferences,
+      hasSeenWelcome: true,
+      hasCompletedOnboarding: true,
+      userName: userName || data.userPreferences.userName,
     },
   };
 }

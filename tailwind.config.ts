@@ -66,6 +66,15 @@ export default {
         deload: "hsl(var(--deload))",
         maintain: "hsl(var(--maintain))",
         info: "hsl(var(--info))",
+        slate: {
+          blue: "hsl(var(--slate-blue))",
+        },
+        sage: {
+          DEFAULT: "hsl(var(--sage))",
+          dark: "hsl(var(--sage-dark))",
+        },
+        navy: "hsl(var(--navy))",
+        live: "hsl(var(--live-indicator))",
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -1,15 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ExerciseCard } from './ExerciseCard';
 import { AICoachPanel } from './AICoachPanel';
 import { CalculatorFAB } from './CalculatorFAB';
-import { GuestWelcome } from './GuestWelcome';
 import { SyncBanner } from './SyncBanner';
 import { AccountMenu } from './AccountMenu';
 import { AppData, Exercise } from '@/lib/types';
 import { useAuth } from '@/hooks/useAuth';
-import { getLocalWorkoutCount } from '@/lib/workoutService';
 import coachLogo from '@/assets/coach-logo.svg';
 
 interface HomeScreenProps {
@@ -22,19 +20,7 @@ interface HomeScreenProps {
 
 export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators, onOpenAuth }: HomeScreenProps) {
   const [showCoachPanel, setShowCoachPanel] = useState(false);
-  const [showGuestWelcome, setShowGuestWelcome] = useState(false);
   const { isAuthenticated, loading } = useAuth();
-  const [guestWorkoutCount, setGuestWorkoutCount] = useState(0);
-
-  useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      setGuestWorkoutCount(getLocalWorkoutCount());
-      // Show welcome if no exercises and not authenticated
-      if (data.exercises.length === 0) {
-        setShowGuestWelcome(true);
-      }
-    }
-  }, [loading, isAuthenticated, data.exercises.length]);
 
   const sortedExercises = [...data.exercises].sort((a, b) => {
     const aLastLog = a.logs[a.logs.length - 1];
@@ -43,31 +29,6 @@ export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators
     if (!bLastLog) return -1;
     return new Date(bLastLog.timestamp).getTime() - new Date(aLastLog.timestamp).getTime();
   });
-
-  const handleStartTraining = () => {
-    setShowGuestWelcome(false);
-    onLogNew();
-  };
-
-  // Show guest welcome for first-time visitors
-  if (!loading && !isAuthenticated && showGuestWelcome && data.exercises.length === 0) {
-    return (
-      <div className="min-h-screen flex flex-col bg-background">
-        <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <img src={coachLogo} alt="Coach" className="w-10 h-10 object-contain" />
-              <h1 className="text-2xl font-bold">Coach</h1>
-            </div>
-          </div>
-        </header>
-        <GuestWelcome 
-          onCreateAccount={onOpenAuth}
-          onStartTraining={handleStartTraining}
-        />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -88,12 +49,9 @@ export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators
         </div>
       </header>
 
-      {/* Sync Banner for guests with 5+ workouts */}
-      {!isAuthenticated && (
-        <SyncBanner 
-          workoutCount={guestWorkoutCount} 
-          onCreateAccount={onOpenAuth}
-        />
+      {/* Sync Banner for guests */}
+      {!loading && !isAuthenticated && (
+        <SyncBanner onCreateAccount={onOpenAuth} />
       )}
 
       {/* Content */}

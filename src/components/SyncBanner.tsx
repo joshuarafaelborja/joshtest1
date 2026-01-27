@@ -1,46 +1,40 @@
 import { useState } from 'react';
-import { CloudUpload, X } from 'lucide-react';
+import { Cloud, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface SyncBannerProps {
-  workoutCount: number;
   onCreateAccount: () => void;
 }
 
-export function SyncBanner({ workoutCount, onCreateAccount }: SyncBannerProps) {
+export function SyncBanner({ onCreateAccount }: SyncBannerProps) {
   const [dismissed, setDismissed] = useState(false);
 
-  if (dismissed || workoutCount < 5) return null;
+  if (dismissed) return null;
 
   return (
-    <div className="mx-4 mb-4 p-4 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-between gap-3">
+    <div className="mx-4 mt-4 p-3 rounded-lg bg-muted/50 border border-border/50 flex items-center justify-between gap-3">
       <div className="flex items-center gap-3 flex-1 min-w-0">
-        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-          <CloudUpload className="w-5 h-5 text-primary" />
-        </div>
-        <div className="min-w-0">
-          <p className="font-medium text-sm">Save your progress</p>
-          <p className="text-xs text-muted-foreground truncate">
-            Create an account to sync across devices
-          </p>
-        </div>
+        <Cloud className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+        <p className="text-sm text-muted-foreground">
+          <span className="hidden sm:inline">Your workouts are saved locally. </span>
+          <button 
+            onClick={onCreateAccount}
+            className="text-primary hover:underline font-medium"
+          >
+            Create an account
+          </button>
+          <span className="hidden sm:inline"> to access from other devices.</span>
+          <span className="sm:hidden"> to sync.</span>
+        </p>
       </div>
       
-      <div className="flex items-center gap-2 flex-shrink-0">
-        <Button
-          size="sm"
-          onClick={onCreateAccount}
-          className="h-8 px-3 text-xs font-semibold"
-        >
-          Sign Up
-        </Button>
-        <button
-          onClick={() => setDismissed(true)}
-          className="p-1.5 rounded-full hover:bg-muted transition-colors"
-        >
-          <X className="w-4 h-4 text-muted-foreground" />
-        </button>
-      </div>
+      <button
+        onClick={() => setDismissed(true)}
+        className="p-1 rounded hover:bg-muted transition-colors flex-shrink-0"
+        aria-label="Dismiss"
+      >
+        <X className="w-4 h-4 text-muted-foreground" />
+      </button>
     </div>
   );
 }

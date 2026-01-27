@@ -1,24 +1,44 @@
-import { useState } from 'react';
-import { X, Mail, CheckCircle, Loader2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X, Mail, CheckCircle, Loader2, Eye, EyeOff, Dumbbell, Link as LinkIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/useAuth';
+import { migrateLocalWorkoutsToSupabase, getLocalWorkoutCount } from '@/lib/workoutService';
 import { z } from 'zod';
 
 const emailSchema = z.string().email('Please enter a valid email address');
+const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
+
+type AuthMode = 'signup' | 'login';
+type AuthStep = 'form' | 'migrating' | 'success';
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess?: () => void;
+  initialMode?: AuthMode;
 }
 
-export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
+export function AuthModal({ isOpen, onClose, onSuccess, initialMode = 'signup' }: AuthModalProps) {
+  const [mode, setMode] = useState<AuthMode>(initialMode);
+  const [step, setStep] = useState<AuthStep>('form');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [emailSent, setEmailSent] = useState(false);
-  const { signInWithMagicLink } = useAuth();
+  const [migratedCount, setMigratedCount] = useState(0);
+  const [profileLink, setProfileLink] = useState<string | null>(null);
+  const { signUp, signIn, getProfileLink, profile } = useAuth();
+
+  const localWorkoutCount = getLocalWorkoutCount();
+
+  // Update profile link when profile changes
+  useEffect(() => {
+    if (profile && step === 'success') {
+      setProfileLink(getProfileLink());
+    }
+  }, [profile, step, getProfileLink]);
 
   if (!isOpen) return null;
 
@@ -26,37 +46,77 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
     e.preventDefault();
     setError('');
 
-    // Validate email
-    const result = emailSchema.safeParse(email);
-    if (!result.success) {
-      setError(result.error.errors[0].message);
+    // Validate inputs
+    const emailResult = emailSchema.safeParse(email);
+    if (!emailResult.success) {
+      setError(emailResult.error.errors[0].message);
+      return;
+    }
+
+    const passwordResult = passwordSchema.safeParse(password);
+    if (!passwordResult.success) {
+      setError(passwordResult.error.errors[0].message);
       return;
     }
 
     setIsLoading(true);
 
-    const { error: authError } = await signInWithMagicLink(email);
-
-    setIsLoading(false);
-
-    if (authError) {
-      if (authError.message.includes('already registered')) {
-        setError('This email is already registered. Check your inbox for the magic link.');
-      } else {
-        setError(authError.message);
+    if (mode === 'signup') {
+      const { error: authError, user } = await signUp(email, password);
+      
+      if (authError) {
+        setIsLoading(false);
+        if (authError.message.includes('already registered')) {
+          setError('This email is already registered. Try logging in instead.');
+        } else {
+          setError(authError.message);
+        }
+        return;
       }
-      return;
-    }
 
-    setEmailSent(true);
-    onSuccess?.();
+      // If there are local workouts, migrate them
+      if (localWorkoutCount > 0 && user) {
+        setStep('migrating');
+        const result = await migrateLocalWorkoutsToSupabase();
+        setMigratedCount(result.count);
+      }
+
+      setIsLoading(false);
+      setStep('success');
+    } else {
+      const { error: authError } = await signIn(email, password);
+      
+      setIsLoading(false);
+
+      if (authError) {
+        if (authError.message.includes('Invalid login credentials')) {
+          setError('Invalid email or password. Please try again.');
+        } else {
+          setError(authError.message);
+        }
+        return;
+      }
+
+      onSuccess?.();
+      handleClose();
+    }
   };
 
   const handleClose = () => {
     setEmail('');
+    setPassword('');
     setError('');
-    setEmailSent(false);
+    setStep('form');
+    setMode(initialMode);
+    setMigratedCount(0);
+    setProfileLink(null);
     onClose();
+  };
+
+  const copyLink = () => {
+    if (profileLink) {
+      navigator.clipboard.writeText(profileLink);
+    }
   };
 
   return (
@@ -69,28 +129,67 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
           <X className="w-5 h-5 text-muted-foreground" />
         </button>
 
-        {emailSent ? (
-          <div className="text-center py-8">
+        {step === 'success' ? (
+          <div className="text-center py-6">
             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
               <CheckCircle className="w-8 h-8 text-primary" />
             </div>
-            <h2 className="text-xl font-bold mb-2">Check your email</h2>
-            <p className="text-muted-foreground mb-6">
-              We sent a magic link to <span className="font-medium text-foreground">{email}</span>
+            <h2 className="text-xl font-bold mb-2">Account Created!</h2>
+            <p className="text-muted-foreground mb-4">
+              {migratedCount > 0 
+                ? `${migratedCount} workout${migratedCount !== 1 ? 's' : ''} synced to your account.`
+                : 'Your workouts are now synced across devices.'
+              }
             </p>
-            <p className="text-sm text-muted-foreground">
-              Click the link in your email to sign in. You can close this window.
+            
+            {profileLink && (
+              <div className="bg-muted/50 rounded-lg p-4 mb-6">
+                <p className="text-sm text-muted-foreground mb-2">Access your workouts anytime at:</p>
+                <div className="flex items-center gap-2">
+                  <code className="flex-1 text-sm bg-background px-3 py-2 rounded border truncate">
+                    {profileLink}
+                  </code>
+                  <Button size="sm" variant="outline" onClick={copyLink}>
+                    <LinkIcon className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            <Button onClick={handleClose} className="w-full h-12">
+              Start Training
+            </Button>
+          </div>
+        ) : step === 'migrating' ? (
+          <div className="text-center py-8">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+              <Loader2 className="w-8 h-8 text-primary animate-spin" />
+            </div>
+            <h2 className="text-xl font-bold mb-2">Syncing Workouts</h2>
+            <p className="text-muted-foreground">
+              Migrating {localWorkoutCount} workout{localWorkoutCount !== 1 ? 's' : ''} to your account...
             </p>
           </div>
         ) : (
           <>
             <div className="text-center mb-6">
               <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
-                <Mail className="w-6 h-6 text-primary" />
+                {mode === 'signup' ? (
+                  <Dumbbell className="w-6 h-6 text-primary" />
+                ) : (
+                  <Mail className="w-6 h-6 text-primary" />
+                )}
               </div>
-              <h2 className="text-xl font-bold">Create Account</h2>
+              <h2 className="text-xl font-bold">
+                {mode === 'signup' ? 'Create Account' : 'Welcome Back'}
+              </h2>
               <p className="text-muted-foreground text-sm mt-1">
-                Sync your workouts across devices
+                {mode === 'signup' 
+                  ? localWorkoutCount > 0 
+                    ? `Sync your ${localWorkoutCount} workout${localWorkoutCount !== 1 ? 's' : ''} across devices`
+                    : 'Sync your workouts across devices'
+                  : 'Sign in to access your workouts'
+                }
               </p>
             </div>
 
@@ -98,36 +197,75 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
               <div>
                 <Input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="h-12 text-base"
                   autoFocus
                   disabled={isLoading}
                 />
-                {error && (
-                  <p className="text-sm text-destructive mt-2">{error}</p>
-                )}
               </div>
+
+              <div className="relative">
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="h-12 text-base pr-12"
+                  disabled={isLoading}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
+
+              {error && (
+                <p className="text-sm text-destructive">{error}</p>
+              )}
 
               <Button
                 type="submit"
                 className="w-full h-12 text-base font-semibold"
-                disabled={isLoading || !email}
+                disabled={isLoading || !email || !password}
               >
                 {isLoading ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Sending...
+                    {mode === 'signup' ? 'Creating Account...' : 'Signing In...'}
                   </>
                 ) : (
-                  'Send Magic Link'
+                  mode === 'signup' ? 'Create Account' : 'Sign In'
                 )}
               </Button>
             </form>
 
-            <p className="text-xs text-muted-foreground text-center mt-4">
-              No password needed. We'll email you a secure link.
+            <p className="text-sm text-muted-foreground text-center mt-4">
+              {mode === 'signup' ? (
+                <>
+                  Already have an account?{' '}
+                  <button 
+                    onClick={() => { setMode('login'); setError(''); }}
+                    className="text-primary hover:underline font-medium"
+                  >
+                    Sign in
+                  </button>
+                </>
+              ) : (
+                <>
+                  Don't have an account?{' '}
+                  <button 
+                    onClick={() => { setMode('signup'); setError(''); }}
+                    className="text-primary hover:underline font-medium"
+                  >
+                    Create one
+                  </button>
+                </>
+              )}
             </p>
           </>
         )}

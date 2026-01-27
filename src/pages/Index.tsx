@@ -58,6 +58,15 @@ export default function Index() {
     }
   }, []);
 
+  // Reload data when auth state changes (login/logout)
+  useEffect(() => {
+    if (!authLoading) {
+      // Reload data from appropriate source (localStorage or fresh state)
+      const freshData = loadData();
+      setData(freshData);
+    }
+  }, [authLoading, isAuthenticated]);
+
   // Check for migration when user authenticates
   useEffect(() => {
     if (!authLoading && isAuthenticated && user) {

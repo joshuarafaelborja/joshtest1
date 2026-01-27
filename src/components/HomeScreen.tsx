@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ExerciseCard } from './ExerciseCard';
@@ -20,7 +20,17 @@ interface HomeScreenProps {
 
 export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators, onOpenAuth }: HomeScreenProps) {
   const [showCoachPanel, setShowCoachPanel] = useState(false);
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, user } = useAuth();
+
+  // Check if user recently logged out (had an account before)
+  const hasLoggedOutBefore = !isAuthenticated && localStorage.getItem('coach-had-account') === 'true';
+
+  // Track when user has an account
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      localStorage.setItem('coach-had-account', 'true');
+    }
+  }, [isAuthenticated, user]);
 
   const sortedExercises = [...data.exercises].sort((a, b) => {
     const aLastLog = a.logs[a.logs.length - 1];
@@ -51,7 +61,10 @@ export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators
 
       {/* Sync Banner for guests */}
       {!loading && !isAuthenticated && (
-        <SyncBanner onCreateAccount={onOpenAuth} />
+        <SyncBanner 
+          onCreateAccount={onOpenAuth} 
+          showLoginPrompt={hasLoggedOutBefore}
+        />
       )}
 
       {/* Content */}

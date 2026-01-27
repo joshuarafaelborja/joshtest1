@@ -35,8 +35,8 @@ export function WarmupCalculator() {
     <div className="space-y-6">
       {/* Section Header */}
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-lg bg-foreground flex items-center justify-center">
-          <Flame className="w-4 h-4 text-background" />
+        <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
+          <Flame className="w-4 h-4 text-primary-foreground" />
         </div>
         <div>
           <h2 className="text-lg font-bold text-foreground tracking-tight">WARM-UP SETS</h2>
@@ -69,7 +69,7 @@ export function WarmupCalculator() {
       <Button
         onClick={calculateWarmup}
         disabled={!workingWeight || parseFloat(workingWeight) <= 0}
-        className="w-full h-12 rounded-full bg-foreground text-background hover:bg-foreground/90 font-semibold text-sm tracking-wide"
+        className="w-full h-12 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-sm tracking-wide"
       >
         CALCULATE WARM-UP
       </Button>

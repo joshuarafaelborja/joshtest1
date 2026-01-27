@@ -62,8 +62,8 @@ export function ProgressiveOverloadCalculator() {
     <div className="space-y-6">
       {/* Section Header */}
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-lg bg-foreground flex items-center justify-center">
-          <TrendingUp className="w-4 h-4 text-background" />
+        <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
+          <TrendingUp className="w-4 h-4 text-primary-foreground" />
         </div>
         <div>
           <h2 className="text-lg font-bold text-foreground tracking-tight">PROGRESSIVE OVERLOAD</h2>
@@ -132,7 +132,7 @@ export function ProgressiveOverloadCalculator() {
       <Button
         onClick={calculateProgression}
         disabled={!currentWeight || !targetReps || !repsCompleted}
-        className="w-full h-12 rounded-full bg-foreground text-background hover:bg-foreground/90 font-semibold text-sm tracking-wide"
+        className="w-full h-12 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-sm tracking-wide"
       >
         CALCULATE PROGRESSION
       </Button>

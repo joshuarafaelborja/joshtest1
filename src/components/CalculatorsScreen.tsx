@@ -22,8 +22,8 @@ export function CalculatorsScreen({ onBack }: CalculatorsScreenProps) {
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <div className="w-10 h-10 rounded-lg bg-foreground flex items-center justify-center">
-            <Calculator className="w-5 h-5 text-background" />
+          <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+            <Calculator className="w-5 h-5 text-primary-foreground" />
           </div>
           <div>
             <h1 className="text-xl font-bold tracking-tight text-foreground">CALCULATORS</h1>

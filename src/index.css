@@ -5,26 +5,26 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 218 30% 15%;
+    --foreground: 220 13% 13%;
 
     --card: 0 0% 100%;
-    --card-foreground: 218 30% 15%;
+    --card-foreground: 220 13% 13%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 218 30% 15%;
+    --popover-foreground: 220 13% 13%;
 
-    /* Navy Primary */
-    --primary: 218 30% 15%;
+    /* Primary Blue */
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 210 14% 96%;
-    --secondary-foreground: 218 30% 15%;
+    --secondary-foreground: 220 13% 13%;
 
     --muted: 210 14% 96%;
     --muted-foreground: 215 18% 50%;
 
-    --accent: 120 8% 90%;
-    --accent-foreground: 218 30% 15%;
+    --accent: 214 32% 91%;
+    --accent-foreground: 220 13% 13%;
 
     /* Warning Amber */
     --warning: 38 92% 50%;
@@ -39,15 +39,15 @@
 
     --border: 210 14% 89%;
     --input: 210 14% 89%;
-    --ring: 218 30% 15%;
+    --ring: 217 91% 60%;
 
     --radius: 0.625rem;
 
     /* Minimal Fitness Design Tokens */
     --slate-blue: 215 18% 50%;
-    --sage: 120 8% 90%;
-    --sage-dark: 120 6% 85%;
-    --navy: 218 30% 15%;
+    --sage: 214 32% 91%;
+    --sage-dark: 214 25% 85%;
+    --navy: 220 13% 13%;
     --live-indicator: 142 76% 45%;
 
     /* Custom Coach App tokens */

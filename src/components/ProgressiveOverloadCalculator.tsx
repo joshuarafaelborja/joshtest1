@@ -9,10 +9,13 @@ interface CalculatorResult {
   percentChange?: number;
 }
 
+type WeightUnit = 'lbs' | 'kg';
+
 export function ProgressiveOverloadCalculator() {
   const [currentWeight, setCurrentWeight] = useState<string>('');
   const [targetReps, setTargetReps] = useState<string>('');
   const [repsCompleted, setRepsCompleted] = useState<string>('');
+  const [unit, setUnit] = useState<WeightUnit>('lbs');
   const [result, setResult] = useState<CalculatorResult | null>(null);
 
   const calculateProgression = () => {
@@ -51,6 +54,34 @@ export function ProgressiveOverloadCalculator() {
     setResult(calcResult);
   };
 
+  const handleUnitChange = (newUnit: WeightUnit) => {
+    if (newUnit === unit) return;
+    
+    // Convert the current weight value
+    if (currentWeight) {
+      const weight = parseFloat(currentWeight);
+      if (!isNaN(weight)) {
+        const convertedWeight = newUnit === 'kg' 
+          ? Math.round(weight / 2.205)
+          : Math.round(weight * 2.205);
+        setCurrentWeight(convertedWeight.toString());
+      }
+    }
+    
+    // Convert result if it exists
+    if (result && result.newWeight) {
+      const convertedNewWeight = newUnit === 'kg'
+        ? Math.round(result.newWeight / 2.205)
+        : Math.round(result.newWeight * 2.205);
+      setResult({
+        ...result,
+        newWeight: convertedNewWeight
+      });
+    }
+    
+    setUnit(newUnit);
+  };
+
   const clearInputs = () => {
     setCurrentWeight('');
     setTargetReps('');
@@ -61,14 +92,32 @@ export function ProgressiveOverloadCalculator() {
   return (
     <div className="space-y-6">
       {/* Section Header */}
-      <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
-          <TrendingUp className="w-4 h-4 text-primary-foreground" />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
+            <TrendingUp className="w-4 h-4 text-primary-foreground" />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-foreground tracking-tight">PROGRESSIVE OVERLOAD</h2>
+            <p className="text-sm text-muted-foreground">Calculate your next weight target</p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-lg font-bold text-foreground tracking-tight">PROGRESSIVE OVERLOAD</h2>
-          <p className="text-sm text-muted-foreground">Calculate your next weight target</p>
-        </div>
+      </div>
+
+      {/* Unit Toggle */}
+      <div className="flex items-center gap-1 p-1 bg-secondary rounded-full w-fit">
+        <button
+          onClick={() => handleUnitChange('lbs')}
+          className={`pill-button ${unit === 'lbs' ? 'pill-button-active' : 'pill-button-inactive'}`}
+        >
+          LBS
+        </button>
+        <button
+          onClick={() => handleUnitChange('kg')}
+          className={`pill-button ${unit === 'kg' ? 'pill-button-active' : 'pill-button-inactive'}`}
+        >
+          KG
+        </button>
       </div>
 
       {/* Input Fields */}
@@ -87,7 +136,7 @@ export function ProgressiveOverloadCalculator() {
               onChange={(e) => setCurrentWeight(e.target.value)}
               className="calc-input text-2xl pr-1"
             />
-            <span className="absolute right-0 bottom-2 calc-unit text-[10px]">LBS</span>
+            <span className="absolute right-0 bottom-2 calc-unit text-[10px]">{unit.toUpperCase()}</span>
           </div>
         </div>
 
@@ -155,7 +204,7 @@ export function ProgressiveOverloadCalculator() {
             </p>
             <div className="flex items-baseline justify-center gap-1">
               <span className="calc-result-value">{result.newWeight}</span>
-              <span className="calc-result-unit">lbs</span>
+              <span className="calc-result-unit">{unit}</span>
             </div>
             {result.percentChange && (
               <p className="text-sm text-success mt-2 font-medium">

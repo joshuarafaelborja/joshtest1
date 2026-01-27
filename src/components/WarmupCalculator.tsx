@@ -9,8 +9,11 @@ interface WarmupSet {
   reps: number;
 }
 
+type WeightUnit = 'lbs' | 'kg';
+
 export function WarmupCalculator() {
   const [workingWeight, setWorkingWeight] = useState<string>('');
+  const [unit, setUnit] = useState<WeightUnit>('lbs');
   const [warmupSets, setWarmupSets] = useState<WarmupSet[] | null>(null);
 
   const calculateWarmup = () => {
@@ -31,24 +34,70 @@ export function WarmupCalculator() {
     if (warmupSets) setWarmupSets(null);
   };
 
+  const handleUnitChange = (newUnit: WeightUnit) => {
+    if (newUnit === unit) return;
+    
+    // Convert the current weight value
+    if (workingWeight) {
+      const currentWeight = parseFloat(workingWeight);
+      if (!isNaN(currentWeight)) {
+        const convertedWeight = newUnit === 'kg' 
+          ? Math.round(currentWeight / 2.205)
+          : Math.round(currentWeight * 2.205);
+        setWorkingWeight(convertedWeight.toString());
+      }
+    }
+    
+    // Convert warmup sets if they exist
+    if (warmupSets) {
+      const convertedSets = warmupSets.map(set => ({
+        ...set,
+        weight: newUnit === 'kg'
+          ? Math.round(set.weight / 2.205)
+          : Math.round(set.weight * 2.205)
+      }));
+      setWarmupSets(convertedSets);
+    }
+    
+    setUnit(newUnit);
+  };
+
   return (
     <div className="space-y-6">
       {/* Section Header */}
-      <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
-          <Flame className="w-4 h-4 text-primary-foreground" />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
+            <Flame className="w-4 h-4 text-primary-foreground" />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-foreground tracking-tight">WARM-UP SETS</h2>
+            <p className="text-sm text-muted-foreground">Calculate your warm-up progression</p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-lg font-bold text-foreground tracking-tight">WARM-UP SETS</h2>
-          <p className="text-sm text-muted-foreground">Calculate your warm-up progression</p>
-        </div>
+      </div>
+
+      {/* Unit Toggle */}
+      <div className="flex items-center gap-1 p-1 bg-secondary rounded-full w-fit">
+        <button
+          onClick={() => handleUnitChange('lbs')}
+          className={`pill-button ${unit === 'lbs' ? 'pill-button-active' : 'pill-button-inactive'}`}
+        >
+          LBS
+        </button>
+        <button
+          onClick={() => handleUnitChange('kg')}
+          className={`pill-button ${unit === 'kg' ? 'pill-button-active' : 'pill-button-inactive'}`}
+        >
+          KG
+        </button>
       </div>
 
       {/* Input Section */}
       <div className="space-y-2">
         <label className="calc-label">
           <Scale className="w-3.5 h-3.5" />
-          WORKING WEIGHT (LBS)
+          WORKING WEIGHT ({unit.toUpperCase()})
         </label>
         <div className="relative">
           <input
@@ -60,7 +109,7 @@ export function WarmupCalculator() {
             className="calc-input pr-12"
           />
           <span className="absolute right-0 top-1/2 -translate-y-1/2 calc-unit">
-            LBS
+            {unit.toUpperCase()}
           </span>
         </div>
       </div>
@@ -105,7 +154,7 @@ export function WarmupCalculator() {
                   <span className="text-2xl font-bold text-foreground tabular-nums">
                     {set.weight}
                   </span>
-                  <span className="calc-result-unit">lbs</span>
+                  <span className="calc-result-unit">{unit}</span>
                 </div>
               </div>
             ))}

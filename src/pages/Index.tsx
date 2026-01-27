@@ -7,6 +7,10 @@ import { RepRangeModal } from '@/components/RepRangeModal';
 import { RecommendationModal } from '@/components/RecommendationModal';
 import { ProgressNotification } from '@/components/ProgressNotification';
 import { CalculatorsScreen } from '@/components/CalculatorsScreen';
+import { AuthModal } from '@/components/AuthModal';
+import { MigrationModal } from '@/components/MigrationModal';
+import { useAuth } from '@/hooks/useAuth';
+import { getLocalWorkoutCount, clearLocalWorkouts } from '@/lib/workoutService';
 import { 
   AppData, 
   Exercise, 
@@ -41,6 +45,11 @@ export default function Index() {
   const [pendingLog, setPendingLog] = useState<PendingLog | null>(null);
   const [recommendation, setRecommendation] = useState<RecommendationResult | null>(null);
   const [notification, setNotification] = useState<RecommendationResult | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showMigrationModal, setShowMigrationModal] = useState(false);
+  const [localWorkoutCount, setLocalWorkoutCount] = useState(0);
+
+  const { user, isAuthenticated, loading: authLoading } = useAuth();
 
   // Check if onboarding should show
   useEffect(() => {
@@ -48,6 +57,17 @@ export default function Index() {
       setScreen('onboarding');
     }
   }, []);
+
+  // Check for migration when user authenticates
+  useEffect(() => {
+    if (!authLoading && isAuthenticated && user) {
+      const count = getLocalWorkoutCount();
+      if (count > 0) {
+        setLocalWorkoutCount(count);
+        setShowMigrationModal(true);
+      }
+    }
+  }, [authLoading, isAuthenticated, user]);
 
   // Save data whenever it changes
   const updateData = useCallback((newData: AppData) => {
@@ -211,9 +231,15 @@ export default function Index() {
             onLogNew={() => setScreen('log')}
             onSelectExercise={handleSelectExercise}
             onOpenCalculators={() => setScreen('calculators')}
+            onOpenAuth={() => setShowAuthModal(true)}
           />
         );
     }
+  };
+
+  const handleMigrationComplete = () => {
+    setShowMigrationModal(false);
+    setLocalWorkoutCount(0);
   };
 
   return (
@@ -251,6 +277,20 @@ export default function Index() {
           onClose={handleRecommendationClose}
         />
       )}
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+      />
+
+      {/* Migration Modal */}
+      <MigrationModal
+        isOpen={showMigrationModal}
+        workoutCount={localWorkoutCount}
+        onClose={() => setShowMigrationModal(false)}
+        onMigrationComplete={handleMigrationComplete}
+      />
     </div>
   );
 }

@@ -1,12 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { OnboardingFlow } from '@/components/OnboardingFlow';
-import { HomeScreen } from '@/components/HomeScreen';
+import { SplitScreenLayout } from '@/components/SplitScreenLayout';
 import { LogEntryForm } from '@/components/LogEntryForm';
 import { ExerciseHistory } from '@/components/ExerciseHistory';
 import { RepRangeModal } from '@/components/RepRangeModal';
 import { RecommendationModal } from '@/components/RecommendationModal';
 import { ProgressNotification } from '@/components/ProgressNotification';
-import { CalculatorsScreen } from '@/components/CalculatorsScreen';
 import { AuthModal } from '@/components/AuthModal';
 import { MigrationModal } from '@/components/MigrationModal';
 import { useAuth } from '@/hooks/useAuth';
@@ -28,7 +27,7 @@ import {
 } from '@/lib/storage';
 import { analyzePerformance } from '@/lib/recommendations';
 
-type Screen = 'onboarding' | 'home' | 'log' | 'history' | 'calculators';
+type Screen = 'onboarding' | 'home' | 'log' | 'history';
 
 interface PendingLog {
   exerciseName: string;
@@ -84,10 +83,10 @@ export default function Index() {
     saveData(newData);
   }, []);
 
-  const handleOnboardingComplete = (userName?: string, goToCalculator?: boolean) => {
+  const handleOnboardingComplete = (userName?: string) => {
     const newData = markOnboardingComplete(data, userName);
     updateData(newData);
-    setScreen(goToCalculator ? 'calculators' : 'home');
+    setScreen('home');
   };
 
   const handleOnboardingSkip = () => {
@@ -228,18 +227,12 @@ export default function Index() {
           />
         );
       
-      case 'calculators':
-        return (
-          <CalculatorsScreen onBack={() => setScreen('home')} />
-        );
-      
       default:
         return (
-          <HomeScreen
+          <SplitScreenLayout
             data={data}
             onLogNew={() => setScreen('log')}
             onSelectExercise={handleSelectExercise}
-            onOpenCalculators={() => setScreen('calculators')}
             onOpenAuth={() => setShowAuthModal(true)}
           />
         );

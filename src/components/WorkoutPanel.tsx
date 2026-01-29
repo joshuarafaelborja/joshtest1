@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, Dumbbell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ExerciseCard } from './ExerciseCard';
 import { AICoachPanel } from './AICoachPanel';
@@ -43,19 +43,19 @@ export function WorkoutPanel({ data, onLogNew, onSelectExercise, onOpenAuth, onO
 
   return (
     <div className="h-full flex flex-col bg-background">
-      {/* Header */}
+      {/* Header - Bold athletic style */}
       {showHeader && (
-        <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b px-4 py-4">
+        <header className="sticky top-0 z-10 bg-background border-b-[3px] border-border px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <button 
                 onClick={() => setShowCoachPanel(true)}
                 className="group relative transition-transform duration-200 hover:scale-110 active:scale-95"
               >
-                <img src={coachLogo} alt="Coach" className="w-10 h-10 object-contain" />
-                <span className="absolute -bottom-1 -right-1 w-3 h-3 bg-primary rounded-full border-2 border-background animate-pulse" />
+                <img src={coachLogo} alt="Coach" className="w-12 h-12 object-contain" />
+                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-primary rounded-full border-2 border-background animate-pulse" />
               </button>
-              <h1 className="text-2xl font-bold">Coach</h1>
+              <h1 className="heading-hero text-3xl">COACH</h1>
             </div>
             <AccountMenu onCreateAccount={onOpenAuth} />
           </div>
@@ -73,15 +73,24 @@ export function WorkoutPanel({ data, onLogNew, onSelectExercise, onOpenAuth, onO
       {/* Content */}
       <div className="flex-1 p-4 pb-24 overflow-auto">
         {/* Level Up Card - Motivational dashboard */}
-        <div className="mb-4">
+        <div className="mb-6">
           <LevelUpCard data={data} onOpenCalculator={onOpenCalculator} />
         </div>
 
+        {/* Section divider */}
+        <div className="flex items-center gap-3 mb-4">
+          <div className="h-1 flex-1 bg-border" />
+          <span className="label-bold text-muted-foreground">YOUR EXERCISES</span>
+          <div className="h-1 flex-1 bg-border" />
+        </div>
+
         {sortedExercises.length === 0 ? (
-          <div className="flex flex-col items-center justify-center min-h-[30vh] text-center">
-            <img src={coachLogo} alt="Coach mascot" className="w-16 h-16 object-contain mb-4 opacity-60" />
-            <h2 className="text-lg font-semibold mb-2">No exercises yet</h2>
-            <p className="text-muted-foreground mb-4 text-sm">
+          <div className="flex flex-col items-center justify-center min-h-[30vh] text-center border-[3px] border-dashed border-border rounded-lg p-8">
+            <div className="w-16 h-16 rounded-lg bg-muted flex items-center justify-center mb-4">
+              <Dumbbell className="w-8 h-8 text-muted-foreground" />
+            </div>
+            <h2 className="heading-card mb-2">NO EXERCISES YET</h2>
+            <p className="text-muted-foreground mb-4 text-sm uppercase tracking-wide">
               Start by logging your first set
             </p>
           </div>
@@ -98,15 +107,15 @@ export function WorkoutPanel({ data, onLogNew, onSelectExercise, onOpenAuth, onO
         )}
       </div>
 
-      {/* Fixed Bottom Button */}
+      {/* Fixed Bottom Button - Bold athletic style */}
       <div className="sticky bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background via-background to-transparent">
         <Button
-          size="lg"
+          size="xl"
           onClick={onLogNew}
-          className="w-full h-14 text-lg font-semibold touch-target shadow-lg"
+          className="w-full shadow-lg animate-pulse-glow"
         >
-          <Plus className="w-5 h-5 mr-2" />
-          Log New Set
+          <Plus className="w-6 h-6" />
+          LOG NEW SET
         </Button>
       </div>
 

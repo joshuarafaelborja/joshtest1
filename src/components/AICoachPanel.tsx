@@ -3,6 +3,7 @@ import { X, TrendingUp, Target, Zap, Calculator } from 'lucide-react';
 import { MedalCard } from './MedalCard';
 import { calculateMedals } from '@/lib/medalCalculations';
 import { AppData } from '@/lib/types';
+import { Button } from '@/components/ui/button';
 import mascotNotification from '@/assets/mascot-notification.svg';
 
 interface AICoachPanelProps {
@@ -15,21 +16,21 @@ interface AICoachPanelProps {
 const howCoachWorks = [
   {
     icon: TrendingUp,
-    title: "Analyzes your performance",
+    title: "ANALYZES PERFORMANCE",
     description: "Tracks reps, sets, consistency and recovery",
     color: "text-primary",
     bgColor: "bg-primary/10"
   },
   {
     icon: Target,
-    title: "Calculates optimal progression",
+    title: "CALCULATES PROGRESSION",
     description: "Uses 5-10% rule based on your readiness",
     color: "text-destructive",
     bgColor: "bg-destructive/10"
   },
   {
     icon: Zap,
-    title: "Recovery rate: Excellent",
+    title: "OPTIMIZES RECOVERY",
     description: "Smart recommendations keep you progressing safely",
     color: "text-warning",
     bgColor: "bg-warning/10"
@@ -93,7 +94,7 @@ export function AICoachPanel({ isOpen, onClose, onOpenCalculators, data = defaul
     >
       {/* Overlay */}
       <div 
-        className="absolute inset-0 bg-foreground/40 backdrop-blur-sm"
+        className="absolute inset-0 bg-foreground/60 backdrop-blur-sm"
         onClick={handleClose}
       />
       
@@ -108,17 +109,17 @@ export function AICoachPanel({ isOpen, onClose, onOpenCalculators, data = defaul
           }
         `}
       >
-        {/* Main Card */}
-        <div className="bg-primary rounded-2xl shadow-2xl overflow-hidden">
-          {/* Decorative circles */}
-          <div className="absolute -left-8 -bottom-8 w-32 h-32 rounded-full bg-white/10" />
-          <div className="absolute -right-4 top-12 w-20 h-20 rounded-full bg-white/5" />
+        {/* Main Card - Bold athletic style */}
+        <div className="bg-primary rounded-lg border-[3px] border-primary overflow-hidden">
+          {/* Geometric decorative shapes */}
+          <div className="absolute -left-8 -bottom-8 w-32 h-32 bg-white/10 rotate-45" />
+          <div className="absolute -right-4 top-12 w-20 h-20 bg-white/5 rotate-12" />
           
           {/* Header */}
           <div className="relative px-6 pt-6 pb-4">
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+              className="absolute top-4 right-4 p-2 rounded bg-white/10 hover:bg-white/20 transition-colors"
             >
               <X className="w-5 h-5 text-white" />
             </button>
@@ -130,21 +131,21 @@ export function AICoachPanel({ isOpen, onClose, onOpenCalculators, data = defaul
                 className="w-16 h-16 object-contain"
               />
               <div>
-                <h2 className="text-xl font-bold text-white">Ready to Level Up?</h2>
-                <p className="text-white/70 text-sm">Your AI Coach is here to help</p>
+                <h2 className="heading-section text-white">READY TO LEVEL UP?</h2>
+                <p className="text-white/70 text-xs uppercase tracking-wider font-bold mt-1">Your AI Coach is here</p>
               </div>
             </div>
           </div>
 
           {/* Content Section - Scrollable */}
-          <div className="bg-card/95 backdrop-blur-sm rounded-t-2xl px-4 py-4 mx-2 mb-2 rounded-b-xl space-y-4 max-h-[60vh] overflow-y-auto">
+          <div className="bg-card rounded-t-lg px-4 py-4 mx-2 mb-2 rounded-b-lg space-y-4 max-h-[60vh] overflow-y-auto">
             
             {/* Achievement Medals Section */}
             <div className="animate-fade-in">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-base font-bold text-foreground">Your Achievements</h3>
-                <span className="text-xs font-medium text-muted-foreground">
-                  {earnedCount}/{medals.length} earned
+                <h3 className="heading-card text-foreground">YOUR ACHIEVEMENTS</h3>
+                <span className="label-bold text-muted-foreground">
+                  {earnedCount}/{medals.length} EARNED
                 </span>
               </div>
               
@@ -163,50 +164,51 @@ export function AICoachPanel({ isOpen, onClose, onOpenCalculators, data = defaul
 
               {/* Motivational message based on progress */}
               {earnedCount === 0 && (
-                <p className="text-xs text-center text-muted-foreground mt-3 px-4">
-                  🎯 Start logging workouts to unlock your first achievement!
+                <p className="text-xs text-center text-muted-foreground mt-3 px-4 uppercase tracking-wide">
+                  🎯 Start logging to unlock your first achievement!
                 </p>
               )}
               {earnedCount > 0 && earnedCount < medals.length && (
-                <p className="text-xs text-center text-primary font-medium mt-3 px-4">
-                  🔥 You're making progress! Keep pushing to unlock more medals!
+                <p className="text-xs text-center text-primary font-bold mt-3 px-4 uppercase tracking-wide">
+                  🔥 Keep pushing to unlock more medals!
                 </p>
               )}
               {earnedCount === medals.length && (
-                <p className="text-xs text-center text-emerald-600 font-medium mt-3 px-4">
-                  🏆 Incredible! You've unlocked all achievements!
+                <p className="text-xs text-center text-success font-bold mt-3 px-4 uppercase tracking-wide">
+                  🏆 All achievements unlocked!
                 </p>
               )}
             </div>
 
             {/* Calculator Link */}
-            <button
+            <Button
+              variant="outline"
               onClick={handleOpenCalculators}
-              className="w-full flex items-center justify-center gap-2 py-2.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors animate-fade-in"
+              className="w-full animate-fade-in"
               style={{ animationDelay: '200ms' }}
             >
               <Calculator className="w-4 h-4" />
-              Open Calculators
-            </button>
+              OPEN CALCULATORS
+            </Button>
 
             {/* Divider */}
-            <div className="border-t border-border" />
+            <div className="h-1 bg-border" />
 
             {/* How Coach Works */}
             <div className="animate-fade-in" style={{ animationDelay: '250ms' }}>
-              <h3 className="text-base font-bold text-foreground mb-3">How Coach works</h3>
+              <h3 className="heading-card text-foreground mb-3">HOW COACH WORKS</h3>
               <div className="space-y-3">
                 {howCoachWorks.map((item, index) => (
                   <div 
                     key={index}
-                    className="flex items-start gap-3"
+                    className="flex items-start gap-3 p-3 rounded-lg bg-muted/50 border-[2px] border-border"
                   >
-                    <div className={`w-8 h-8 rounded-lg ${item.bgColor} flex items-center justify-center flex-shrink-0 mt-0.5`}>
-                      <item.icon className={`w-4 h-4 ${item.color}`} />
+                    <div className={`w-10 h-10 rounded flex items-center justify-center flex-shrink-0 ${item.bgColor} border-[2px] border-current/20`}>
+                      <item.icon className={`w-5 h-5 ${item.color}`} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold text-sm text-foreground">{item.title}</h4>
-                      <p className="text-xs text-muted-foreground leading-relaxed">{item.description}</p>
+                      <h4 className="font-bold text-sm text-foreground uppercase tracking-wide">{item.title}</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed mt-0.5">{item.description}</p>
                     </div>
                   </div>
                 ))}

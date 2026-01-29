@@ -5,6 +5,7 @@ import { ExerciseCard } from './ExerciseCard';
 import { AICoachPanel } from './AICoachPanel';
 import { SyncBanner } from './SyncBanner';
 import { AccountMenu } from './AccountMenu';
+import { StatsCard } from './StatsCard';
 import { AppData, Exercise } from '@/lib/types';
 import { useAuth } from '@/hooks/useAuth';
 import coachLogo from '@/assets/coach-logo.svg';
@@ -70,8 +71,13 @@ export function WorkoutPanel({ data, onLogNew, onSelectExercise, onOpenAuth, sho
 
       {/* Content */}
       <div className="flex-1 p-4 pb-24 overflow-auto">
+        {/* Stats Card - Always show at top */}
+        <div className="mb-4">
+          <StatsCard data={data} />
+        </div>
+
         {sortedExercises.length === 0 ? (
-          <div className="flex flex-col items-center justify-center min-h-[40vh] text-center">
+          <div className="flex flex-col items-center justify-center min-h-[30vh] text-center">
             <img src={coachLogo} alt="Coach mascot" className="w-16 h-16 object-contain mb-4 opacity-60" />
             <h2 className="text-lg font-semibold mb-2">No exercises yet</h2>
             <p className="text-muted-foreground mb-4 text-sm">

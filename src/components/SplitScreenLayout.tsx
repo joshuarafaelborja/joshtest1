@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Dumbbell, Calculator } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { WorkoutPanel } from './WorkoutPanel';
@@ -16,6 +17,11 @@ interface SplitScreenLayoutProps {
 
 export function SplitScreenLayout({ data, onLogNew, onSelectExercise, onOpenAuth }: SplitScreenLayoutProps) {
   const isMobile = useIsMobile();
+  const [activeTab, setActiveTab] = useState('workout');
+
+  const handleOpenCalculator = () => {
+    setActiveTab('calculator');
+  };
 
   if (isMobile) {
     return (
@@ -32,7 +38,7 @@ export function SplitScreenLayout({ data, onLogNew, onSelectExercise, onOpenAuth
         </header>
 
         {/* Tabbed Interface */}
-        <Tabs defaultValue="workout" className="flex-1 flex flex-col">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
           <TabsList className="grid w-full grid-cols-2 mx-4 mt-3 max-w-[calc(100%-2rem)] rounded-full h-12 p-1 bg-secondary">
             <TabsTrigger 
               value="workout" 
@@ -56,6 +62,7 @@ export function SplitScreenLayout({ data, onLogNew, onSelectExercise, onOpenAuth
               onLogNew={onLogNew}
               onSelectExercise={onSelectExercise}
               onOpenAuth={onOpenAuth}
+              onOpenCalculator={handleOpenCalculator}
               showHeader={false}
             />
           </TabsContent>

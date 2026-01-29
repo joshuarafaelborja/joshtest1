@@ -5,7 +5,7 @@ import { ExerciseCard } from './ExerciseCard';
 import { AICoachPanel } from './AICoachPanel';
 import { SyncBanner } from './SyncBanner';
 import { AccountMenu } from './AccountMenu';
-import { StatsCard } from './StatsCard';
+import { LevelUpCard } from './LevelUpCard';
 import { AppData, Exercise } from '@/lib/types';
 import { useAuth } from '@/hooks/useAuth';
 import coachLogo from '@/assets/coach-logo.svg';
@@ -15,10 +15,11 @@ interface WorkoutPanelProps {
   onLogNew: () => void;
   onSelectExercise: (exercise: Exercise) => void;
   onOpenAuth: () => void;
+  onOpenCalculator?: () => void;
   showHeader?: boolean;
 }
 
-export function WorkoutPanel({ data, onLogNew, onSelectExercise, onOpenAuth, showHeader = true }: WorkoutPanelProps) {
+export function WorkoutPanel({ data, onLogNew, onSelectExercise, onOpenAuth, onOpenCalculator, showHeader = true }: WorkoutPanelProps) {
   const [showCoachPanel, setShowCoachPanel] = useState(false);
   const { isAuthenticated, loading, user } = useAuth();
 
@@ -71,9 +72,9 @@ export function WorkoutPanel({ data, onLogNew, onSelectExercise, onOpenAuth, sho
 
       {/* Content */}
       <div className="flex-1 p-4 pb-24 overflow-auto">
-        {/* Stats Card - Always show at top */}
+        {/* Level Up Card - Motivational dashboard */}
         <div className="mb-4">
-          <StatsCard data={data} />
+          <LevelUpCard data={data} onOpenCalculator={onOpenCalculator} />
         </div>
 
         {sortedExercises.length === 0 ? (

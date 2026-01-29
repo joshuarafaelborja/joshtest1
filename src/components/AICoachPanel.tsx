@@ -1,11 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { X, TrendingUp, Target, Zap, Calculator } from 'lucide-react';
+import { MedalCard } from './MedalCard';
+import { calculateMedals } from '@/lib/medalCalculations';
+import { AppData } from '@/lib/types';
 import mascotNotification from '@/assets/mascot-notification.svg';
 
 interface AICoachPanelProps {
   isOpen: boolean;
   onClose: () => void;
   onOpenCalculators?: () => void;
+  data?: AppData;
 }
 
 const howCoachWorks = [
@@ -32,9 +36,26 @@ const howCoachWorks = [
   }
 ];
 
-export function AICoachPanel({ isOpen, onClose, onOpenCalculators }: AICoachPanelProps) {
+// Default empty data for when data isn't provided
+const defaultData: AppData = {
+  exercises: [],
+  userPreferences: {
+    defaultUnit: 'lbs',
+    hasSeenWelcome: false,
+    hasCompletedOnboarding: false
+  },
+  metadata: {
+    firstLogDate: null,
+    lastDeloadDate: null
+  }
+};
+
+export function AICoachPanel({ isOpen, onClose, onOpenCalculators, data = defaultData }: AICoachPanelProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+
+  const medals = useMemo(() => calculateMedals(data), [data]);
+  const earnedCount = medals.filter(m => m.earned).length;
 
   useEffect(() => {
     if (isOpen) {
@@ -79,7 +100,7 @@ export function AICoachPanel({ isOpen, onClose, onOpenCalculators }: AICoachPane
       {/* Panel */}
       <div 
         className={`
-          relative w-full max-w-md mx-4
+          relative w-full max-w-md mx-4 max-h-[90vh] overflow-hidden
           transition-all duration-300 ease-out
           ${isVisible && !isExiting 
             ? 'translate-y-0 scale-100' 
@@ -115,27 +136,64 @@ export function AICoachPanel({ isOpen, onClose, onOpenCalculators }: AICoachPane
             </div>
           </div>
 
-          {/* Content Section */}
-          <div className="bg-card/95 backdrop-blur-sm rounded-t-2xl px-4 py-4 mx-2 mb-2 rounded-b-xl space-y-4">
-            {/* Calculator CTA */}
+          {/* Content Section - Scrollable */}
+          <div className="bg-card/95 backdrop-blur-sm rounded-t-2xl px-4 py-4 mx-2 mb-2 rounded-b-xl space-y-4 max-h-[60vh] overflow-y-auto">
+            
+            {/* Achievement Medals Section */}
+            <div className="animate-fade-in">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-base font-bold text-foreground">Your Achievements</h3>
+                <span className="text-xs font-medium text-muted-foreground">
+                  {earnedCount}/{medals.length} earned
+                </span>
+              </div>
+              
+              {/* Medal Grid */}
+              <div className="grid grid-cols-2 gap-2">
+                {medals.map((medal, index) => (
+                  <div 
+                    key={medal.id}
+                    className="animate-fade-in"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    <MedalCard medal={medal} />
+                  </div>
+                ))}
+              </div>
+
+              {/* Motivational message based on progress */}
+              {earnedCount === 0 && (
+                <p className="text-xs text-center text-muted-foreground mt-3 px-4">
+                  🎯 Start logging workouts to unlock your first achievement!
+                </p>
+              )}
+              {earnedCount > 0 && earnedCount < medals.length && (
+                <p className="text-xs text-center text-primary font-medium mt-3 px-4">
+                  🔥 You're making progress! Keep pushing to unlock more medals!
+                </p>
+              )}
+              {earnedCount === medals.length && (
+                <p className="text-xs text-center text-emerald-600 font-medium mt-3 px-4">
+                  🏆 Incredible! You've unlocked all achievements!
+                </p>
+              )}
+            </div>
+
+            {/* Calculator Link */}
             <button
               onClick={handleOpenCalculators}
-              className="w-full flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-primary to-primary/80 text-white shadow-lg animate-fade-in"
+              className="w-full flex items-center justify-center gap-2 py-2.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors animate-fade-in"
+              style={{ animationDelay: '200ms' }}
             >
-              <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
-                <Calculator className="w-6 h-6 text-white" />
-              </div>
-              <div className="flex-1 text-left">
-                <h4 className="font-bold text-base">Open Calculators</h4>
-                <p className="text-sm text-white/80">Warm-up sets & progressive overload</p>
-              </div>
-              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                <span className="text-white text-lg">→</span>
-              </div>
+              <Calculator className="w-4 h-4" />
+              Open Calculators
             </button>
 
+            {/* Divider */}
+            <div className="border-t border-border" />
+
             {/* How Coach Works */}
-            <div className="animate-fade-in" style={{ animationDelay: '100ms' }}>
+            <div className="animate-fade-in" style={{ animationDelay: '250ms' }}>
               <h3 className="text-base font-bold text-foreground mb-3">How Coach works</h3>
               <div className="space-y-3">
                 {howCoachWorks.map((item, index) => (

@@ -114,7 +114,8 @@ export function WorkoutPanel({ data, onLogNew, onSelectExercise, onOpenAuth, onO
       <AICoachPanel 
         isOpen={showCoachPanel} 
         onClose={() => setShowCoachPanel(false)}
-        onOpenCalculators={() => {}}
+        onOpenCalculators={onOpenCalculator}
+        data={data}
       />
     </div>
   );

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Flame, Scale } from 'lucide-react';
+import { Flame, Scale, Dumbbell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface WarmupSet {
@@ -7,23 +7,55 @@ interface WarmupSet {
   percentage: number;
   weight: number;
   reps: number;
+  sets: number;
+  notes: string;
 }
 
 type WeightUnit = 'lbs' | 'kg';
+type LiftType = 'barbell' | 'dumbbell';
+
+// Round to nearest plate-friendly weight (barbell: 5lb/2.5kg increments, dumbbell: 5lb/2.5kg)
+function roundToPlate(weight: number, unit: WeightUnit, liftType: LiftType): number {
+  const increment = unit === 'lbs' ? 5 : 2.5;
+  return Math.round(weight / increment) * increment;
+}
 
 export function WarmupCalculator() {
   const [workingWeight, setWorkingWeight] = useState<string>('');
   const [unit, setUnit] = useState<WeightUnit>('lbs');
+  const [liftType, setLiftType] = useState<LiftType>('barbell');
   const [warmupSets, setWarmupSets] = useState<WarmupSet[] | null>(null);
 
   const calculateWarmup = () => {
     const weight = parseFloat(workingWeight);
     if (isNaN(weight) || weight <= 0) return;
 
+    // Progressive warmup scheme for plate-based lifting
     const sets: WarmupSet[] = [
-      { setNumber: 1, percentage: 50, weight: Math.round(weight * 0.5), reps: 10 },
-      { setNumber: 2, percentage: 70, weight: Math.round(weight * 0.7), reps: 5 },
-      { setNumber: 3, percentage: 85, weight: Math.round(weight * 0.85), reps: 3 },
+      { 
+        setNumber: 1, 
+        percentage: 40, 
+        weight: roundToPlate(weight * 0.4, unit, liftType), 
+        reps: 10, 
+        sets: 2,
+        notes: 'Light weight, focus on form & range of motion'
+      },
+      { 
+        setNumber: 2, 
+        percentage: 60, 
+        weight: roundToPlate(weight * 0.6, unit, liftType), 
+        reps: 6, 
+        sets: 2,
+        notes: 'Moderate load, controlled tempo'
+      },
+      { 
+        setNumber: 3, 
+        percentage: 80, 
+        weight: roundToPlate(weight * 0.8, unit, liftType), 
+        reps: 3, 
+        sets: 1,
+        notes: 'Heavy prep, prime nervous system'
+      },
     ];
 
     setWarmupSets(sets);
@@ -52,14 +84,22 @@ export function WarmupCalculator() {
     if (warmupSets) {
       const convertedSets = warmupSets.map(set => ({
         ...set,
-        weight: newUnit === 'kg'
-          ? Math.round(set.weight / 2.205)
-          : Math.round(set.weight * 2.205)
+        weight: roundToPlate(
+          newUnit === 'kg' ? set.weight / 2.205 : set.weight * 2.205, 
+          newUnit, 
+          liftType
+        )
       }));
       setWarmupSets(convertedSets);
     }
     
     setUnit(newUnit);
+  };
+
+  const handleLiftTypeChange = (newType: LiftType) => {
+    if (newType === liftType) return;
+    setLiftType(newType);
+    if (warmupSets) setWarmupSets(null);
   };
 
   return (
@@ -77,20 +117,39 @@ export function WarmupCalculator() {
         </div>
       </div>
 
-      {/* Unit Toggle */}
-      <div className="flex items-center gap-1 p-1 bg-secondary rounded-full w-fit">
-        <button
-          onClick={() => handleUnitChange('lbs')}
-          className={`pill-button ${unit === 'lbs' ? 'pill-button-active' : 'pill-button-inactive'}`}
-        >
-          LBS
-        </button>
-        <button
-          onClick={() => handleUnitChange('kg')}
-          className={`pill-button ${unit === 'kg' ? 'pill-button-active' : 'pill-button-inactive'}`}
-        >
-          KG
-        </button>
+      {/* Toggle Controls */}
+      <div className="flex flex-wrap items-center gap-3">
+        {/* Unit Toggle */}
+        <div className="flex items-center gap-1 p-1 bg-secondary rounded-full">
+          <button
+            onClick={() => handleUnitChange('lbs')}
+            className={`pill-button ${unit === 'lbs' ? 'pill-button-active' : 'pill-button-inactive'}`}
+          >
+            LBS
+          </button>
+          <button
+            onClick={() => handleUnitChange('kg')}
+            className={`pill-button ${unit === 'kg' ? 'pill-button-active' : 'pill-button-inactive'}`}
+          >
+            KG
+          </button>
+        </div>
+
+        {/* Lift Type Toggle */}
+        <div className="flex items-center gap-1 p-1 bg-secondary rounded-full">
+          <button
+            onClick={() => handleLiftTypeChange('barbell')}
+            className={`pill-button ${liftType === 'barbell' ? 'pill-button-active' : 'pill-button-inactive'}`}
+          >
+            BARBELL
+          </button>
+          <button
+            onClick={() => handleLiftTypeChange('dumbbell')}
+            className={`pill-button ${liftType === 'dumbbell' ? 'pill-button-active' : 'pill-button-inactive'}`}
+          >
+            DUMBBELL
+          </button>
+        </div>
       </div>
 
       {/* Input Section */}
@@ -127,41 +186,54 @@ export function WarmupCalculator() {
       {warmupSets && (
         <div className="calc-result-card space-y-4 animate-fade-in">
           <div className="flex items-center justify-between">
-            <span className="calc-result-label">WARM-UP SETS</span>
+            <span className="calc-result-label">WARM-UP PROTOCOL</span>
             <div className="live-indicator">
               <span className="live-dot" />
-              LIVE CALC
+              {liftType.toUpperCase()}
             </div>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-4">
             {warmupSets.map((set) => (
               <div
                 key={set.setNumber}
-                className="flex items-center justify-between py-3 border-b border-border/50 last:border-0"
+                className="p-4 rounded-xl bg-background/50 border border-border/30"
               >
-                <div className="flex items-center gap-4">
-                  <div className="w-8 h-8 rounded-full bg-background flex items-center justify-center">
-                    <span className="text-sm font-bold text-foreground">{set.setNumber}</span>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+                      <span className="text-sm font-bold text-primary">{set.setNumber}</span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">
+                        {set.sets} × {set.reps} reps @ {set.percentage}%
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground uppercase tracking-wide">
-                      {set.percentage}% • {set.reps} reps
-                    </p>
+                  <div className="text-right">
+                    <span className="text-2xl font-black text-foreground tabular-nums">
+                      {set.weight}
+                    </span>
+                    <span className="calc-result-unit ml-1">{unit}</span>
                   </div>
                 </div>
-                <div className="text-right">
-                  <span className="text-2xl font-bold text-foreground tabular-nums">
-                    {set.weight}
-                  </span>
-                  <span className="calc-result-unit">{unit}</span>
-                </div>
+                <p className="text-xs text-muted-foreground pl-11">
+                  {set.notes}
+                </p>
               </div>
             ))}
           </div>
 
-          <p className="text-xs text-muted-foreground pt-2">
-            Complete these sets before your working weight to prepare muscles and nervous system.
+          {/* Total Warmup Summary */}
+          <div className="p-3 rounded-lg bg-primary/10 border border-primary/30">
+            <div className="flex items-center gap-2 text-sm text-primary font-semibold">
+              <Dumbbell className="w-4 h-4" />
+              Total: {warmupSets.reduce((acc, s) => acc + s.sets, 0)} sets before working weight
+            </div>
+          </div>
+
+          <p className="text-xs text-muted-foreground">
+            Weights rounded to nearest {unit === 'lbs' ? '5 lbs' : '2.5 kg'} for easy plate loading.
           </p>
         </div>
       )}

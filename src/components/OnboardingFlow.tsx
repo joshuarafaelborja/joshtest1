@@ -140,7 +140,7 @@ function SkipSetupLink({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="text-muted-foreground hover:text-foreground text-sm transition-colors mt-4"
+      className="text-muted-foreground text-sm mt-4"
     >
       Skip Setup
     </button>
@@ -217,7 +217,7 @@ function HowItWorksStep({ onNext, onSkip }: { onNext: () => void; onSkip: () => 
           {steps.map((step, index) => (
             <div 
               key={index}
-              className="flex gap-4 p-4 rounded-xl bg-card border"
+              className="flex gap-4 p-4 rounded-xl bg-card border transition-none"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className={`flex-shrink-0 w-12 h-12 rounded-xl ${step.bgColor} flex items-center justify-center`}>
@@ -288,7 +288,7 @@ function FeaturesStep({ onNext, onSkip }: { onNext: () => void; onSkip: () => vo
           {features.map((feature, index) => (
             <Card 
               key={index}
-              className={`flex flex-col items-center text-center ${
+              className={`flex flex-col items-center text-center transition-none ${
                 feature.isLarge ? 'p-8 border-2 border-success/30 bg-success/5' : 'p-5'
               }`}
               style={{ animationDelay: `${index * 100}ms` }}
@@ -360,7 +360,7 @@ function ChoosePathStep({ onSelectPath, onSkip }: { onSelectPath: (path: 'calcul
         <div className="flex flex-col items-center mt-8">
           <button
             onClick={onSkip}
-            className="text-muted-foreground hover:text-foreground text-sm transition-colors"
+            className="text-muted-foreground text-sm"
           >
             Skip - Take me to the app
           </button>
@@ -581,10 +581,10 @@ function FirstExerciseStep({
                   key={exercise}
                   type="button"
                   onClick={() => setExerciseName(exercise)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  className={`px-4 py-2 rounded-full text-sm font-medium ${
                     exerciseName === exercise
                       ? 'bg-primary text-primary-foreground'
-                      : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                      : 'bg-secondary text-secondary-foreground'
                   }`}
                 >
                   {exercise}

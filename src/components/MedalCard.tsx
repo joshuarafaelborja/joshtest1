@@ -75,16 +75,15 @@ export function MedalCard({ medal }: MedalCardProps) {
         onClick={() => setShowDetails(true)}
         className={`
           relative w-full p-3 rounded-xl border text-left
-          transition-all duration-200 hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98]
           ${medal.earned 
             ? `${colors.bg} ${colors.border} shadow-lg ${colors.glow}` 
-            : 'bg-secondary/30 border-border opacity-60 hover:opacity-80'
+            : 'bg-secondary/30 border-border opacity-60'
           }
         `}
       >
-        {/* Shimmer effect for earned medals */}
+        {/* Shimmer effect for earned medals - no texture */}
         {medal.earned && (
-          <div className="absolute inset-0 overflow-hidden rounded-xl">
+          <div className="absolute inset-0 overflow-hidden rounded-xl pointer-events-none">
             <div className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           </div>
         )}

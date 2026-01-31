@@ -17,14 +17,16 @@ interface ProgressMetric {
 }
 
 function getProgressColor(value: number): string {
+  if (value >= 100) return 'from-primary to-blue-500';
   if (value >= 80) return 'from-emerald-400 to-emerald-500';
-  if (value >= 50) return 'from-amber-400 to-amber-500';
+  if (value >= 50) return 'from-zinc-400 to-zinc-500';
   return 'from-rose-400 to-rose-500';
 }
 
 function getProgressTextColor(value: number): string {
+  if (value >= 100) return 'text-primary';
   if (value >= 80) return 'text-emerald-400';
-  if (value >= 50) return 'text-amber-400';
+  if (value >= 50) return 'text-zinc-50';
   return 'text-rose-400';
 }
 
@@ -196,22 +198,22 @@ export function LevelUpCard({ data, onOpenCalculator }: LevelUpCardProps) {
   }
 
   return (
-    <div className="concrete-overlay relative overflow-hidden rounded-xl border border-primary/30 bg-card">
-      <div className="relative p-6">
+    <div className="concrete-subtle relative overflow-hidden rounded-xl border border-border bg-card">
+      <div className="relative p-7">
         {/* Header */}
-        <div className="flex items-start justify-between mb-6">
+        <div className="flex items-start justify-between mb-8">
           <div>
-            <h2 className="heading-card text-foreground">
+            <h2 className="text-2xl font-bold text-zinc-50">
               Ready to <span className="text-primary">Level Up?</span>
             </h2>
-            <p className="text-sm text-muted-foreground mt-1">Your progress this week</p>
+            <p className="text-sm text-zinc-400 mt-1.5">Your progress this week</p>
           </div>
           {onOpenCalculator && (
             <Button 
               variant="ghost" 
               size="sm" 
               onClick={onOpenCalculator}
-              className="gap-1.5 text-muted-foreground hover:text-foreground"
+              className="gap-1.5 text-zinc-400 hover:text-zinc-50"
             >
               <Calculator className="w-4 h-4" />
               Calc
@@ -221,30 +223,30 @@ export function LevelUpCard({ data, onOpenCalculator }: LevelUpCardProps) {
         </div>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-5">
           {metrics.map((metric, index) => (
             <div 
               key={index}
-              className="relative bg-secondary/50 rounded-xl p-4 border border-border hover:border-primary/50 transition-all duration-200"
+              className="concrete-subtle relative rounded-xl p-5 border border-border hover:border-primary/50 transition-all duration-200"
             >
               {/* Icon and Label */}
-              <div className="flex items-center gap-2 mb-3">
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${getProgressTextColor(metric.value)} bg-current/10`}>
+              <div className="flex items-center gap-2 mb-4">
+                <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${getProgressTextColor(metric.value)} bg-current/10`}>
                   {metric.icon}
                 </div>
-                <span className="label-bold text-muted-foreground">{metric.label}</span>
+                <span className="text-xs font-semibold uppercase tracking-wide text-zinc-400">{metric.label}</span>
               </div>
               
               {/* Big percentage number */}
-              <div className="mb-3">
-                <span className={`stat-number ${getProgressTextColor(metric.value)}`}>
+              <div className="mb-4">
+                <span className={`text-6xl font-black tracking-tighter ${getProgressTextColor(metric.value)}`}>
                   {metric.value}
                 </span>
-                <span className={`text-xl font-bold ${getProgressTextColor(metric.value)}`}>%</span>
+                <span className={`text-2xl font-black ${getProgressTextColor(metric.value)}`}>%</span>
               </div>
               
               {/* Progress bar */}
-              <div className="progress-bar-industrial mb-3">
+              <div className="progress-bar-industrial mb-4">
                 <div 
                   className={`progress-bar-fill bg-gradient-to-r ${getProgressColor(metric.value)}`}
                   style={{ width: `${Math.min(metric.value, 100)}%` }}
@@ -252,10 +254,10 @@ export function LevelUpCard({ data, onOpenCalculator }: LevelUpCardProps) {
               </div>
               
               {/* Description */}
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-zinc-400">
                 {metric.description}
               </p>
-              <p className="text-xs font-semibold text-foreground mt-1">
+              <p className="text-sm font-semibold text-zinc-50 mt-1.5">
                 {metric.motivationalText}
               </p>
             </div>

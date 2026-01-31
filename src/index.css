@@ -160,6 +160,24 @@
     opacity: 0.12;
   }
 
+  /* Subtle concrete texture for cards */
+  .concrete-subtle {
+    @apply relative;
+    background-color: hsl(240 6% 10%);
+  }
+
+  .concrete-subtle::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1559070169-a3077159ee16?w=1200');
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    background-size: cover;
+    border-radius: inherit;
+  }
+
   /* Industrial Typography Classes */
   .heading-hero {
     @apply text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight;

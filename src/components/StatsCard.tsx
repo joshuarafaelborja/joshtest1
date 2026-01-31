@@ -131,72 +131,68 @@ export function StatsCard({ data }: StatsCardProps) {
   }
 
   return (
-    <Card className="relative overflow-hidden rounded-2xl border-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent p-5 shadow-lg">
-      {/* Subtle decorative element */}
-      <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/5 rounded-full blur-2xl" />
-      <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-primary/5 rounded-full blur-xl" />
-      
+    <Card className="concrete-subtle relative overflow-hidden rounded-xl border border-border p-7 shadow-lg">
       <div className="relative">
-        <h2 className="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wide">
+        <h2 className="text-xs font-semibold uppercase tracking-wide text-zinc-400 mb-6">
           Your Progress
         </h2>
         
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-6">
           {/* Total Sets */}
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-              <Target className="w-5 h-5 text-primary" />
+          <div className="flex items-start gap-4">
+            <div className="w-11 h-11 rounded-xl bg-zinc-800 flex items-center justify-center flex-shrink-0">
+              <Target className="w-5 h-5 text-zinc-50" />
             </div>
             <div className="min-w-0">
-              <p className="text-2xl font-bold text-foreground leading-none">
+              <p className="text-4xl font-black text-zinc-50 leading-none tracking-tight">
                 {stats.totalSets}
               </p>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-xs text-zinc-400 mt-1.5">
                 Total Sets
               </p>
             </div>
           </div>
 
           {/* Total Volume */}
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-              <Dumbbell className="w-5 h-5 text-primary" />
+          <div className="flex items-start gap-4">
+            <div className="w-11 h-11 rounded-xl bg-zinc-800 flex items-center justify-center flex-shrink-0">
+              <Dumbbell className="w-5 h-5 text-zinc-50" />
             </div>
             <div className="min-w-0">
-              <p className="text-2xl font-bold text-foreground leading-none">
+              <p className="text-4xl font-black text-zinc-50 leading-none tracking-tight">
                 {formatVolume(stats.totalVolume)}
               </p>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-xs text-zinc-400 mt-1.5">
                 lbs Lifted
               </p>
             </div>
           </div>
 
           {/* Current Streak */}
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center flex-shrink-0">
-              <Flame className="w-5 h-5 text-orange-500" />
+          <div className="flex items-start gap-4">
+            <div className="w-11 h-11 rounded-xl bg-orange-500/10 flex items-center justify-center flex-shrink-0">
+              <Flame className="w-5 h-5 text-orange-400" />
             </div>
             <div className="min-w-0">
-              <p className="text-2xl font-bold text-foreground leading-none">
+              <p className="text-4xl font-black text-zinc-50 leading-none tracking-tight">
                 {stats.currentStreak}
               </p>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-xs text-zinc-400 mt-1.5">
                 Day Streak
               </p>
             </div>
           </div>
 
           {/* Most Trained */}
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
-              <Trophy className="w-5 h-5 text-emerald-500" />
+          <div className="flex items-start gap-4">
+            <div className="w-11 h-11 rounded-xl bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+              <Trophy className="w-5 h-5 text-emerald-400" />
             </div>
             <div className="min-w-0">
-              <p className="text-base font-bold text-foreground leading-tight truncate" title={stats.mostTrainedExercise || ''}>
+              <p className="text-lg font-bold text-zinc-50 leading-tight truncate" title={stats.mostTrainedExercise || ''}>
                 {stats.mostTrainedExercise || '—'}
               </p>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-xs text-zinc-400 mt-1.5">
                 Top Exercise
               </p>
             </div>

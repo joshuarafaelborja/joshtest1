@@ -5,17 +5,17 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-semibold ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-5 [&_svg]:shrink-0 active:scale-[0.98]",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-bold ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-5 [&_svg]:shrink-0 active:scale-[0.98]",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-blue-600 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/20",
+        default: "bg-primary text-zinc-950 hover:bg-blue-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/30",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-border bg-card hover:bg-secondary hover:border-muted-foreground/50 text-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-zinc-700 border border-border",
-        ghost: "hover:bg-secondary hover:text-foreground",
-        link: "text-primary underline-offset-4 hover:underline font-semibold",
-        accent: "bg-accent-yellow text-zinc-950 hover:bg-yellow-500 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent-yellow/20",
+        outline: "border border-border bg-card hover:bg-secondary hover:border-zinc-600 text-zinc-50",
+        secondary: "bg-zinc-800 text-zinc-50 hover:bg-zinc-700",
+        ghost: "hover:bg-zinc-800 hover:text-zinc-50",
+        link: "text-primary underline-offset-4 hover:underline font-bold",
+        accent: "bg-accent-yellow text-zinc-950 hover:bg-yellow-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent-yellow/30",
       },
       size: {
         default: "h-11 px-6 py-2.5 rounded-lg",

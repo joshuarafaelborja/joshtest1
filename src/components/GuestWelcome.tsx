@@ -16,7 +16,9 @@ export function GuestWelcome({ onCreateAccount, onStartTraining }: GuestWelcomeP
         className="w-24 h-24 object-contain mb-6"
       />
       
-      <h1 className="text-2xl font-bold mb-3">Welcome to Coach!</h1>
+      <h1 className="text-3xl font-bold mb-3 text-foreground">
+        Welcome to <span className="text-primary">Coach</span>
+      </h1>
       
       <p className="text-muted-foreground mb-8 max-w-sm">
         Your workouts will be saved on this device. Create an account to sync across devices and back up your progress.

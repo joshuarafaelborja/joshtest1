@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,107 +6,95 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 10%;
+    /* Industrial Dark Theme - Zinc + Cyan */
+    --background: 240 10% 4%; /* zinc-950 */
+    --foreground: 240 6% 97%; /* zinc-50 */
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
+    --card: 240 6% 10%; /* zinc-900 */
+    --card-foreground: 240 6% 97%; /* zinc-50 */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
+    --popover: 240 6% 10%; /* zinc-900 */
+    --popover-foreground: 240 6% 97%; /* zinc-50 */
 
-    /* Primary Blue - More saturated and vibrant */
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 100%;
+    /* Primary Cyan - Industrial energy */
+    --primary: 188 94% 53%; /* cyan-400 */
+    --primary-foreground: 240 10% 4%; /* zinc-950 */
 
-    /* Accent Orange - Energetic coral */
-    --accent-orange: 14 100% 60%;
-    --accent-orange-foreground: 0 0% 100%;
+    /* Accent Yellow - Achievements */
+    --accent-yellow: 48 96% 53%; /* yellow-400 */
+    --accent-yellow-foreground: 240 10% 4%; /* zinc-950 */
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 10%;
+    --secondary: 240 4% 16%; /* zinc-800 */
+    --secondary-foreground: 240 6% 97%; /* zinc-50 */
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 240 4% 16%; /* zinc-800 */
+    --muted-foreground: 240 5% 65%; /* zinc-400 */
 
-    --accent: 221 83% 95%;
-    --accent-foreground: 0 0% 10%;
+    --accent: 240 4% 16%; /* zinc-800 */
+    --accent-foreground: 240 6% 97%; /* zinc-50 */
 
-    /* Warning Amber */
-    --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 100%;
+    /* Semantic Colors */
+    --warning: 38 92% 50%; /* amber-500 */
+    --warning-foreground: 240 10% 4%;
 
-    /* Success Green */
-    --success: 142 76% 45%;
-    --success-foreground: 0 0% 100%;
+    --success: 142 71% 45%; /* emerald-500 */
+    --success-foreground: 240 10% 4%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%; /* red-500 */
+    --destructive-foreground: 240 6% 97%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 221 83% 53%;
+    --info: 199 89% 48%; /* sky-500 */
+    --info-foreground: 240 10% 4%;
+
+    --border: 240 4% 16%; /* zinc-800 */
+    --input: 240 4% 16%; /* zinc-800 */
+    --ring: 188 94% 53%; /* cyan-400 */
 
     --radius: 0.5rem;
 
-    /* Athletic Design Tokens */
-    --charcoal: 0 0% 10%;
-    --light-gray: 0 0% 96%;
-    --live-indicator: 142 76% 45%;
+    /* Industrial Design Tokens */
+    --charcoal: 240 10% 4%;
+    --surface: 240 6% 10%;
+    --surface-hover: 240 5% 26%;
 
-    /* Progress Colors */
-    --progress: 221 83% 53%;
+    /* Progress/Status Colors */
+    --progress: 188 94% 53%;
     --deload: 38 92% 50%;
-    --maintain: 142 76% 45%;
-    --info: 0 0% 45%;
+    --maintain: 142 71% 45%;
   }
 
-  .dark {
-    --background: 0 0% 7%;
-    --foreground: 0 0% 98%;
+  /* Dark mode is the default - no light mode in industrial theme */
+  .light {
+    --background: 240 6% 97%;
+    --foreground: 240 10% 4%;
 
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 4%;
 
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 4%;
 
-    --primary: 217 91% 60%;
+    --primary: 188 78% 41%;
     --primary-foreground: 0 0% 100%;
 
-    --accent-orange: 14 100% 60%;
-    --accent-orange-foreground: 0 0% 100%;
+    --accent-yellow: 48 96% 53%;
+    --accent-yellow-foreground: 240 10% 4%;
 
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 10% 4%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 60%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
 
-    --accent: 217 50% 20%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 240 5% 96%;
+    --accent-foreground: 240 10% 4%;
 
-    --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 100%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 188 78% 41%;
 
-    --success: 142 76% 45%;
-    --success-foreground: 0 0% 100%;
-
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 217 91% 60%;
-
-    --charcoal: 0 0% 98%;
-    --light-gray: 0 0% 15%;
-    --live-indicator: 142 76% 45%;
-
-    --progress: 217 91% 60%;
-    --deload: 38 92% 50%;
-    --maintain: 142 76% 45%;
-    --info: 0 0% 60%;
+    --surface: 0 0% 100%;
+    --surface-hover: 240 5% 96%;
   }
 }
 
@@ -116,7 +104,7 @@
   }
 
   html {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -135,7 +123,7 @@
   input[type="text"] {
     font-size: 18px !important;
     font-variant-numeric: tabular-nums;
-    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
   }
 
   /* Hide number input spinners/arrows */
@@ -151,24 +139,44 @@
 }
 
 @layer components {
-  /* Athletic Typography Classes */
-  .heading-hero {
-    @apply text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight uppercase;
-    letter-spacing: -0.03em;
+  /* Concrete Texture Overlay */
+  .concrete-overlay {
+    @apply relative;
+  }
+  
+  .concrete-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1559070169-a3077159ee16?w=1200');
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    background-size: cover;
+    border-radius: inherit;
   }
 
-  .heading-section {
-    @apply text-xl sm:text-2xl font-bold tracking-tight uppercase;
+  .concrete-overlay-strong::before {
+    opacity: 0.12;
+  }
+
+  /* Industrial Typography Classes */
+  .heading-hero {
+    @apply text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight;
     letter-spacing: -0.02em;
   }
 
-  .heading-card {
-    @apply text-lg font-bold tracking-tight uppercase;
+  .heading-section {
+    @apply text-3xl sm:text-4xl font-bold tracking-tight;
     letter-spacing: -0.01em;
   }
 
+  .heading-card {
+    @apply text-xl sm:text-2xl font-semibold tracking-tight;
+  }
+
   .label-bold {
-    @apply text-xs font-bold uppercase tracking-wider;
+    @apply text-xs font-semibold uppercase tracking-wider;
   }
 
   .stat-number {
@@ -186,89 +194,89 @@
     @apply min-h-[48px] min-w-[48px];
   }
 
-  /* Athletic Card Style - Thick borders, sharp corners */
-  .card-athletic {
-    @apply bg-card rounded-lg border-[3px] border-foreground/10;
+  /* Industrial Card Style */
+  .card-industrial {
+    @apply concrete-overlay bg-card rounded-xl border border-border;
   }
 
-  .card-athletic-accent {
-    @apply bg-card rounded-lg border-[3px] border-primary;
+  .card-industrial-accent {
+    @apply concrete-overlay bg-card rounded-xl border-2 border-primary;
   }
 
   /* Bold accent bar for cards */
   .accent-bar-left {
-    @apply absolute left-0 top-0 bottom-0 w-1.5 rounded-l-lg;
+    @apply absolute left-0 top-0 bottom-0 w-1 rounded-l-xl;
   }
 
-  /* Recommendation badges - Bold athletic style */
+  /* Recommendation badges - Industrial style */
   .recommendation-badge {
-    @apply inline-flex items-center px-3 py-1 rounded text-xs font-bold uppercase tracking-wider;
+    @apply inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold uppercase tracking-wide;
   }
 
   .recommendation-badge-progress {
-    @apply recommendation-badge bg-primary text-primary-foreground;
+    @apply recommendation-badge bg-primary/20 text-primary border border-primary/30;
   }
 
   .recommendation-badge-maintain {
-    @apply recommendation-badge bg-success text-success-foreground;
+    @apply recommendation-badge bg-success/20 text-success border border-success/30;
   }
 
   .recommendation-badge-deload {
-    @apply recommendation-badge bg-warning text-warning-foreground;
+    @apply recommendation-badge bg-warning/20 text-warning border border-warning/30;
   }
 
-  /* Athletic progress bar - Thick and bold */
-  .progress-bar-athletic {
-    @apply h-3 sm:h-4 rounded-sm bg-muted overflow-hidden;
+  /* Industrial progress bar */
+  .progress-bar-industrial {
+    @apply h-2 rounded-full bg-secondary overflow-hidden;
   }
 
   .progress-bar-fill {
-    @apply h-full rounded-sm transition-all duration-500;
+    @apply h-full rounded-full transition-all duration-500;
   }
 
-  /* Minimal fitness calculator styles - Updated for athletic feel */
+  /* Minimal fitness calculator styles */
   .calc-label {
-    @apply text-xs uppercase tracking-wider text-muted-foreground font-bold flex items-center gap-1.5;
+    @apply text-xs uppercase tracking-wider text-muted-foreground font-semibold flex items-center gap-1.5;
   }
 
   .calc-input {
-    @apply text-3xl sm:text-4xl font-bold text-foreground bg-transparent border-b-[3px] border-border focus:border-primary focus:outline-none transition-colors tabular-nums w-full py-2 tracking-tight;
+    @apply text-3xl sm:text-4xl font-bold text-foreground bg-transparent border-b-2 border-border focus:border-primary focus:outline-none transition-colors tabular-nums w-full py-2 tracking-tight;
   }
 
   .calc-unit {
-    @apply text-xs uppercase text-muted-foreground tracking-wider font-bold;
+    @apply text-xs uppercase text-muted-foreground tracking-wider font-semibold;
   }
 
   .calc-result-card {
-    @apply bg-accent rounded-lg p-5 border-[3px] border-primary/20;
+    @apply concrete-overlay bg-secondary rounded-xl p-5 border border-primary/30;
   }
 
   .calc-result-label {
-    @apply text-xs uppercase tracking-wider text-muted-foreground font-bold;
+    @apply text-xs uppercase tracking-wider text-muted-foreground font-semibold;
   }
 
   .calc-result-value {
-    @apply text-4xl sm:text-5xl font-bold text-foreground tabular-nums tracking-tighter;
+    @apply text-4xl sm:text-5xl font-bold text-primary tabular-nums tracking-tighter;
   }
 
   .calc-result-unit {
-    @apply text-sm text-muted-foreground ml-1 font-bold uppercase;
+    @apply text-sm text-muted-foreground ml-1 font-semibold uppercase;
   }
 
   .pill-button {
-    @apply px-6 py-3 rounded text-sm font-bold uppercase tracking-wider transition-all duration-200;
+    @apply px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-200;
   }
 
   .pill-button-active {
-    @apply bg-foreground text-background;
+    @apply bg-primary text-primary-foreground;
   }
 
   .pill-button-inactive {
-    @apply text-muted-foreground hover:text-foreground;
+    @apply text-muted-foreground hover:text-foreground hover:bg-secondary;
   }
 
   .live-indicator {
-    @apply inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-muted-foreground font-bold;
+    @apply inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-muted-foreground font-semibold;
   }
 
   .live-dot {
@@ -276,11 +284,20 @@
   }
 
   .section-divider {
-    @apply w-full h-1 bg-border my-8;
+    @apply w-full h-px bg-border my-8;
   }
 
-  /* Athletic button base */
-  .btn-athletic {
-    @apply px-6 py-4 text-sm font-bold uppercase tracking-wider rounded transition-all duration-200;
+  /* Industrial button base */
+  .btn-industrial {
+    @apply px-6 py-3 text-sm font-semibold rounded-lg transition-all duration-200;
+  }
+
+  /* Glow effects */
+  .glow-cyan {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+
+  .glow-yellow {
+    box-shadow: 0 0 20px hsl(var(--accent-yellow) / 0.3);
   }
 }

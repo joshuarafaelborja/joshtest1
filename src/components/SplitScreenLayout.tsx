@@ -89,11 +89,7 @@ export function SplitScreenLayout({ data, onLogNew, onSelectExercise, onOpenAuth
       </div>
 
       {/* Divider */}
-      <div className="w-px bg-border relative">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-12 bg-muted rounded-full flex items-center justify-center">
-          <div className="w-1 h-6 bg-border rounded-full" />
-        </div>
-      </div>
+      <div className="w-px bg-border" />
 
       {/* Right Panel - Calculator */}
       <div className="w-1/2 flex flex-col">

@@ -48,10 +48,10 @@ const tierColors: Record<MedalTier, { bg: string; border: string; iconBg: string
     glow: 'shadow-yellow-400/30'
   },
   diamond: {
-    bg: 'bg-cyan-400/10',
-    border: 'border-cyan-400/50',
-    iconBg: 'bg-cyan-400/20',
-    glow: 'shadow-cyan-400/30'
+    bg: 'bg-blue-600/10',
+    border: 'border-blue-500/50',
+    iconBg: 'bg-blue-500/20',
+    glow: 'shadow-blue-500/30'
   }
 };
 

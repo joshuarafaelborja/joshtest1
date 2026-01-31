@@ -46,10 +46,7 @@ export function ExerciseCard({ exercise, onClick }: ExerciseCardProps) {
       onClick={onClick}
       className="group relative w-full card-industrial p-0 overflow-hidden transition-all duration-200 hover:border-primary/50 hover:-translate-y-0.5 hover:shadow-2xl active:scale-[0.99] text-left touch-target"
     >
-      {/* Accent bar */}
-      <div className={`accent-bar-left ${getAccentColor()}`} />
-      
-      <div className="pl-5 pr-4 py-5">
+      <div className="px-4 py-5">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
             {/* Exercise name */}

@@ -16,8 +16,8 @@
     --popover: 240 6% 10%; /* zinc-900 */
     --popover-foreground: 240 6% 97%; /* zinc-50 */
 
-    /* Primary Blue - Bold energy */
-    --primary: 224 76% 48%; /* blue-700 #1d4ed8 */
+    /* Primary Blue - Lighter energy */
+    --primary: 217 91% 68%; /* blue-400 #60a5fa */
     --primary-foreground: 240 10% 4%; /* zinc-950 */
 
     /* Accent Yellow - Achievements */
@@ -48,7 +48,7 @@
 
     --border: 240 4% 16%; /* zinc-800 */
     --input: 240 4% 16%; /* zinc-800 */
-    --ring: 224 76% 48%; /* blue-700 */
+    --ring: 217 91% 68%; /* blue-400 */
 
     --radius: 0.5rem;
 
@@ -58,7 +58,7 @@
     --surface-hover: 240 5% 26%;
 
     /* Progress/Status Colors */
-    --progress: 224 76% 48%;
+    --progress: 217 91% 68%;
     --deload: 38 92% 50%;
     --maintain: 142 71% 45%;
   }
@@ -74,8 +74,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 4%;
 
-    --primary: 224 76% 48%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 217 91% 68%;
+    --primary-foreground: 240 10% 4%;
 
     --accent-yellow: 48 96% 53%;
     --accent-yellow-foreground: 240 10% 4%;
@@ -91,7 +91,7 @@
 
     --border: 240 6% 90%;
     --input: 240 6% 90%;
-    --ring: 224 76% 48%;
+    --ring: 217 91% 68%;
 
     --surface: 0 0% 100%;
     --surface-hover: 240 5% 96%;

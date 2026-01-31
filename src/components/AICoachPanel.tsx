@@ -113,7 +113,7 @@ export function AICoachPanel({ isOpen, onClose, onOpenCalculators, data = defaul
         `}
       >
         {/* Main Card - Industrial style with cyan accent */}
-        <div className="concrete-overlay-strong bg-gradient-to-br from-primary to-cyan-600 rounded-xl overflow-hidden border border-primary/50 shadow-2xl shadow-primary/20">
+        <div className="concrete-overlay-strong bg-gradient-to-br from-primary to-blue-600 rounded-xl overflow-hidden border border-primary/50 shadow-2xl shadow-primary/20">
           
           {/* Header */}
           <div className="relative px-6 pt-6 pb-4">

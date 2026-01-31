@@ -17,38 +17,38 @@ interface ProgressMetric {
 }
 
 function getProgressColor(value: number): string {
-  if (value >= 80) return 'bg-success';
-  if (value >= 50) return 'bg-warning';
-  return 'bg-destructive';
+  if (value >= 80) return 'from-emerald-400 to-emerald-500';
+  if (value >= 50) return 'from-amber-400 to-amber-500';
+  return 'from-rose-400 to-rose-500';
 }
 
 function getProgressTextColor(value: number): string {
-  if (value >= 80) return 'text-success';
-  if (value >= 50) return 'text-warning';
-  return 'text-destructive';
+  if (value >= 80) return 'text-emerald-400';
+  if (value >= 50) return 'text-amber-400';
+  return 'text-rose-400';
 }
 
 function getMotivationalText(value: number, type: string): string {
   if (type === 'weekly') {
-    if (value >= 100) return "GOAL CRUSHED 🎉";
-    if (value >= 80) return "ALMOST THERE";
-    if (value >= 50) return "KEEP PUSHING";
-    return "LET'S GO";
+    if (value >= 100) return "Goal crushed 🎉";
+    if (value >= 80) return "Almost there";
+    if (value >= 50) return "Keep pushing";
+    return "Let's go";
   }
   if (type === 'volume') {
-    if (value > 0) return `+${value}% STRONGER`;
-    if (value === 0) return "HOLDING STEADY";
-    return "PUSH HARDER";
+    if (value > 0) return `+${value}% stronger`;
+    if (value === 0) return "Holding steady";
+    return "Push harder";
   }
   if (type === 'consistency') {
-    if (value >= 80) return "ON FIRE 🔥";
-    if (value >= 50) return "BUILDING MOMENTUM";
-    return "EVERY DAY COUNTS";
+    if (value >= 80) return "On fire 🔥";
+    if (value >= 50) return "Building momentum";
+    return "Every day counts";
   }
   if (type === 'pr') {
-    if (value >= 50) return "PR MACHINE";
-    if (value >= 25) return "MAKING GAINS";
-    return "NEW PRS AWAIT";
+    if (value >= 50) return "PR machine";
+    if (value >= 25) return "Making gains";
+    return "New PRs await";
   }
   return "";
 }
@@ -135,30 +135,30 @@ function calculateMetrics(data: AppData): ProgressMetric[] {
 
   return [
     {
-      label: 'WEEKLY GOAL',
+      label: 'Weekly Goal',
       value: weeklyProgress,
-      description: `${thisWeekSets}/${weeklyGoal} SETS`,
+      description: `${thisWeekSets}/${weeklyGoal} sets`,
       icon: <Target className="w-5 h-5" />,
       motivationalText: getMotivationalText(weeklyProgress, 'weekly')
     },
     {
-      label: 'VOLUME',
+      label: 'Volume',
       value: Math.min(Math.abs(volumeChange), 100),
-      description: volumeChange >= 0 ? `+${volumeChange}% VS LAST WEEK` : `${volumeChange}% VS LAST WEEK`,
+      description: volumeChange >= 0 ? `+${volumeChange}% vs last week` : `${volumeChange}% vs last week`,
       icon: <TrendingUp className="w-5 h-5" />,
       motivationalText: getMotivationalText(volumeChange, 'volume')
     },
     {
-      label: 'CONSISTENCY',
+      label: 'Consistency',
       value: consistencyScore,
-      description: `${workoutDaysThisMonth} DAYS THIS MONTH`,
+      description: `${workoutDaysThisMonth} days this month`,
       icon: <Flame className="w-5 h-5" />,
       motivationalText: getMotivationalText(consistencyScore, 'consistency')
     },
     {
-      label: 'PR RATE',
+      label: 'PR Rate',
       value: prRate,
-      description: `${exercisesWithPRs}/${data.exercises.length} EXERCISES`,
+      description: `${exercisesWithPRs}/${data.exercises.length} exercises`,
       icon: <Trophy className="w-5 h-5" />,
       motivationalText: getMotivationalText(prRate, 'pr')
     }
@@ -172,23 +172,22 @@ export function LevelUpCard({ data, onOpenCalculator }: LevelUpCardProps) {
 
   if (!hasData) {
     return (
-      <div className="relative overflow-hidden rounded-lg border-[3px] border-primary bg-card p-8">
-        {/* Bold geometric background shapes */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rotate-45 translate-x-16 -translate-y-16" />
-        <div className="absolute bottom-0 left-0 w-24 h-24 bg-accent-orange/10 rotate-12 -translate-x-8 translate-y-8" />
-        
+      <div className="concrete-overlay relative overflow-hidden rounded-xl border border-border bg-card p-8">
         <div className="relative flex flex-col items-center justify-center text-center">
-          <div className="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center mb-6 border-[3px] border-primary/20">
+          <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center mb-6 border border-primary/30">
             <TrendingUp className="w-8 h-8 text-primary" />
           </div>
-          <h3 className="heading-hero text-2xl sm:text-3xl mb-3">READY TO<br/>LEVEL UP?</h3>
-          <p className="text-sm text-muted-foreground mb-6 max-w-xs uppercase tracking-wide">
+          <h3 className="heading-section mb-3">
+            Ready to<br/>
+            <span className="text-primary">Level Up?</span>
+          </h3>
+          <p className="text-sm text-muted-foreground mb-6 max-w-xs">
             Start logging workouts to unlock your progress dashboard
           </p>
           {onOpenCalculator && (
             <Button variant="outline" onClick={onOpenCalculator} className="gap-2">
               <Calculator className="w-5 h-5" />
-              PLAN WORKOUT
+              Plan Workout
             </Button>
           )}
         </div>
@@ -197,17 +196,15 @@ export function LevelUpCard({ data, onOpenCalculator }: LevelUpCardProps) {
   }
 
   return (
-    <div className="relative overflow-hidden rounded-lg border-[3px] border-primary bg-card">
-      {/* Bold geometric background shapes */}
-      <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rotate-45 translate-x-20 -translate-y-20" />
-      <div className="absolute bottom-0 left-0 w-32 h-32 bg-accent-orange/5 rotate-12 -translate-x-12 translate-y-12" />
-      
+    <div className="concrete-overlay relative overflow-hidden rounded-xl border border-primary/30 bg-card">
       <div className="relative p-6">
         {/* Header */}
         <div className="flex items-start justify-between mb-6">
           <div>
-            <h2 className="heading-section">READY TO LEVEL UP?</h2>
-            <p className="label-bold text-muted-foreground mt-1">YOUR PROGRESS THIS WEEK</p>
+            <h2 className="heading-card text-foreground">
+              Ready to <span className="text-primary">Level Up?</span>
+            </h2>
+            <p className="text-sm text-muted-foreground mt-1">Your progress this week</p>
           </div>
           {onOpenCalculator && (
             <Button 
@@ -217,7 +214,7 @@ export function LevelUpCard({ data, onOpenCalculator }: LevelUpCardProps) {
               className="gap-1.5 text-muted-foreground hover:text-foreground"
             >
               <Calculator className="w-4 h-4" />
-              CALC
+              Calc
               <ChevronRight className="w-4 h-4" />
             </Button>
           )}
@@ -228,11 +225,11 @@ export function LevelUpCard({ data, onOpenCalculator }: LevelUpCardProps) {
           {metrics.map((metric, index) => (
             <div 
               key={index}
-              className="relative bg-muted/50 rounded-lg p-4 border-[2px] border-border hover:border-primary/50 transition-colors"
+              className="relative bg-secondary/50 rounded-xl p-4 border border-border hover:border-primary/50 transition-all duration-200"
             >
               {/* Icon and Label */}
               <div className="flex items-center gap-2 mb-3">
-                <div className={`w-8 h-8 rounded flex items-center justify-center ${getProgressTextColor(metric.value)} bg-current/10`}>
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${getProgressTextColor(metric.value)} bg-current/10`}>
                   {metric.icon}
                 </div>
                 <span className="label-bold text-muted-foreground">{metric.label}</span>
@@ -246,19 +243,19 @@ export function LevelUpCard({ data, onOpenCalculator }: LevelUpCardProps) {
                 <span className={`text-xl font-bold ${getProgressTextColor(metric.value)}`}>%</span>
               </div>
               
-              {/* Thick progress bar */}
-              <div className="progress-bar-athletic mb-3">
+              {/* Progress bar */}
+              <div className="progress-bar-industrial mb-3">
                 <div 
-                  className={`progress-bar-fill ${getProgressColor(metric.value)}`}
+                  className={`progress-bar-fill bg-gradient-to-r ${getProgressColor(metric.value)}`}
                   style={{ width: `${Math.min(metric.value, 100)}%` }}
                 />
               </div>
               
               {/* Description */}
-              <p className="text-[10px] text-muted-foreground uppercase tracking-wider">
+              <p className="text-xs text-muted-foreground">
                 {metric.description}
               </p>
-              <p className="text-xs font-bold text-foreground mt-1">
+              <p className="text-xs font-semibold text-foreground mt-1">
                 {metric.motivationalText}
               </p>
             </div>

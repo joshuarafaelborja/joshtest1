@@ -16,24 +16,27 @@ interface AICoachPanelProps {
 const howCoachWorks = [
   {
     icon: TrendingUp,
-    title: "ANALYZES PERFORMANCE",
+    title: "Analyzes Performance",
     description: "Tracks reps, sets, consistency and recovery",
     color: "text-primary",
-    bgColor: "bg-primary/10"
+    bgColor: "bg-primary/10",
+    borderColor: "border-primary/30"
   },
   {
     icon: Target,
-    title: "CALCULATES PROGRESSION",
+    title: "Calculates Progression",
     description: "Uses 5-10% rule based on your readiness",
-    color: "text-destructive",
-    bgColor: "bg-destructive/10"
+    color: "text-rose-400",
+    bgColor: "bg-rose-400/10",
+    borderColor: "border-rose-400/30"
   },
   {
     icon: Zap,
-    title: "OPTIMIZES RECOVERY",
+    title: "Optimizes Recovery",
     description: "Smart recommendations keep you progressing safely",
-    color: "text-warning",
-    bgColor: "bg-warning/10"
+    color: "text-amber-400",
+    bgColor: "bg-amber-400/10",
+    borderColor: "border-amber-400/30"
   }
 ];
 
@@ -94,7 +97,7 @@ export function AICoachPanel({ isOpen, onClose, onOpenCalculators, data = defaul
     >
       {/* Overlay */}
       <div 
-        className="absolute inset-0 bg-foreground/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         onClick={handleClose}
       />
       
@@ -109,17 +112,14 @@ export function AICoachPanel({ isOpen, onClose, onOpenCalculators, data = defaul
           }
         `}
       >
-        {/* Main Card - Bold athletic style */}
-        <div className="bg-primary rounded-lg border-[3px] border-primary overflow-hidden">
-          {/* Geometric decorative shapes */}
-          <div className="absolute -left-8 -bottom-8 w-32 h-32 bg-white/10 rotate-45" />
-          <div className="absolute -right-4 top-12 w-20 h-20 bg-white/5 rotate-12" />
+        {/* Main Card - Industrial style with cyan accent */}
+        <div className="concrete-overlay-strong bg-gradient-to-br from-primary to-cyan-600 rounded-xl overflow-hidden border border-primary/50 shadow-2xl shadow-primary/20">
           
           {/* Header */}
           <div className="relative px-6 pt-6 pb-4">
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 p-2 rounded bg-white/10 hover:bg-white/20 transition-colors"
+              className="absolute top-4 right-4 p-2 rounded-lg bg-black/20 hover:bg-black/30 transition-colors"
             >
               <X className="w-5 h-5 text-white" />
             </button>
@@ -128,24 +128,24 @@ export function AICoachPanel({ isOpen, onClose, onOpenCalculators, data = defaul
               <img 
                 src={mascotNotification} 
                 alt="Coach mascot" 
-                className="w-16 h-16 object-contain"
+                className="w-14 h-14 object-contain"
               />
               <div>
-                <h2 className="heading-section text-white">READY TO LEVEL UP?</h2>
-                <p className="text-white/70 text-xs uppercase tracking-wider font-bold mt-1">Your AI Coach is here</p>
+                <h2 className="text-2xl font-bold text-white">Ready to Level Up?</h2>
+                <p className="text-white/70 text-sm mt-0.5">Your AI Coach is here</p>
               </div>
             </div>
           </div>
 
           {/* Content Section - Scrollable */}
-          <div className="bg-card rounded-t-lg px-4 py-4 mx-2 mb-2 rounded-b-lg space-y-4 max-h-[60vh] overflow-y-auto">
+          <div className="bg-card rounded-t-xl px-4 py-4 mx-2 mb-2 rounded-b-lg space-y-4 max-h-[60vh] overflow-y-auto">
             
             {/* Achievement Medals Section */}
             <div className="animate-fade-in">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="heading-card text-foreground">YOUR ACHIEVEMENTS</h3>
+                <h3 className="heading-card text-foreground">Your Achievements</h3>
                 <span className="label-bold text-muted-foreground">
-                  {earnedCount}/{medals.length} EARNED
+                  {earnedCount}/{medals.length} earned
                 </span>
               </div>
               
@@ -164,17 +164,17 @@ export function AICoachPanel({ isOpen, onClose, onOpenCalculators, data = defaul
 
               {/* Motivational message based on progress */}
               {earnedCount === 0 && (
-                <p className="text-xs text-center text-muted-foreground mt-3 px-4 uppercase tracking-wide">
+                <p className="text-xs text-center text-muted-foreground mt-3 px-4">
                   🎯 Start logging to unlock your first achievement!
                 </p>
               )}
               {earnedCount > 0 && earnedCount < medals.length && (
-                <p className="text-xs text-center text-primary font-bold mt-3 px-4 uppercase tracking-wide">
+                <p className="text-xs text-center text-primary font-semibold mt-3 px-4">
                   🔥 Keep pushing to unlock more medals!
                 </p>
               )}
               {earnedCount === medals.length && (
-                <p className="text-xs text-center text-success font-bold mt-3 px-4 uppercase tracking-wide">
+                <p className="text-xs text-center text-emerald-500 font-semibold mt-3 px-4">
                   🏆 All achievements unlocked!
                 </p>
               )}
@@ -188,26 +188,26 @@ export function AICoachPanel({ isOpen, onClose, onOpenCalculators, data = defaul
               style={{ animationDelay: '200ms' }}
             >
               <Calculator className="w-4 h-4" />
-              OPEN CALCULATORS
+              Open Calculators
             </Button>
 
             {/* Divider */}
-            <div className="h-1 bg-border" />
+            <div className="h-px bg-border" />
 
             {/* How Coach Works */}
             <div className="animate-fade-in" style={{ animationDelay: '250ms' }}>
-              <h3 className="heading-card text-foreground mb-3">HOW COACH WORKS</h3>
+              <h3 className="heading-card text-foreground mb-3">How Coach Works</h3>
               <div className="space-y-3">
                 {howCoachWorks.map((item, index) => (
                   <div 
                     key={index}
-                    className="flex items-start gap-3 p-3 rounded-lg bg-muted/50 border-[2px] border-border"
+                    className={`flex items-start gap-3 p-3 rounded-xl bg-secondary/50 border ${item.borderColor}`}
                   >
-                    <div className={`w-10 h-10 rounded flex items-center justify-center flex-shrink-0 ${item.bgColor} border-[2px] border-current/20`}>
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${item.bgColor}`}>
                       <item.icon className={`w-5 h-5 ${item.color}`} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-bold text-sm text-foreground uppercase tracking-wide">{item.title}</h4>
+                      <h4 className="font-semibold text-sm text-foreground">{item.title}</h4>
                       <p className="text-xs text-muted-foreground leading-relaxed mt-0.5">{item.description}</p>
                     </div>
                   </div>

@@ -43,19 +43,19 @@ export function WorkoutPanel({ data, onLogNew, onSelectExercise, onOpenAuth, onO
 
   return (
     <div className="h-full flex flex-col bg-background">
-      {/* Header - Bold athletic style */}
+      {/* Header - Industrial style */}
       {showHeader && (
-        <header className="sticky top-0 z-10 bg-background border-b-[3px] border-border px-4 py-4">
+        <header className="sticky top-0 z-10 bg-card/95 backdrop-blur-sm border-b border-border px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <button 
                 onClick={() => setShowCoachPanel(true)}
-                className="group relative transition-transform duration-200 hover:scale-110 active:scale-95"
+                className="group relative transition-transform duration-200 hover:scale-105 active:scale-95"
               >
-                <img src={coachLogo} alt="Coach" className="w-12 h-12 object-contain" />
-                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-primary rounded-full border-2 border-background animate-pulse" />
+                <img src={coachLogo} alt="Coach" className="w-10 h-10 object-contain" />
+                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-primary rounded-full border-2 border-card animate-pulse" />
               </button>
-              <h1 className="heading-hero text-3xl">COACH</h1>
+              <h1 className="text-2xl font-bold text-foreground">Coach</h1>
             </div>
             <AccountMenu onCreateAccount={onOpenAuth} />
           </div>
@@ -79,18 +79,18 @@ export function WorkoutPanel({ data, onLogNew, onSelectExercise, onOpenAuth, onO
 
         {/* Section divider */}
         <div className="flex items-center gap-3 mb-4">
-          <div className="h-1 flex-1 bg-border" />
-          <span className="label-bold text-muted-foreground">YOUR EXERCISES</span>
-          <div className="h-1 flex-1 bg-border" />
+          <div className="h-px flex-1 bg-border" />
+          <span className="label-bold text-muted-foreground">Your Exercises</span>
+          <div className="h-px flex-1 bg-border" />
         </div>
 
         {sortedExercises.length === 0 ? (
-          <div className="flex flex-col items-center justify-center min-h-[30vh] text-center border-[3px] border-dashed border-border rounded-lg p-8">
-            <div className="w-16 h-16 rounded-lg bg-muted flex items-center justify-center mb-4">
+          <div className="flex flex-col items-center justify-center min-h-[30vh] text-center border border-dashed border-border rounded-xl p-8 bg-card/50">
+            <div className="w-16 h-16 rounded-xl bg-secondary flex items-center justify-center mb-4">
               <Dumbbell className="w-8 h-8 text-muted-foreground" />
             </div>
-            <h2 className="heading-card mb-2">NO EXERCISES YET</h2>
-            <p className="text-muted-foreground mb-4 text-sm uppercase tracking-wide">
+            <h2 className="heading-card mb-2 text-foreground">No exercises yet</h2>
+            <p className="text-muted-foreground mb-4 text-sm">
               Start by logging your first set
             </p>
           </div>
@@ -107,15 +107,15 @@ export function WorkoutPanel({ data, onLogNew, onSelectExercise, onOpenAuth, onO
         )}
       </div>
 
-      {/* Fixed Bottom Button - Bold athletic style */}
+      {/* Fixed Bottom Button - Industrial style */}
       <div className="sticky bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background via-background to-transparent">
         <Button
           size="xl"
           onClick={onLogNew}
-          className="w-full shadow-lg animate-pulse-glow"
+          className="w-full shadow-lg shadow-primary/20 animate-pulse-glow"
         >
           <Plus className="w-6 h-6" />
-          LOG NEW SET
+          Log New Set
         </Button>
       </div>
 

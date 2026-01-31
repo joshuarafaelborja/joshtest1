@@ -42,18 +42,18 @@ export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b px-4 py-4">
+      {/* Header - Industrial style */}
+      <header className="sticky top-0 z-10 bg-card/95 backdrop-blur-sm border-b border-border px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button 
               onClick={() => setShowCoachPanel(true)}
-              className="group relative transition-transform duration-200 hover:scale-110 active:scale-95"
+              className="group relative transition-transform duration-200 hover:scale-105 active:scale-95"
             >
               <img src={coachLogo} alt="Coach" className="w-10 h-10 object-contain" />
-              <span className="absolute -bottom-1 -right-1 w-3 h-3 bg-primary rounded-full border-2 border-background animate-pulse" />
+              <span className="absolute -bottom-1 -right-1 w-3 h-3 bg-primary rounded-full border-2 border-card animate-pulse" />
             </button>
-            <h1 className="text-2xl font-bold">Coach</h1>
+            <h1 className="text-2xl font-bold text-foreground">Coach</h1>
           </div>
           <AccountMenu onCreateAccount={onOpenAuth} />
         </div>
@@ -72,7 +72,7 @@ export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators
         {sortedExercises.length === 0 ? (
           <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
             <img src={coachLogo} alt="Coach mascot" className="w-20 h-20 object-contain mb-6 opacity-60" />
-            <h2 className="text-xl font-semibold mb-2">No exercises yet</h2>
+            <h2 className="text-xl font-semibold mb-2 text-foreground">No exercises yet</h2>
             <p className="text-muted-foreground mb-6">
               Start by logging your first set
             </p>
@@ -95,7 +95,7 @@ export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators
         <Button
           size="lg"
           onClick={onLogNew}
-          className="w-full h-14 text-lg font-semibold touch-target shadow-lg"
+          className="w-full h-14 text-lg font-semibold touch-target shadow-lg shadow-primary/20"
         >
           <Plus className="w-5 h-5 mr-2" />
           Log New Set

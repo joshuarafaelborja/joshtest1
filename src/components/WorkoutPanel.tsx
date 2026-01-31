@@ -71,7 +71,19 @@ export function WorkoutPanel({ data, onLogNew, onSelectExercise, onOpenAuth, onO
       )}
 
       {/* Content */}
-      <div className="flex-1 p-4 pb-24 overflow-auto">
+      <div className="flex-1 p-4 overflow-auto">
+        {/* Log New Set Button - Same level as calculator */}
+        <div className="mb-6">
+          <Button
+            size="xl"
+            onClick={onLogNew}
+            className="w-full shadow-lg shadow-primary/20"
+          >
+            <Plus className="w-6 h-6" />
+            Log New Set
+          </Button>
+        </div>
+
         {/* Level Up Card - Motivational dashboard */}
         <div className="mb-6">
           <LevelUpCard data={data} onOpenCalculator={onOpenCalculator} />
@@ -105,18 +117,6 @@ export function WorkoutPanel({ data, onLogNew, onSelectExercise, onOpenAuth, onO
             ))}
           </div>
         )}
-      </div>
-
-      {/* Fixed Bottom Button - Industrial style */}
-      <div className="sticky bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background via-background to-transparent">
-        <Button
-          size="xl"
-          onClick={onLogNew}
-          className="w-full shadow-lg shadow-primary/20 animate-pulse-glow"
-        >
-          <Plus className="w-6 h-6" />
-          Log New Set
-        </Button>
       </div>
 
       {/* AI Coach Panel */}

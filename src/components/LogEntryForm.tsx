@@ -1,10 +1,10 @@
 import { useState, useMemo } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Dumbbell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { AppData } from '@/lib/types';
-import { getExerciseNames } from '@/lib/storage';
+import { usePreviousExercises } from '@/hooks/usePreviousExercises';
 
 interface LogEntryFormProps {
   data: AppData;
@@ -18,9 +18,10 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
   const [unit, setUnit] = useState<'lbs' | 'kg'>(data.userPreferences.defaultUnit);
   const [reps, setReps] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showExercisePicker, setShowExercisePicker] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const exerciseNames = useMemo(() => getExerciseNames(data), [data]);
+  const { exercises: previousExercises, exerciseNames, loading: loadingExercises } = usePreviousExercises();
   
   const filteredSuggestions = useMemo(() => {
     if (!exerciseName.trim()) return [];
@@ -28,6 +29,14 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
       name.toLowerCase().includes(exerciseName.toLowerCase())
     );
   }, [exerciseName, exerciseNames]);
+
+  const selectExercise = (exercise: typeof previousExercises[0]) => {
+    setExerciseName(exercise.name);
+    setWeight(exercise.lastWeight.toString());
+    setUnit(exercise.lastUnit);
+    setReps(exercise.lastReps.toString());
+    setShowExercisePicker(false);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,6 +83,46 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="flex-1 p-4 space-y-6">
+        {/* Previous Exercises Picker */}
+        {previousExercises.length > 0 && (
+          <div>
+            <button
+              type="button"
+              onClick={() => setShowExercisePicker(!showExercisePicker)}
+              className="w-full flex items-center justify-between p-4 rounded-xl border border-border bg-card"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Dumbbell className="w-5 h-5 text-primary" />
+                </div>
+                <div className="text-left">
+                  <p className="font-semibold text-foreground">Previous Exercises</p>
+                  <p className="text-sm text-muted-foreground">{previousExercises.length} exercises logged</p>
+                </div>
+              </div>
+              <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform ${showExercisePicker ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {showExercisePicker && (
+              <div className="mt-2 border border-border rounded-xl overflow-hidden bg-card max-h-64 overflow-y-auto">
+                {previousExercises.map((exercise) => (
+                  <button
+                    key={exercise.name}
+                    type="button"
+                    onClick={() => selectExercise(exercise)}
+                    className="w-full px-4 py-3 text-left border-b border-border last:border-b-0 bg-card"
+                  >
+                    <p className="font-medium text-foreground">{exercise.name}</p>
+                    <p className="text-sm text-muted-foreground">
+                      Last: {exercise.lastWeight} {exercise.lastUnit} × {exercise.lastReps} reps
+                    </p>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Exercise Name */}
         <div className="relative">
           <Label htmlFor="exerciseName" className="text-base font-medium">
@@ -104,7 +153,7 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
                   key={name}
                   type="button"
                   onClick={() => selectSuggestion(name)}
-                  className="w-full px-4 py-3 text-left hover:bg-secondary transition-colors"
+                  className="w-full px-4 py-3 text-left bg-card"
                 >
                   {name}
                 </button>

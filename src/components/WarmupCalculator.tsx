@@ -30,29 +30,29 @@ export function WarmupCalculator() {
     const weight = parseFloat(workingWeight);
     if (isNaN(weight) || weight <= 0) return;
 
-    // Progressive warmup scheme for plate-based lifting
+    // Progressive warmup scheme for plate-based lifting (3 total sets)
     const sets: WarmupSet[] = [
       { 
         setNumber: 1, 
-        percentage: 40, 
-        weight: roundToPlate(weight * 0.4, unit, liftType), 
-        reps: 10, 
-        sets: 2,
+        percentage: 50, 
+        weight: roundToPlate(weight * 0.5, unit, liftType), 
+        reps: 8, 
+        sets: 1,
         notes: 'Light weight, focus on form & range of motion'
       },
       { 
         setNumber: 2, 
-        percentage: 60, 
-        weight: roundToPlate(weight * 0.6, unit, liftType), 
-        reps: 6, 
-        sets: 2,
+        percentage: 70, 
+        weight: roundToPlate(weight * 0.7, unit, liftType), 
+        reps: 5, 
+        sets: 1,
         notes: 'Moderate load, controlled tempo'
       },
       { 
         setNumber: 3, 
-        percentage: 80, 
-        weight: roundToPlate(weight * 0.8, unit, liftType), 
-        reps: 3, 
+        percentage: 85, 
+        weight: roundToPlate(weight * 0.85, unit, liftType), 
+        reps: 2, 
         sets: 1,
         notes: 'Heavy prep, prime nervous system'
       },

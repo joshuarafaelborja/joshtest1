@@ -223,11 +223,11 @@ export function LevelUpCard({ data, onOpenCalculator }: LevelUpCardProps) {
         </div>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-2 gap-8">
           {metrics.map((metric, index) => (
             <div 
               key={index}
-              className="concrete-subtle relative rounded-xl p-5 border border-border hover:border-primary/50 transition-all duration-200"
+              className="concrete-subtle relative rounded-xl p-8 border border-border hover:border-primary/50 transition-all duration-200"
             >
               {/* Icon and Label */}
               <div className="flex items-center gap-2 mb-4">

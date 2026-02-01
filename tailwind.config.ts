@@ -72,6 +72,15 @@ export default {
         progress: "hsl(var(--progress))",
         deload: "hsl(var(--deload))",
         maintain: "hsl(var(--maintain))",
+        // Mascot Slate Grays
+        slate: {
+          100: "hsl(var(--slate-100))",
+          200: "hsl(var(--slate-200))",
+          300: "hsl(var(--slate-300))",
+          400: "hsl(var(--slate-400))",
+          500: "hsl(var(--slate-500))",
+          600: "hsl(var(--slate-600))",
+        },
         // Direct zinc palette for flexibility
         zinc: {
           50: "#fafafa",

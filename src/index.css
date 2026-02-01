@@ -57,6 +57,14 @@
     --surface: 240 6% 10%;
     --surface-hover: 240 5% 26%;
 
+    /* Mascot Slate Grays */
+    --slate-100: 210 40% 96%; /* #F1F5F9 */
+    --slate-200: 214 32% 91%; /* #E2E8F0 */
+    --slate-300: 213 27% 84%; /* #CBD5E1 */
+    --slate-400: 215 20% 65%; /* #94A3B8 */
+    --slate-500: 215 16% 47%; /* #64748B */
+    --slate-600: 215 19% 35%; /* #475569 */
+
     /* Progress/Status Colors */
     --progress: 217 91% 68%;
     --deload: 38 92% 50%;

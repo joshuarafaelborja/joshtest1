@@ -198,55 +198,55 @@ export function LevelUpCard({ data, onOpenCalculator }: LevelUpCardProps) {
   }
 
   return (
-    <div className="concrete-subtle relative overflow-hidden rounded-xl border border-slate-600/30 bg-card">
-      <div className="relative p-7">
+    <div className="concrete-subtle relative overflow-hidden rounded-2xl border border-slate-600/30 bg-card">
+      <div className="relative p-9">
         {/* Header */}
-        <div className="flex items-start justify-between mb-8">
+        <div className="flex items-start justify-between mb-10">
           <div>
-            <h2 className="text-2xl font-bold text-slate-100">
+            <h2 className="text-3xl font-bold text-slate-100">
               Ready to <span className="text-primary">Level Up?</span>
             </h2>
-            <p className="text-sm text-slate-400 mt-1.5">Your progress this week</p>
+            <p className="text-sm text-slate-400 mt-2">Your progress this week</p>
           </div>
           {onOpenCalculator && (
             <Button 
               variant="ghost" 
               size="sm" 
               onClick={onOpenCalculator}
-              className="gap-1.5 text-slate-400 hover:text-slate-100"
+              className="gap-2 text-slate-400 hover:text-slate-100"
             >
-              <Calculator className="w-4 h-4" />
+              <Calculator className="w-5 h-5" />
               Calc
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-5 h-5" />
             </Button>
           )}
         </div>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-2 gap-10">
           {metrics.map((metric, index) => (
             <div 
               key={index}
-              className="concrete-subtle relative rounded-xl p-8 border border-slate-600/30 hover:border-primary/50 transition-all duration-200"
+              className="concrete-subtle relative rounded-2xl p-10 border border-slate-600/30 hover:border-primary/50 transition-all duration-200"
             >
               {/* Icon and Label */}
-              <div className="flex items-center gap-2 mb-4">
-                <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${getProgressTextColor(metric.value)} bg-current/10`}>
+              <div className="flex items-center gap-3 mb-5">
+                <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${getProgressTextColor(metric.value)} bg-current/10`}>
                   {metric.icon}
                 </div>
-                <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">{metric.label}</span>
+                <span className="text-sm font-semibold uppercase tracking-wide text-slate-400">{metric.label}</span>
               </div>
               
               {/* Big percentage number */}
-              <div className="mb-4">
-                <span className={`text-6xl font-black tracking-tighter ${getProgressTextColor(metric.value)}`}>
+              <div className="mb-5">
+                <span className={`text-7xl font-black tracking-tighter ${getProgressTextColor(metric.value)}`}>
                   {metric.value}
                 </span>
-                <span className={`text-2xl font-black ${getProgressTextColor(metric.value)}`}>%</span>
+                <span className={`text-3xl font-black ${getProgressTextColor(metric.value)}`}>%</span>
               </div>
               
               {/* Progress bar */}
-              <div className="h-2 rounded-full bg-slate-600/30 overflow-hidden mb-4">
+              <div className="h-2.5 rounded-full bg-slate-600/30 overflow-hidden mb-5">
                 <div 
                   className={`progress-bar-fill bg-gradient-to-r ${getProgressColor(metric.value)}`}
                   style={{ width: `${Math.min(metric.value, 100)}%` }}
@@ -254,10 +254,10 @@ export function LevelUpCard({ data, onOpenCalculator }: LevelUpCardProps) {
               </div>
               
               {/* Description */}
-              <p className="text-xs text-slate-400">
+              <p className="text-sm text-slate-400">
                 {metric.description}
               </p>
-              <p className="text-sm font-semibold text-slate-200 mt-1.5">
+              <p className="text-base font-semibold text-slate-200 mt-2">
                 {metric.motivationalText}
               </p>
             </div>

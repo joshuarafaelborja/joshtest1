@@ -12,10 +12,9 @@ interface WarmupSet {
 }
 
 type WeightUnit = 'lbs' | 'kg';
-type LiftType = 'barbell' | 'dumbbell';
 
-// Round to nearest plate-friendly weight (barbell: 5lb/2.5kg increments, dumbbell: 5lb/2.5kg)
-function roundToPlate(weight: number, unit: WeightUnit, liftType: LiftType): number {
+// Round to nearest plate-friendly weight (5lb/2.5kg increments)
+function roundToPlate(weight: number, unit: WeightUnit): number {
   const increment = unit === 'lbs' ? 5 : 2.5;
   return Math.round(weight / increment) * increment;
 }
@@ -23,7 +22,6 @@ function roundToPlate(weight: number, unit: WeightUnit, liftType: LiftType): num
 export function WarmupCalculator() {
   const [workingWeight, setWorkingWeight] = useState<string>('');
   const [unit, setUnit] = useState<WeightUnit>('lbs');
-  const [liftType, setLiftType] = useState<LiftType>('barbell');
   const [warmupSets, setWarmupSets] = useState<WarmupSet[] | null>(null);
 
   const calculateWarmup = () => {
@@ -35,7 +33,7 @@ export function WarmupCalculator() {
       { 
         setNumber: 1, 
         percentage: 50, 
-        weight: roundToPlate(weight * 0.5, unit, liftType), 
+        weight: roundToPlate(weight * 0.5, unit), 
         reps: 8, 
         sets: 1,
         notes: 'Light weight, focus on form & range of motion'
@@ -43,7 +41,7 @@ export function WarmupCalculator() {
       { 
         setNumber: 2, 
         percentage: 70, 
-        weight: roundToPlate(weight * 0.7, unit, liftType), 
+        weight: roundToPlate(weight * 0.7, unit), 
         reps: 5, 
         sets: 1,
         notes: 'Moderate load, controlled tempo'
@@ -51,7 +49,7 @@ export function WarmupCalculator() {
       { 
         setNumber: 3, 
         percentage: 85, 
-        weight: roundToPlate(weight * 0.85, unit, liftType), 
+        weight: roundToPlate(weight * 0.85, unit), 
         reps: 2, 
         sets: 1,
         notes: 'Heavy prep, prime nervous system'
@@ -86,8 +84,7 @@ export function WarmupCalculator() {
         ...set,
         weight: roundToPlate(
           newUnit === 'kg' ? set.weight / 2.205 : set.weight * 2.205, 
-          newUnit, 
-          liftType
+          newUnit
         )
       }));
       setWarmupSets(convertedSets);
@@ -96,11 +93,6 @@ export function WarmupCalculator() {
     setUnit(newUnit);
   };
 
-  const handleLiftTypeChange = (newType: LiftType) => {
-    if (newType === liftType) return;
-    setLiftType(newType);
-    if (warmupSets) setWarmupSets(null);
-  };
 
   return (
     <div className="space-y-6">
@@ -135,21 +127,6 @@ export function WarmupCalculator() {
           </button>
         </div>
 
-        {/* Lift Type Toggle */}
-        <div className="flex items-center gap-1 p-1 bg-secondary rounded-full">
-          <button
-            onClick={() => handleLiftTypeChange('barbell')}
-            className={`pill-button ${liftType === 'barbell' ? 'pill-button-active' : 'pill-button-inactive'}`}
-          >
-            BARBELL
-          </button>
-          <button
-            onClick={() => handleLiftTypeChange('dumbbell')}
-            className={`pill-button ${liftType === 'dumbbell' ? 'pill-button-active' : 'pill-button-inactive'}`}
-          >
-            DUMBBELL
-          </button>
-        </div>
       </div>
 
       {/* Input Section */}
@@ -187,10 +164,6 @@ export function WarmupCalculator() {
         <div className="calc-result-card space-y-4 animate-fade-in">
           <div className="flex items-center justify-between">
             <span className="calc-result-label">WARM-UP PROTOCOL</span>
-            <div className="live-indicator">
-              <span className="live-dot" />
-              {liftType.toUpperCase()}
-            </div>
           </div>
 
           <div className="space-y-4">

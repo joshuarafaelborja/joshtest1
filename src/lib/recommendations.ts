@@ -83,7 +83,7 @@ export function analyzePerformance(
         type: 'acute_deload',
         icon: '⚠️',
         headline: 'Time to deload',
-        message: `You've missed your target (${minReps} reps) for 2 sessions. Decrease weight by 5-10% to ${suggestedWeight} ${currentLog.unit}.`,
+        message: `You're not strong enough at this weight yet. Decrease to ${suggestedWeight} ${currentLog.unit} and aim for 10 good reps with perfect form.`,
         suggestedWeight,
       };
     }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Dumbbell } from 'lucide-react';
+import { Plus, Dumbbell, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { WarmupCalculator } from './WarmupCalculator';
 import { ProgressiveOverloadCalculator } from './ProgressiveOverloadCalculator';
@@ -10,18 +10,22 @@ import { AccountMenu } from './AccountMenu';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AppData, Exercise } from '@/lib/types';
 import { useAuth } from '@/hooks/useAuth';
+import { usePreviousExercises, PreviousExercise } from '@/hooks/usePreviousExercises';
 import coachLogo from '@/assets/coach-logo.svg';
 
 interface SplitScreenLayoutProps {
   data: AppData;
   onLogNew: () => void;
+  onLogPreviousExercise?: (exercise: PreviousExercise) => void;
   onSelectExercise: (exercise: Exercise) => void;
   onOpenAuth: () => void;
 }
 
-export function SplitScreenLayout({ data, onLogNew, onSelectExercise, onOpenAuth }: SplitScreenLayoutProps) {
+export function SplitScreenLayout({ data, onLogNew, onLogPreviousExercise, onSelectExercise, onOpenAuth }: SplitScreenLayoutProps) {
   const [showCoachPanel, setShowCoachPanel] = useState(false);
+  const [showExerciseDropdown, setShowExerciseDropdown] = useState(false);
   const { isAuthenticated, loading, user } = useAuth();
+  const { exercises: previousExercises } = usePreviousExercises();
 
   const hasLoggedOutBefore = !isAuthenticated && localStorage.getItem('coach-had-account') === 'true';
 
@@ -85,15 +89,62 @@ export function SplitScreenLayout({ data, onLogNew, onSelectExercise, onOpenAuth
             <div className="h-px flex-1 bg-border" />
           </div>
 
-          {/* Log New Set Button */}
-          <Button
-            size="xl"
-            onClick={onLogNew}
-            className="w-full shadow-lg shadow-primary/20"
-          >
-            <Plus className="w-6 h-6" />
-            Log New Set
-          </Button>
+          {/* Log New Set Section */}
+          <div className="space-y-3">
+            <Button
+              size="xl"
+              onClick={onLogNew}
+              className="w-full shadow-lg shadow-primary/20"
+            >
+              <Plus className="w-6 h-6" />
+              Log New Set
+            </Button>
+
+            {/* Previous Exercises Dropdown */}
+            {previousExercises.length > 0 && (
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setShowExerciseDropdown(!showExerciseDropdown)}
+                  className="w-full flex items-center justify-between p-4 rounded-xl border border-border bg-card hover:bg-card/80 transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Dumbbell className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-semibold text-foreground">Quick Log Previous</p>
+                      <p className="text-sm text-muted-foreground">{previousExercises.length} exercises available</p>
+                    </div>
+                  </div>
+                  <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform ${showExerciseDropdown ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {showExerciseDropdown && (
+                  <div className="absolute z-30 w-full mt-2 border border-border rounded-xl overflow-hidden bg-card shadow-lg max-h-64 overflow-y-auto">
+                    {previousExercises.map((exercise) => (
+                      <button
+                        key={exercise.name}
+                        type="button"
+                        onClick={() => {
+                          if (onLogPreviousExercise) {
+                            onLogPreviousExercise(exercise);
+                          }
+                          setShowExerciseDropdown(false);
+                        }}
+                        className="w-full px-4 py-3 text-left border-b border-border last:border-b-0 hover:bg-secondary/50 transition-colors"
+                      >
+                        <p className="font-medium text-foreground">{exercise.name}</p>
+                        <p className="text-sm text-muted-foreground">
+                          Last: {exercise.lastWeight} {exercise.lastUnit} × {exercise.lastReps} reps
+                        </p>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
 
           {/* Exercise List */}
           {sortedExercises.length === 0 ? (

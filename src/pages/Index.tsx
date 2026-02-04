@@ -10,6 +10,7 @@ import { AuthModal } from '@/components/AuthModal';
 import { MigrationModal } from '@/components/MigrationModal';
 import { useAuth } from '@/hooks/useAuth';
 import { getLocalWorkoutCount, clearLocalWorkouts } from '@/lib/workoutService';
+import { PreviousExercise } from '@/hooks/usePreviousExercises';
 import { 
   AppData, 
   Exercise, 
@@ -186,6 +187,11 @@ export default function Index() {
     setScreen('history');
   };
 
+  const handleLogPreviousExercise = (prevExercise: PreviousExercise) => {
+    // Log the previous exercise with the same details
+    handleLogEntry(prevExercise.name, prevExercise.lastWeight, prevExercise.lastUnit, prevExercise.lastReps);
+  };
+
   // Render based on current screen
   const renderScreen = () => {
     switch (screen) {
@@ -232,6 +238,7 @@ export default function Index() {
           <SplitScreenLayout
             data={data}
             onLogNew={() => setScreen('log')}
+            onLogPreviousExercise={handleLogPreviousExercise}
             onSelectExercise={handleSelectExercise}
             onOpenAuth={() => setShowAuthModal(true)}
           />

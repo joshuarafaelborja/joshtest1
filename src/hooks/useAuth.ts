@@ -83,18 +83,6 @@ export function useAuth() {
     return { error: error as Error | null };
   };
 
-  const signInWithMagicLink = async (email: string): Promise<{ error: Error | null }> => {
-    const redirectUrl = `${window.location.origin}/`;
-    
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: redirectUrl,
-      },
-    });
-    
-    return { error: error as Error | null };
-  };
 
   const signOut = async (): Promise<void> => {
     await supabase.auth.signOut();
@@ -114,7 +102,6 @@ export function useAuth() {
     isAuthenticated: !!user,
     signUp,
     signIn,
-    signInWithMagicLink,
     signOut,
     getProfileLink,
     refetchProfile: () => user && fetchProfile(user.id),

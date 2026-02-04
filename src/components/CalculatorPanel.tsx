@@ -1,6 +1,7 @@
 import { Calculator } from 'lucide-react';
 import { WarmupCalculator } from './WarmupCalculator';
 import { ProgressiveOverloadCalculator } from './ProgressiveOverloadCalculator';
+import { DeloadPlanner } from './DeloadPlanner';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface CalculatorPanelProps {
@@ -29,6 +30,10 @@ export function CalculatorPanel({ showHeader = true }: CalculatorPanelProps) {
       <ScrollArea className="flex-1">
         <div className="px-6 py-6 space-y-8">
           <WarmupCalculator />
+          
+          <div className="section-divider" />
+          
+          <DeloadPlanner />
           
           <div className="section-divider" />
           

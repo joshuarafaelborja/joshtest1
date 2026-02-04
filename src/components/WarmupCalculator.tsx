@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Flame, Scale, Dumbbell } from 'lucide-react';
+import { Flame, Scale, Dumbbell, Sparkles, Brain } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useWarmupCalculation, AIWarmupSet } from '@/hooks/useWarmupCalculation';
+import { useAuth } from '@/hooks/useAuth';
 
 interface WarmupSet {
   setNumber: number;
@@ -12,6 +14,7 @@ interface WarmupSet {
 }
 
 type WeightUnit = 'lbs' | 'kg';
+type CalculationMode = 'static' | 'ai';
 
 // Round to nearest plate-friendly weight (5lb/2.5kg increments)
 function roundToPlate(weight: number, unit: WeightUnit): number {
@@ -19,12 +22,31 @@ function roundToPlate(weight: number, unit: WeightUnit): number {
   return Math.round(weight / increment) * increment;
 }
 
+// Convert AI warmup sets to our format
+function convertAIWarmupSets(aiSets: AIWarmupSet[], unit: WeightUnit): WarmupSet[] {
+  return aiSets.map(set => ({
+    setNumber: set.setNumber,
+    percentage: set.percentage || 0,
+    weight: roundToPlate(set.weight, unit),
+    reps: set.reps,
+    sets: 1,
+    notes: set.notes || '',
+  }));
+}
+
 export function WarmupCalculator() {
   const [workingWeight, setWorkingWeight] = useState<string>('');
+  const [exerciseName, setExerciseName] = useState<string>('');
+  const [workingReps, setWorkingReps] = useState<string>('5');
   const [unit, setUnit] = useState<WeightUnit>('lbs');
   const [warmupSets, setWarmupSets] = useState<WarmupSet[] | null>(null);
+  const [calculationMode, setCalculationMode] = useState<CalculationMode>('static');
+  const [aiReasoning, setAiReasoning] = useState<string>('');
 
-  const calculateWarmup = () => {
+  const { calculateWarmups, loading: aiLoading, error: aiError } = useWarmupCalculation();
+  const { isAuthenticated } = useAuth();
+
+  const calculateStaticWarmup = () => {
     const weight = parseFloat(workingWeight);
     if (isNaN(weight) || weight <= 0) return;
 
@@ -57,6 +79,29 @@ export function WarmupCalculator() {
     ];
 
     setWarmupSets(sets);
+    setAiReasoning('');
+  };
+
+  const calculateAIWarmup = async () => {
+    const weight = parseFloat(workingWeight);
+    const reps = parseInt(workingReps);
+    if (isNaN(weight) || weight <= 0 || isNaN(reps) || reps <= 0) return;
+
+    const name = exerciseName.trim() || 'Exercise';
+    const result = await calculateWarmups(name, weight, reps, unit, isAuthenticated);
+
+    if (result) {
+      setWarmupSets(convertAIWarmupSets(result.warmupSets, unit));
+      setAiReasoning(result.reasoning);
+    }
+  };
+
+  const handleCalculate = () => {
+    if (calculationMode === 'ai') {
+      calculateAIWarmup();
+    } else {
+      calculateStaticWarmup();
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -127,7 +172,40 @@ export function WarmupCalculator() {
           </button>
         </div>
 
+        {/* Calculation Mode Toggle */}
+        <div className="flex items-center gap-1 p-1 bg-secondary rounded-full">
+          <button
+            onClick={() => setCalculationMode('static')}
+            className={`pill-button ${calculationMode === 'static' ? 'pill-button-active' : 'pill-button-inactive'}`}
+          >
+            Standard
+          </button>
+          <button
+            onClick={() => setCalculationMode('ai')}
+            className={`pill-button ${calculationMode === 'ai' ? 'pill-button-active' : 'pill-button-inactive'}`}
+          >
+            <Sparkles className="w-3 h-3 mr-1" />
+            AI
+          </button>
+        </div>
       </div>
+
+      {/* AI Mode: Exercise Name Input */}
+      {calculationMode === 'ai' && (
+        <div className="space-y-2 animate-fade-in">
+          <label className="calc-label">
+            <Dumbbell className="w-3.5 h-3.5" />
+            EXERCISE NAME
+          </label>
+          <input
+            type="text"
+            placeholder="e.g., Squat, Bench Press, Deadlift"
+            value={exerciseName}
+            onChange={(e) => setExerciseName(e.target.value)}
+            className="calc-input w-full"
+          />
+        </div>
+      )}
 
       {/* Input Section */}
       <div className="space-y-2">
@@ -150,20 +228,53 @@ export function WarmupCalculator() {
         </div>
       </div>
 
+      {/* AI Mode: Working Reps Input */}
+      {calculationMode === 'ai' && (
+        <div className="space-y-2 animate-fade-in">
+          <label className="calc-label">
+            WORKING REPS
+          </label>
+          <input
+            type="number"
+            inputMode="numeric"
+            placeholder="5"
+            value={workingReps}
+            onChange={(e) => setWorkingReps(e.target.value)}
+            className="calc-input w-full"
+          />
+        </div>
+      )}
+
       {/* Calculate Button */}
       <Button
-        onClick={calculateWarmup}
-        disabled={!workingWeight || parseFloat(workingWeight) <= 0}
+        onClick={handleCalculate}
+        disabled={!workingWeight || parseFloat(workingWeight) <= 0 || aiLoading}
         className="w-full h-12 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-sm tracking-wide"
       >
-        CALCULATE WARM-UP
+        {calculationMode === 'ai' && <Sparkles className="w-4 h-4 mr-2" />}
+        {aiLoading ? 'CALCULATING...' : 'CALCULATE WARM-UP'}
       </Button>
+
+      {aiError && (
+        <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive text-sm">
+          {aiError}
+        </div>
+      )}
+
+      {calculationMode === 'ai' && !isAuthenticated && (
+        <p className="text-xs text-muted-foreground text-center">
+          Sign in to save your warm-up calculations to the cloud
+        </p>
+      )}
 
       {/* Results */}
       {warmupSets && (
         <div className="calc-result-card space-y-4 animate-fade-in">
           <div className="flex items-center justify-between">
-            <span className="calc-result-label">WARM-UP PROTOCOL</span>
+            <span className="calc-result-label flex items-center gap-2">
+              {calculationMode === 'ai' && <Brain className="w-4 h-4" />}
+              {calculationMode === 'ai' ? 'AI WARM-UP PROTOCOL' : 'WARM-UP PROTOCOL'}
+            </span>
           </div>
 
           <div className="space-y-4">
@@ -179,7 +290,7 @@ export function WarmupCalculator() {
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-foreground">
-                        {set.sets} × {set.reps} reps @ {set.percentage}%
+                        {set.sets} × {set.reps} reps {set.percentage > 0 && `@ ${set.percentage}%`}
                       </p>
                     </div>
                   </div>
@@ -190,12 +301,25 @@ export function WarmupCalculator() {
                     <span className="calc-result-unit ml-1">{unit}</span>
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground pl-11">
-                  {set.notes}
-                </p>
+                {set.notes && (
+                  <p className="text-xs text-muted-foreground pl-11">
+                    {set.notes}
+                  </p>
+                )}
               </div>
             ))}
           </div>
+
+          {/* AI Reasoning */}
+          {aiReasoning && calculationMode === 'ai' && (
+            <div className="p-4 rounded-lg bg-primary/10 border border-primary/30">
+              <h4 className="text-sm font-bold text-primary mb-2 flex items-center gap-2">
+                <Brain className="w-4 h-4" />
+                Coach's Strategy
+              </h4>
+              <p className="text-sm text-foreground/80 leading-relaxed">{aiReasoning}</p>
+            </div>
+          )}
 
           {/* Total Warmup Summary */}
           <div className="p-3 rounded-lg bg-primary/10 border border-primary/30">

@@ -103,22 +103,18 @@ export function SplitScreenLayout({ data, onLogNew, onLogPreviousExercise, onSel
             {/* Previous Exercises Dropdown */}
             {previousExercises.length > 0 && (
               <div className="relative">
-                <button
-                  type="button"
+                <Button
+                  variant="outline"
+                  size="lg"
                   onClick={() => setShowExerciseDropdown(!showExerciseDropdown)}
-                  className="w-full flex items-center justify-between p-4 rounded-xl border border-border bg-card hover:bg-card/80 transition-colors"
+                  className="w-full justify-between"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <Dumbbell className="w-5 h-5 text-primary" />
-                    </div>
-                    <div className="text-left">
-                      <p className="font-semibold text-foreground">Quick Log Previous</p>
-                      <p className="text-sm text-muted-foreground">{previousExercises.length} exercises available</p>
-                    </div>
-                  </div>
-                  <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform ${showExerciseDropdown ? 'rotate-180' : ''}`} />
-                </button>
+                  <span className="flex items-center gap-2">
+                    <Dumbbell className="w-5 h-5" />
+                    Select Recent Exercises
+                  </span>
+                  <ChevronDown className={`w-5 h-5 transition-transform ${showExerciseDropdown ? 'rotate-180' : ''}`} />
+                </Button>
                 
                 {showExerciseDropdown && (
                   <div className="absolute z-30 w-full mt-2 border border-border rounded-xl overflow-hidden bg-card shadow-lg max-h-64 overflow-y-auto">

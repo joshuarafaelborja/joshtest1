@@ -190,6 +190,15 @@ export function WarmupCalculator() {
         </div>
       </div>
 
+      {/* AI Mode Tip */}
+      {calculationMode === 'ai' && (
+        <div className="p-3 rounded-lg bg-primary/10 border border-primary/30 animate-fade-in">
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            <span className="font-semibold text-primary">AI Mode</span> tailors warm-up sets to your specific exercise, considering movement patterns and optimal rep schemes for performance.
+          </p>
+        </div>
+      )}
+
       {/* AI Mode: Exercise Name Input */}
       {calculationMode === 'ai' && (
         <div className="space-y-2 animate-fade-in">

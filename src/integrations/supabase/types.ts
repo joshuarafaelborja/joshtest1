@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      deload_weeks: {
+        Row: {
+          created_at: string
+          end_date: string
+          exercises: Json
+          fatigue_level: number | null
+          id: string
+          intensity_reduction: number
+          reasoning: string | null
+          start_date: string
+          training_frequency: number | null
+          user_id: string
+          volume_reduction: number
+          weeks_of_training: number | null
+        }
+        Insert: {
+          created_at?: string
+          end_date?: string
+          exercises: Json
+          fatigue_level?: number | null
+          id?: string
+          intensity_reduction: number
+          reasoning?: string | null
+          start_date?: string
+          training_frequency?: number | null
+          user_id: string
+          volume_reduction: number
+          weeks_of_training?: number | null
+        }
+        Update: {
+          created_at?: string
+          end_date?: string
+          exercises?: Json
+          fatigue_level?: number | null
+          id?: string
+          intensity_reduction?: number
+          reasoning?: string | null
+          start_date?: string
+          training_frequency?: number | null
+          user_id?: string
+          volume_reduction?: number
+          weeks_of_training?: number | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -38,6 +83,54 @@ export type Database = {
           updated_at?: string
           user_id?: string
           username?: string | null
+        }
+        Relationships: []
+      }
+      warmup_sets: {
+        Row: {
+          created_at: string
+          exercise_name: string
+          id: string
+          notes: string | null
+          percentage: number | null
+          reasoning: string | null
+          reps: number
+          set_number: number
+          unit: string
+          user_id: string
+          weight: number
+          working_reps: number
+          working_weight: number
+        }
+        Insert: {
+          created_at?: string
+          exercise_name: string
+          id?: string
+          notes?: string | null
+          percentage?: number | null
+          reasoning?: string | null
+          reps: number
+          set_number: number
+          unit?: string
+          user_id: string
+          weight: number
+          working_reps: number
+          working_weight: number
+        }
+        Update: {
+          created_at?: string
+          exercise_name?: string
+          id?: string
+          notes?: string | null
+          percentage?: number | null
+          reasoning?: string | null
+          reps?: number
+          set_number?: number
+          unit?: string
+          user_id?: string
+          weight?: number
+          working_reps?: number
+          working_weight?: number
         }
         Relationships: []
       }

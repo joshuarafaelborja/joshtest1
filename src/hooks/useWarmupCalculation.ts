@@ -65,7 +65,8 @@ export function useWarmupCalculation() {
       }
 
       const data = await response.json();
-      return data;
+      console.log('Warmup API response:', data);
+      return data as WarmupCalculationResult;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unknown error';
       setError(message);

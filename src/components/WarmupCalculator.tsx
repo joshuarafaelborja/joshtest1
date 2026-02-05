@@ -91,8 +91,12 @@ export function WarmupCalculator() {
     const result = await calculateWarmups(name, weight, reps, unit, isAuthenticated);
 
     if (result) {
-      setWarmupSets(convertAIWarmupSets(result.warmupSets, unit));
-      setAiReasoning(result.reasoning);
+      if (result.warmupSets && Array.isArray(result.warmupSets)) {
+        setWarmupSets(convertAIWarmupSets(result.warmupSets, unit));
+        setAiReasoning(result.reasoning || '');
+      } else {
+        console.error('Invalid warmup response structure:', result);
+      }
     }
   };
 

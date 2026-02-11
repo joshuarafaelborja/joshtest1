@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      activities: {
+        Row: {
+          created_at: string
+          duration: number | null
+          id: string
+          summary: string
+          user_id: string
+          workout_type: string
+        }
+        Insert: {
+          created_at?: string
+          duration?: number | null
+          id?: string
+          summary: string
+          user_id: string
+          workout_type: string
+        }
+        Update: {
+          created_at?: string
+          duration?: number | null
+          id?: string
+          summary?: string
+          user_id?: string
+          workout_type?: string
+        }
+        Relationships: []
+      }
       deload_weeks: {
         Row: {
           created_at: string
@@ -59,10 +86,35 @@ export type Database = {
         }
         Relationships: []
       }
+      friendships: {
+        Row: {
+          created_at: string
+          friend_id: string
+          id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          friend_id: string
+          id?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          friend_id?: string
+          id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
           id: string
+          last_active: string | null
           slug: string
           updated_at: string
           user_id: string
@@ -71,6 +123,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          last_active?: string | null
           slug: string
           updated_at?: string
           user_id: string
@@ -79,6 +132,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          last_active?: string | null
           slug?: string
           updated_at?: string
           user_id?: string
@@ -178,6 +232,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      are_friends: { Args: { user1: string; user2: string }; Returns: boolean }
       generate_unique_slug: { Args: never; Returns: string }
     }
     Enums: {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Dumbbell, ChevronDown } from 'lucide-react';
+import { Plus, Dumbbell, ChevronDown, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { WarmupCalculator } from './WarmupCalculator';
 import { ProgressiveOverloadCalculator } from './ProgressiveOverloadCalculator';
@@ -19,9 +19,10 @@ interface SplitScreenLayoutProps {
   onLogPreviousExercise?: (exercise: PreviousExercise) => void;
   onSelectExercise: (exercise: Exercise) => void;
   onOpenAuth: () => void;
+  onOpenSocial: () => void;
 }
 
-export function SplitScreenLayout({ data, onLogNew, onLogPreviousExercise, onSelectExercise, onOpenAuth }: SplitScreenLayoutProps) {
+export function SplitScreenLayout({ data, onLogNew, onLogPreviousExercise, onSelectExercise, onOpenAuth, onOpenSocial }: SplitScreenLayoutProps) {
   const [showCoachPanel, setShowCoachPanel] = useState(false);
   const [showExerciseDropdown, setShowExerciseDropdown] = useState(false);
   const { isAuthenticated, loading, user } = useAuth();
@@ -58,7 +59,16 @@ export function SplitScreenLayout({ data, onLogNew, onLogPreviousExercise, onSel
             </button>
             <h1 className="text-xl font-bold text-foreground">Coach</h1>
           </div>
-          <AccountMenu onCreateAccount={onOpenAuth} />
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onOpenSocial}
+              className="p-2 rounded-lg hover:bg-secondary transition-colors"
+              title="Social"
+            >
+              <Users className="w-5 h-5 text-muted-foreground" />
+            </button>
+            <AccountMenu onCreateAccount={onOpenAuth} />
+          </div>
         </div>
       </header>
 

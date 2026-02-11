@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { OnboardingFlow } from '@/components/OnboardingFlow';
 import { SplitScreenLayout } from '@/components/SplitScreenLayout';
+import { SocialScreen } from '@/components/SocialScreen';
 import { LogEntryForm } from '@/components/LogEntryForm';
 import { ExerciseHistory } from '@/components/ExerciseHistory';
 import { RepRangeModal } from '@/components/RepRangeModal';
@@ -9,6 +10,7 @@ import { ProgressNotification } from '@/components/ProgressNotification';
 import { AuthModal } from '@/components/AuthModal';
 import { MigrationModal } from '@/components/MigrationModal';
 import { useAuth } from '@/hooks/useAuth';
+import { useActivityFeed } from '@/hooks/useActivityFeed';
 import { getLocalWorkoutCount, clearLocalWorkouts } from '@/lib/workoutService';
 import { PreviousExercise } from '@/hooks/usePreviousExercises';
 import { 
@@ -28,7 +30,7 @@ import {
 } from '@/lib/storage';
 import { analyzePerformance } from '@/lib/recommendations';
 
-type Screen = 'onboarding' | 'home' | 'log' | 'history';
+type Screen = 'onboarding' | 'home' | 'log' | 'history' | 'social';
 
 interface PendingLog {
   exerciseName: string;
@@ -50,6 +52,7 @@ export default function Index() {
   const [localWorkoutCount, setLocalWorkoutCount] = useState(0);
 
   const { user, isAuthenticated, loading: authLoading } = useAuth();
+  const { postActivity } = useActivityFeed();
 
   // Check if onboarding should show
   useEffect(() => {
@@ -169,6 +172,14 @@ export default function Index() {
     const newData = addLogToExercise(data, exercise.id, log);
     updateData(newData);
 
+    // Auto-post activity for friends feed
+    if (isAuthenticated) {
+      postActivity(
+        exercise.name,
+        null,
+        `Logged ${weight} ${unit} × ${reps} reps on ${exercise.name}`
+      );
+    }
     // Show notification first, then modal
     setNotification(result);
     setTimeout(() => {
@@ -233,6 +244,14 @@ export default function Index() {
           />
         );
       
+      case 'social':
+        return (
+          <SocialScreen
+            onBack={() => setScreen('home')}
+            onOpenAuth={() => setShowAuthModal(true)}
+          />
+        );
+      
       default:
         return (
           <SplitScreenLayout
@@ -241,6 +260,7 @@ export default function Index() {
             onLogPreviousExercise={handleLogPreviousExercise}
             onSelectExercise={handleSelectExercise}
             onOpenAuth={() => setShowAuthModal(true)}
+            onOpenSocial={() => setScreen('social')}
           />
         );
     }

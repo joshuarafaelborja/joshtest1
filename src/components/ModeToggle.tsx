@@ -37,7 +37,7 @@ export function ModeToggle({ value, onChange, manualLabel = 'Standard', aiLabel 
   return (
     <div
       ref={containerRef}
-      className="relative inline-flex p-1 rounded-[28px] gap-1 transition-shadow duration-150 ease-in-out hover:shadow-[0_0_12px_2px_#dbeafe] active:shadow-[0_0_12px_2px_#dbeafe]"
+      className="relative inline-flex p-1 rounded-[28px] gap-1"
       style={{ background: '#27272A' }}
     >
       {/* Sliding indicator */}
@@ -47,6 +47,7 @@ export function ModeToggle({ value, onChange, manualLabel = 'Standard', aiLabel 
           width: indicatorStyle.width,
           transform: `translateX(${indicatorStyle.x - 4}px)`,
           background: '#1E3A8A',
+          boxShadow: '0 0 12px 2px rgba(37, 99, 235, 0.4)',
         }}
       />
 

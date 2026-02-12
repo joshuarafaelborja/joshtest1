@@ -92,13 +92,7 @@ export default function Index() {
     saveData(newData);
   }, []);
 
-  const handleOnboardingComplete = (userName?: string) => {
-    const newData = markOnboardingComplete(data, userName);
-    updateData(newData);
-    setScreen('home');
-  };
-
-  const handleOnboardingSkip = () => {
+  const handleOnboardingComplete = () => {
     const newData = markOnboardingComplete(data);
     updateData(newData);
     setScreen('home');
@@ -290,7 +284,7 @@ export default function Index() {
         return (
           <OnboardingFlow 
             onComplete={handleOnboardingComplete} 
-            onSkip={handleOnboardingSkip}
+            onSkip={handleOnboardingComplete}
           />
         );
       

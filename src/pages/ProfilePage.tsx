@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Loader2, Dumbbell, Calendar } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import coachLogo from '@/assets/coach-logo.svg';
+import spotLogo from '@/assets/spot-ai-logo.svg';
 import { format } from 'date-fns';
 
 interface ProfileData {
@@ -108,7 +108,7 @@ export default function ProfilePage() {
           </button>
         </header>
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-          <img src={coachLogo} alt="Coach" className="w-16 h-16 mb-4 opacity-50" />
+          <img src={spotLogo} alt="Spot.AI" className="w-32 h-auto mb-4 opacity-50" />
           <h2 className="text-xl font-bold mb-2">Profile Not Found</h2>
           <p className="text-muted-foreground">This profile doesn't exist or has been removed.</p>
         </div>

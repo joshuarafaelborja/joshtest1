@@ -81,7 +81,7 @@ export function ProgressNotification({
       return (
         <img 
           src={mascotNotification} 
-          alt="Coach" 
+          alt="Spot.AI" 
           className="w-12 h-12 object-contain flex-shrink-0"
         />
       );

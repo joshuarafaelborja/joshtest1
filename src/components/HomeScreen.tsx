@@ -8,7 +8,7 @@ import { SyncBanner } from './SyncBanner';
 import { AccountMenu } from './AccountMenu';
 import { AppData, Exercise } from '@/lib/types';
 import { useAuth } from '@/hooks/useAuth';
-import coachLogo from '@/assets/coach-logo.svg';
+import spotLogo from '@/assets/spot-ai-logo.svg';
 
 interface HomeScreenProps {
   data: AppData;
@@ -50,10 +50,10 @@ export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators
               onClick={() => setShowCoachPanel(true)}
               className="group relative transition-transform duration-200 hover:scale-105 active:scale-95"
             >
-              <img src={coachLogo} alt="Coach" className="w-10 h-10 object-contain" />
+              <img src={spotLogo} alt="Spot.AI" className="h-8 object-contain" />
               <span className="absolute -bottom-1 -right-1 w-3 h-3 bg-primary rounded-full border-2 border-card animate-pulse" />
             </button>
-            <h1 className="text-2xl font-bold text-foreground">Coach</h1>
+            <h1 className="text-2xl font-bold text-foreground">Spot</h1>
           </div>
           <AccountMenu onCreateAccount={onOpenAuth} />
         </div>
@@ -71,7 +71,7 @@ export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators
       <div className="flex-1 p-4 pb-24">
         {sortedExercises.length === 0 ? (
           <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
-            <img src={coachLogo} alt="Coach mascot" className="w-20 h-20 object-contain mb-6 opacity-60" />
+            <img src={spotLogo} alt="Spot.AI" className="w-32 h-auto object-contain mb-6 opacity-60" />
             <h2 className="text-xl font-semibold mb-2 text-foreground">No exercises yet</h2>
             <p className="text-muted-foreground mb-6">
               Start by logging your first set

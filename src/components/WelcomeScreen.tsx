@@ -1,6 +1,6 @@
 import { TrendingUp, Target, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import coachLogo from '@/assets/coach-logo.svg';
+import spotLogo from '@/assets/spot-ai-logo.svg';
 
 interface WelcomeScreenProps {
   onGetStarted: () => void;
@@ -13,10 +13,10 @@ export function WelcomeScreen({ onGetStarted }: WelcomeScreenProps) {
         {/* Logo & Title */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-28 h-28 mb-6">
-            <img src={coachLogo} alt="Coach mascot" className="w-28 h-28 object-contain drop-shadow-lg" />
+            <img src={spotLogo} alt="Spot.AI" className="w-48 h-auto object-contain drop-shadow-lg" />
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight mb-3">
-            Welcome to Coach
+            Welcome to Spot.AI
           </h1>
           <p className="text-lg text-muted-foreground">
             Your gym buddy for smart weight progression

@@ -21,7 +21,7 @@ export function ModeToggle({ value, onChange, manualLabel = 'Standard', aiLabel 
       <button
         onClick={() => onChange('manual')}
         aria-pressed={value === 'manual'}
-        className="relative min-w-[56px] px-4 py-1.5 rounded-[24px] text-sm font-bold tracking-wide transition-colors duration-200 text-center leading-5 flex items-center justify-center"
+        className="relative min-w-[80px] px-4 py-1.5 rounded-[24px] text-sm font-bold tracking-wide transition-colors duration-200 text-center leading-5 flex items-center justify-center"
         style={{ color: value === 'manual' ? '#FFFFFF' : '#A1A1AA' }}
       >
         <span className="relative z-10">{manualLabel}</span>
@@ -35,7 +35,7 @@ export function ModeToggle({ value, onChange, manualLabel = 'Standard', aiLabel 
       <button
         onClick={() => onChange('ai')}
         aria-pressed={value === 'ai'}
-        className="relative min-w-[56px] px-4 py-1.5 rounded-[24px] text-sm font-bold tracking-wide transition-colors duration-200 text-center leading-5 flex items-center justify-center"
+        className="relative min-w-[80px] px-4 py-1.5 rounded-[24px] text-sm font-bold tracking-wide transition-colors duration-200 text-center leading-5 flex items-center justify-center"
         style={{ color: value === 'ai' ? '#FFFFFF' : '#A1A1AA' }}
       >
         <span className="relative z-10">{aiLabel}</span>

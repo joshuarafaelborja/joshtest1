@@ -4,7 +4,7 @@ import { MedalCard } from './MedalCard';
 import { calculateMedals } from '@/lib/medalCalculations';
 import { AppData } from '@/lib/types';
 import { Button } from '@/components/ui/button';
-import mascotNotification from '@/assets/mascot-notification.svg';
+import spotLogo from '@/assets/spot-logo.svg';
 
 interface AICoachPanelProps {
   isOpen: boolean;
@@ -126,7 +126,7 @@ export function AICoachPanel({ isOpen, onClose, onOpenCalculators, data = defaul
             
             <div className="flex items-center gap-4">
               <img 
-                src={mascotNotification} 
+                src={spotLogo} 
                 alt="Spot.AI" 
                 className="w-14 h-14 object-contain"
               />

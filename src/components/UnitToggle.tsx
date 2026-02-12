@@ -18,7 +18,7 @@ export function UnitToggle({ value, onChange }: UnitToggleProps) {
       <button
         onClick={() => onChange('lbs')}
         aria-pressed={value === 'lbs'}
-        className="relative z-10 min-w-[48px] px-4 py-1.5 rounded-[24px] text-sm font-bold tracking-wide transition-colors duration-200 text-center leading-5"
+        className="relative min-w-[56px] px-4 py-1.5 rounded-[24px] text-sm font-bold tracking-wide transition-colors duration-200 text-center leading-5"
         style={{ color: value === 'lbs' ? '#FFFFFF' : '#A1A1AA' }}
       >
         <span className="relative z-10">LBS</span>
@@ -34,7 +34,7 @@ export function UnitToggle({ value, onChange }: UnitToggleProps) {
       <button
         onClick={() => onChange('kg')}
         aria-pressed={value === 'kg'}
-        className="relative z-10 min-w-[48px] px-4 py-1.5 rounded-[24px] text-sm font-bold tracking-wide transition-colors duration-200 text-center leading-5"
+        className="relative min-w-[56px] px-4 py-1.5 rounded-[24px] text-sm font-bold tracking-wide transition-colors duration-200 text-center leading-5"
         style={{ color: value === 'kg' ? '#FFFFFF' : '#A1A1AA' }}
       >
         <span className="relative z-10">KG</span>

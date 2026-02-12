@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Flame, Scale, Dumbbell, Sparkles, Brain } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { UnitToggle } from '@/components/UnitToggle';
+import { ModeToggle } from '@/components/ModeToggle';
 import { useWarmupCalculation, AIWarmupSet } from '@/hooks/useWarmupCalculation';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -15,7 +16,7 @@ interface WarmupSet {
 }
 
 type WeightUnit = 'lbs' | 'kg';
-type CalculationMode = 'static' | 'ai';
+type CalculationMode = 'manual' | 'ai';
 
 // Round to nearest plate-friendly weight (5lb/2.5kg increments)
 function roundToPlate(weight: number, unit: WeightUnit): number {
@@ -41,7 +42,7 @@ export function WarmupCalculator() {
   const [workingReps, setWorkingReps] = useState<string>('5');
   const [unit, setUnit] = useState<WeightUnit>('lbs');
   const [warmupSets, setWarmupSets] = useState<WarmupSet[] | null>(null);
-  const [calculationMode, setCalculationMode] = useState<CalculationMode>('static');
+  const [calculationMode, setCalculationMode] = useState<CalculationMode>('manual');
   const [aiReasoning, setAiReasoning] = useState<string>('');
 
   const { calculateWarmups, loading: aiLoading, error: aiError } = useWarmupCalculation();
@@ -165,21 +166,11 @@ export function WarmupCalculator() {
         <UnitToggle value={unit} onChange={handleUnitChange} />
 
         {/* Calculation Mode Toggle */}
-        <div className="flex items-center gap-1 p-1 bg-secondary rounded-full">
-          <button
-            onClick={() => setCalculationMode('static')}
-            className={`pill-button ${calculationMode === 'static' ? 'pill-button-active' : 'pill-button-inactive'}`}
-          >
-            Standard
-          </button>
-          <button
-            onClick={() => setCalculationMode('ai')}
-            className={`pill-button ${calculationMode === 'ai' ? 'pill-button-active' : 'pill-button-inactive'}`}
-          >
-            <Sparkles className="w-3 h-3 mr-1" />
-            AI
-          </button>
-        </div>
+        <ModeToggle
+          value={calculationMode}
+          onChange={setCalculationMode}
+          aiLabel={<><Sparkles className="w-3 h-3 mr-1" />AI</>}
+        />
       </div>
 
       {/* AI Mode Tip */}

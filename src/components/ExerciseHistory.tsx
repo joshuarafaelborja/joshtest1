@@ -1,13 +1,17 @@
-import { ArrowLeft } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowLeft, Pencil } from 'lucide-react';
 import { Exercise } from '@/lib/types';
 import { format } from 'date-fns';
+import { RepRangeModal } from '@/components/RepRangeModal';
 
 interface ExerciseHistoryProps {
   exercise: Exercise;
   onBack: () => void;
+  onUpdateRepRange?: (exerciseId: string, minReps: number, goalReps: number) => void;
 }
 
-export function ExerciseHistory({ exercise, onBack }: ExerciseHistoryProps) {
+export function ExerciseHistory({ exercise, onBack, onUpdateRepRange }: ExerciseHistoryProps) {
+  const [showEditRepRange, setShowEditRepRange] = useState(false);
   const sortedLogs = [...exercise.logs].reverse().slice(0, 10);
 
   const getRecommendationBadge = (recommendation: string) => {
@@ -37,11 +41,21 @@ export function ExerciseHistory({ exercise, onBack }: ExerciseHistoryProps) {
           >
             <ArrowLeft className="w-6 h-6" />
           </button>
-          <div>
+          <div className="flex-1">
             <h1 className="text-xl font-bold">{exercise.name}</h1>
-            <p className="text-sm text-muted-foreground">
-              Target: {exercise.minReps}-{exercise.goalReps} reps
-            </p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm text-muted-foreground">
+                Target: {exercise.minReps}-{exercise.goalReps} reps
+              </p>
+              {onUpdateRepRange && (
+                <button
+                  onClick={() => setShowEditRepRange(true)}
+                  className="p-1 rounded hover:bg-secondary"
+                >
+                  <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </header>
@@ -73,6 +87,20 @@ export function ExerciseHistory({ exercise, onBack }: ExerciseHistoryProps) {
           </div>
         )}
       </div>
+
+      {/* Edit Rep Range Modal */}
+      {showEditRepRange && onUpdateRepRange && (
+        <RepRangeModal
+          exerciseName={exercise.name}
+          initialMinReps={exercise.minReps}
+          initialGoalReps={exercise.goalReps}
+          onSave={(minReps, goalReps) => {
+            onUpdateRepRange(exercise.id, minReps, goalReps);
+            setShowEditRepRange(false);
+          }}
+          onCancel={() => setShowEditRepRange(false)}
+        />
+      )}
     </div>
   );
 }

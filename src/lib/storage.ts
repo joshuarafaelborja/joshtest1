@@ -103,6 +103,15 @@ export function markOnboardingComplete(data: AppData, userName?: string): AppDat
   };
 }
 
+export function updateExerciseRepRange(data: AppData, exerciseId: string, minReps: number, goalReps: number): AppData {
+  return {
+    ...data,
+    exercises: data.exercises.map(e =>
+      e.id === exerciseId ? { ...e, minReps, goalReps } : e
+    ),
+  };
+}
+
 export function generateId(): string {
   return crypto.randomUUID();
 }

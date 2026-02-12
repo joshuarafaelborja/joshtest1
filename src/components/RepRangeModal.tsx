@@ -6,13 +6,15 @@ import { Label } from '@/components/ui/label';
 
 interface RepRangeModalProps {
   exerciseName: string;
+  initialMinReps?: number;
+  initialGoalReps?: number;
   onSave: (minReps: number, goalReps: number) => void;
   onCancel: () => void;
 }
 
-export function RepRangeModal({ exerciseName, onSave, onCancel }: RepRangeModalProps) {
-  const [minReps, setMinReps] = useState('');
-  const [goalReps, setGoalReps] = useState('');
+export function RepRangeModal({ exerciseName, initialMinReps, initialGoalReps, onSave, onCancel }: RepRangeModalProps) {
+  const [minReps, setMinReps] = useState(initialMinReps?.toString() ?? '6');
+  const [goalReps, setGoalReps] = useState(initialGoalReps?.toString() ?? '8');
   const [error, setError] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {

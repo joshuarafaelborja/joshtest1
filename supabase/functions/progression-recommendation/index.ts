@@ -6,97 +6,33 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-interface WorkoutSession {
-  weight: number;
-  unit: string;
-  reps: number;
-  rir: number | null;
-  sets: number;
-  timestamp: string;
-  goal_min_reps: number | null;
-  goal_max_reps: number | null;
-}
-
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { exerciseName, sessions, goalMinReps, goalMaxReps } = await req.json() as {
+    const { exerciseName, sessions } = await req.json() as {
       exerciseName: string;
-      sessions: WorkoutSession[];
-      goalMinReps: number;
-      goalMaxReps: number;
+      sessions: { weight: number; reps: number[]; rir: number | null }[];
     };
 
     const ANTHROPIC_API_KEY = Deno.env.get("ANTHROPIC_API_KEY");
     if (!ANTHROPIC_API_KEY) throw new Error("ANTHROPIC_API_KEY is not configured");
 
-    // Build analysis for the AI
-    const last4 = sessions.slice(-4);
-    const avgReps = last4.reduce((s, w) => s + w.reps, 0) / last4.length;
-    const avgRir = last4.filter(w => w.rir !== null).reduce((s, w) => s + (w.rir ?? 0), 0) / last4.filter(w => w.rir !== null).length;
-    const currentWeight = last4[last4.length - 1].weight;
-    const currentUnit = last4[last4.length - 1].unit;
-
-    // Determine recommendation type
-    let recType: string;
-    let suggestedWeight: number | null = null;
-
-    if (avgReps > goalMaxReps && avgRir >= 1 && avgRir <= 2) {
-      recType = "increase";
-      const raw = currentWeight * 1.1;
-      suggestedWeight = currentUnit === "kg"
-        ? Math.round(raw / 2.5) * 2.5
-        : Math.round(raw / 5) * 5;
-    } else if (avgReps >= goalMinReps && avgReps <= goalMaxReps) {
-      recType = "hold";
-    } else if (avgReps < goalMinReps) {
-      recType = "decrease";
-      const successful = sessions.filter(s => s.reps >= goalMinReps && s.weight < currentWeight);
-      suggestedWeight = successful.length > 0
-        ? successful[successful.length - 1].weight
-        : currentUnit === "kg"
-          ? Math.round((currentWeight * 0.9) / 2.5) * 2.5
-          : Math.round((currentWeight * 0.9) / 5) * 5;
-    } else {
-      recType = "hold";
-    }
-
-    const sessionSummary = last4.map((s, i) =>
-      `Session ${i + 1}: ${s.weight}${s.unit} × ${s.reps} reps${s.rir !== null ? `, ${s.rir} RIR` : ''} (${s.sets} sets)`
-    ).join("\n");
-
-    const systemPrompt = `You are Spot, a supportive gym buddy inside a workout tracking app. You speak casually and encouragingly — like a friend who's been lifting with them for years.
-
-Your response MUST have exactly two parts separated by a blank line:
-1. FIRST: A 1-2 sentence explanation of WHY you're making this recommendation. Reference their actual numbers, sessions, and if RIR data exists, mention it naturally (e.g., "You still had 2 reps in the tank"). Be specific — mention the weight, how many sessions they've been at it, whether they crushed it or struggled.
-2. SECOND: The actual recommendation — what weight to use next and what to aim for.
-
-Tone examples:
-- "You've been crushing 135lbs for 3 sessions straight and had reps to spare — let's move up!"
-- "Last session was a grind at 155lbs and you didn't hit your minimum reps — let's drop back to 145lbs and build back up. No shame, that's how progress works."
-- "You still had 2 reps in the tank at 135lbs — you're ready for more."
+    const systemPrompt = `You are a gym buddy giving progression advice. You will receive the last 4 sessions for an exercise including weight, reps per set, and RIR.
 
 Rules:
-- Never use markdown formatting
-- Never say you're an AI
-- Keep it to 3-4 sentences total max
-- The WHY comes before the WHAT
-- Be encouraging even when recommending a decrease`;
 
-    const userPrompt = `Exercise: ${exerciseName}
-Goal rep range: ${goalMinReps}-${goalMaxReps} reps
-Last 4 sessions:
-${sessionSummary}
+The user's rep goal range is 6-8 reps with 1-2 RIR.
 
-Average reps: ${avgReps.toFixed(1)}
-Average RIR: ${isNaN(avgRir) ? 'not tracked' : avgRir.toFixed(1)}
-Current weight: ${currentWeight} ${currentUnit}
+If their most recent session shows reps consistently above 8 with 1-2 RIR, recommend increasing weight by 10% rounded to the nearest 5 lb increment.
 
-Recommendation type: ${recType}
-${suggestedWeight ? `Suggested new weight: ${suggestedWeight} ${currentUnit}` : ''}
+If reps are within 6-8, tell them to stay at the current weight and aim for more reps next time.
 
-Give the WHY explanation first, then the weight recommendation.`;
+If they cannot hit 6 reps, tell them to drop back to their last successful weight.
+
+Respond ONLY in JSON with no markdown or backticks: {"action": "INCREASE_WEIGHT" or "HOLD_WEIGHT" or "DROP_WEIGHT", "current_weight": number, "recommended_weight": number, "trend": "short summary of their last 4 sessions like 6 → 7 → 8 → 9 reps", "explanation": "one casual sentence explaining why, like a gym buddy would say it"}`;
+
+    const userMessage = `Exercise: ${exerciseName}. Last 4 sessions: ${JSON.stringify(sessions)}.`;
 
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -110,7 +46,7 @@ Give the WHY explanation first, then the weight recommendation.`;
         max_tokens: 256,
         system: systemPrompt,
         messages: [
-          { role: "user", content: userPrompt },
+          { role: "user", content: userMessage },
         ],
       }),
     });
@@ -127,16 +63,12 @@ Give the WHY explanation first, then the weight recommendation.`;
     }
 
     const aiResult = await response.json();
-    const message = aiResult.content?.[0]?.text || "Keep pushing! You're making progress.";
+    const rawText = aiResult.content?.[0]?.text || "";
 
-    return new Response(JSON.stringify({
-      type: recType,
-      message,
-      suggestedWeight,
-      exerciseName,
-      currentWeight,
-      unit: currentUnit,
-    }), {
+    // Parse the JSON response from Claude
+    const parsed = JSON.parse(rawText);
+
+    return new Response(JSON.stringify(parsed), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {

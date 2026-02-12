@@ -5,7 +5,7 @@ import { SocialScreen } from '@/components/SocialScreen';
 import { LogEntryForm } from '@/components/LogEntryForm';
 import { ExerciseHistory } from '@/components/ExerciseHistory';
 import { RepRangeModal } from '@/components/RepRangeModal';
-import { RecommendationModal } from '@/components/RecommendationModal';
+import { RecommendationModal, AiRecommendation } from '@/components/RecommendationModal';
 import { ProgressNotification } from '@/components/ProgressNotification';
 import { AuthModal } from '@/components/AuthModal';
 import { MigrationModal } from '@/components/MigrationModal';
@@ -48,12 +48,11 @@ export default function Index() {
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
   const [showRepRangeModal, setShowRepRangeModal] = useState(false);
   const [pendingLog, setPendingLog] = useState<PendingLog | null>(null);
-  const [recommendation, setRecommendation] = useState<RecommendationResult | null>(null);
+  const [recommendation, setRecommendation] = useState<AiRecommendation | null>(null);
   const [notification, setNotification] = useState<RecommendationResult | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showMigrationModal, setShowMigrationModal] = useState(false);
   const [localWorkoutCount, setLocalWorkoutCount] = useState(0);
-  const [aiRecommendation, setAiRecommendation] = useState<{ message: string; type: string; suggestedWeight?: number } | null>(null);
   const [loadingAiRec, setLoadingAiRec] = useState(false);
 
   const { user, isAuthenticated, loading: authLoading } = useAuth();
@@ -104,10 +103,9 @@ export default function Index() {
     setScreen('home');
   };
 
-  const fetchAiRecommendation = async (exerciseName: string, goalMinReps: number, goalMaxReps: number) => {
+  const fetchAiRecommendation = async (exerciseName: string) => {
     setLoadingAiRec(true);
     try {
-      // Fetch recent sessions for this exercise from the workouts table
       const allWorkouts = await getWorkouts();
       const exerciseSessions = allWorkouts
         .filter(w => w.exercise_name.toLowerCase() === exerciseName.toLowerCase())
@@ -118,37 +116,25 @@ export default function Index() {
         return;
       }
 
+      const last4 = exerciseSessions.slice(-4);
+      const sessionsPayload = last4.map(s => ({
+        weight: s.weight,
+        reps: [s.reps],
+        rir: s.rir ?? null,
+      }));
+
       const { data: fnData, error } = await supabase.functions.invoke('progression-recommendation', {
         body: {
           exerciseName,
-          sessions: exerciseSessions.map(s => ({
-            weight: s.weight,
-            unit: s.unit,
-            reps: s.reps,
-            rir: s.rir ?? null,
-            sets: s.sets,
-            timestamp: s.timestamp,
-            goal_min_reps: s.goal_min_reps,
-            goal_max_reps: s.goal_max_reps,
-          })),
-          goalMinReps,
-          goalMaxReps,
+          sessions: sessionsPayload,
         },
       });
 
       if (error) {
         console.error('AI recommendation error:', error);
         toast.error('Could not get AI recommendation');
-      } else if (fnData) {
-        setAiRecommendation(fnData);
-        // Show AI recommendation as the modal instead of the default one
-        setRecommendation({
-          type: fnData.type === 'increase' ? 'progressive_overload' : fnData.type === 'decrease' ? 'acute_deload' : 'maintain',
-          icon: fnData.type === 'increase' ? '🚀' : fnData.type === 'decrease' ? '⚠️' : '✅',
-          headline: fnData.type === 'increase' ? 'Time to level up!' : fnData.type === 'decrease' ? 'Let\'s adjust' : 'Holding steady',
-          message: fnData.message,
-          suggestedWeight: fnData.suggestedWeight,
-        });
+      } else if (fnData && fnData.action) {
+        setRecommendation(fnData as AiRecommendation);
       }
     } catch (e) {
       console.error('AI recommendation error:', e);
@@ -215,11 +201,8 @@ export default function Index() {
     newData = addLogToExercise(newData, newExercise.id, log);
     updateData(newData);
 
-    // Show notification first, then modal
+    // Show notification
     setNotification(result);
-    setTimeout(() => {
-      setRecommendation(result);
-    }, 500);
 
     // Clean up
     setShowRepRangeModal(false);
@@ -266,18 +249,13 @@ export default function Index() {
     }
 
     // Check if we have 4+ sessions for AI recommendation
-    const totalLogs = exercise.logs.length + 1; // +1 for the one we just added
+    const totalLogs = exercise.logs.length + 1;
     if (totalLogs >= 4 && isAuthenticated) {
-      fetchAiRecommendation(exercise.name, exercise.minReps, exercise.goalReps);
+      fetchAiRecommendation(exercise.name);
     }
 
-    // Show notification first, then modal
+    // Show notification
     setNotification(result);
-    setTimeout(() => {
-      if (!loadingAiRec) {
-        setRecommendation(result);
-      }
-    }, 500);
   };
 
   const handleRecommendationClose = () => {

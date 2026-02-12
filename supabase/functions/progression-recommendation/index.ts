@@ -28,8 +28,8 @@ serve(async (req) => {
       goalMaxReps: number;
     };
 
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+    const ANTHROPIC_API_KEY = Deno.env.get("ANTHROPIC_API_KEY");
+    if (!ANTHROPIC_API_KEY) throw new Error("ANTHROPIC_API_KEY is not configured");
 
     // Build analysis for the AI
     const last4 = sessions.slice(-4);
@@ -43,9 +43,7 @@ serve(async (req) => {
     let suggestedWeight: number | null = null;
 
     if (avgReps > goalMaxReps && avgRir >= 1 && avgRir <= 2) {
-      // Consistently above goal range with 1-2 RIR -> increase weight
       recType = "increase";
-      // 10% increase rounded to nearest plate increment
       const raw = currentWeight * 1.1;
       suggestedWeight = currentUnit === "kg"
         ? Math.round(raw / 2.5) * 2.5
@@ -53,7 +51,6 @@ serve(async (req) => {
     } else if (avgReps >= goalMinReps && avgReps <= goalMaxReps) {
       recType = "hold";
     } else if (avgReps < goalMinReps) {
-      // Find last successful weight (where reps were in range)
       recType = "decrease";
       const successful = sessions.filter(s => s.reps >= goalMinReps && s.weight < currentWeight);
       suggestedWeight = successful.length > 0
@@ -101,16 +98,18 @@ ${suggestedWeight ? `Suggested new weight: ${suggestedWeight} ${currentUnit}` : 
 
 Give the WHY explanation first, then the weight recommendation.`;
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "x-api-key": ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 256,
+        system: systemPrompt,
         messages: [
-          { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt },
         ],
       }),
@@ -122,18 +121,13 @@ Give the WHY explanation first, then the weight recommendation.`;
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      if (response.status === 402) {
-        return new Response(JSON.stringify({ error: "AI credits exhausted." }), {
-          status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
       const t = await response.text();
-      console.error("AI gateway error:", response.status, t);
-      throw new Error("AI gateway error");
+      console.error("Anthropic API error:", response.status, t);
+      throw new Error("Anthropic API error");
     }
 
     const aiResult = await response.json();
-    const message = aiResult.choices?.[0]?.message?.content || "Keep pushing! You're making progress.";
+    const message = aiResult.content?.[0]?.text || "Keep pushing! You're making progress.";
 
     return new Response(JSON.stringify({
       type: recType,

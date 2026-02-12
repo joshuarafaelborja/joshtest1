@@ -35,7 +35,7 @@ export function UnitToggle({ value, onChange }: UnitToggleProps) {
   return (
     <div
       ref={containerRef}
-      className="relative inline-flex p-1 rounded-[28px] gap-1"
+      className="relative inline-flex p-1 rounded-[28px] gap-1 transition-shadow duration-150 ease-in-out hover:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)] active:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)]"
       style={{ background: '#27272A' }}
     >
       {/* Sliding indicator */}

@@ -51,7 +51,7 @@ export function UnitToggle({ value, onChange }: UnitToggleProps) {
       <button
         ref={lbsRef}
         onClick={() => onChange('lbs')}
-        className="relative z-10 px-5 py-1.5 rounded-[24px] text-sm font-bold tracking-wide transition-colors duration-200"
+        className="relative z-10 min-w-[48px] px-4 py-1.5 rounded-[24px] text-sm font-bold tracking-wide transition-colors duration-200 text-center leading-5"
         style={{ color: value === 'lbs' ? '#FFFFFF' : '#A1A1AA' }}
       >
         LBS
@@ -59,7 +59,7 @@ export function UnitToggle({ value, onChange }: UnitToggleProps) {
       <button
         ref={kgRef}
         onClick={() => onChange('kg')}
-        className="relative z-10 px-5 py-1.5 rounded-[24px] text-sm font-bold tracking-wide transition-colors duration-200"
+        className="relative z-10 min-w-[48px] px-4 py-1.5 rounded-[24px] text-sm font-bold tracking-wide transition-colors duration-200 text-center leading-5"
         style={{ color: value === 'kg' ? '#FFFFFF' : '#A1A1AA' }}
       >
         KG

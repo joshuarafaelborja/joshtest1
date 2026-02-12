@@ -29,6 +29,7 @@ import {
   addLogToExercise,
   markOnboardingComplete,
   generateId,
+  updateExerciseRepRange,
 } from '@/lib/storage';
 import { analyzePerformance } from '@/lib/recommendations';
 
@@ -103,7 +104,7 @@ export default function Index() {
     setScreen('home');
   };
 
-  const fetchAiRecommendation = async (exerciseName: string) => {
+  const fetchAiRecommendation = async (exerciseName: string, minReps: number, goalReps: number) => {
     setLoadingAiRec(true);
     try {
       const allWorkouts = await getWorkouts();
@@ -127,6 +128,8 @@ export default function Index() {
         body: {
           exerciseName,
           sessions: sessionsPayload,
+          goalMinReps: minReps,
+          goalMaxReps: goalReps,
         },
       });
 
@@ -251,7 +254,7 @@ export default function Index() {
     // Check if we have 4+ sessions for AI recommendation
     const totalLogs = exercise.logs.length + 1;
     if (totalLogs >= 4 && isAuthenticated) {
-      fetchAiRecommendation(exercise.name);
+      fetchAiRecommendation(exercise.name, exercise.minReps, exercise.goalReps);
     }
 
     // Show notification
@@ -262,6 +265,12 @@ export default function Index() {
     setRecommendation(null);
     setNotification(null);
     setScreen('home');
+  };
+
+  const handleUpdateRepRange = (exerciseId: string, minReps: number, goalReps: number) => {
+    const newData = updateExerciseRepRange(data, exerciseId, minReps, goalReps);
+    updateData(newData);
+    toast.success('Rep range updated');
   };
 
   const handleSelectExercise = (exercise: Exercise) => {
@@ -306,14 +315,15 @@ export default function Index() {
           return null;
         }
         return (
-          <ExerciseHistory
-            exercise={currentExercise}
-            onBack={() => {
-              setSelectedExercise(null);
-              setScreen('home');
-            }}
-          />
-        );
+           <ExerciseHistory
+             exercise={currentExercise}
+             onBack={() => {
+               setSelectedExercise(null);
+               setScreen('home');
+             }}
+             onUpdateRepRange={handleUpdateRepRange}
+           />
+         );
       
       case 'social':
         return (

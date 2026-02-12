@@ -22,14 +22,12 @@ export function UnitToggle({ value, onChange }: UnitToggleProps) {
         style={{ color: value === 'lbs' ? '#FFFFFF' : '#A1A1AA' }}
       >
         <span className="relative z-10">LBS</span>
-        {value === 'lbs' && (
-          <motion.div
-            layoutId="unit-pill"
-            className="absolute inset-0 rounded-[24px] shadow-none group-hover:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)] group-active:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)]"
-            style={{ background: '#1E3A8A' }}
-            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-          />
-        )}
+        <motion.div
+          layoutId="unit-pill"
+          className="absolute inset-0 rounded-[24px] shadow-none group-hover:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)] group-active:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)]"
+          style={{ background: value === 'lbs' ? '#1E3A8A' : 'transparent' }}
+          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+        />
       </button>
       <button
         onClick={() => onChange('kg')}
@@ -38,14 +36,12 @@ export function UnitToggle({ value, onChange }: UnitToggleProps) {
         style={{ color: value === 'kg' ? '#FFFFFF' : '#A1A1AA' }}
       >
         <span className="relative z-10">KG</span>
-        {value === 'kg' && (
-          <motion.div
-            layoutId="unit-pill"
-            className="absolute inset-0 rounded-[24px] shadow-none group-hover:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)] group-active:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)]"
-            style={{ background: '#1E3A8A' }}
-            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-          />
-        )}
+        <motion.div
+          layoutId="unit-pill"
+          className="absolute inset-0 rounded-[24px] shadow-none group-hover:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)] group-active:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)]"
+          style={{ background: value === 'kg' ? '#1E3A8A' : 'transparent' }}
+          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+        />
       </button>
     </div>
   );

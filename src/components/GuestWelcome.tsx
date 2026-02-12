@@ -1,6 +1,6 @@
 import { Dumbbell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import coachLogo from '@/assets/coach-logo.svg';
+import spotLogo from '@/assets/spot-ai-logo.svg';
 
 interface GuestWelcomeProps {
   onCreateAccount: () => void;
@@ -11,13 +11,13 @@ export function GuestWelcome({ onCreateAccount, onStartTraining }: GuestWelcomeP
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-6">
       <img 
-        src={coachLogo} 
-        alt="Coach" 
-        className="w-24 h-24 object-contain mb-6"
+        src={spotLogo} 
+        alt="Spot.AI" 
+        className="w-48 h-auto object-contain mb-6"
       />
       
       <h1 className="text-3xl font-bold mb-3 text-foreground">
-        Welcome to <span className="text-primary">Coach</span>
+        Welcome to <span className="text-primary">Spot.AI</span>
       </h1>
       
       <p className="text-muted-foreground mb-8 max-w-sm">

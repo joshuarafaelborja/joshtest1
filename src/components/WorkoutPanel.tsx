@@ -8,7 +8,7 @@ import { AccountMenu } from './AccountMenu';
 import { LevelUpCard } from './LevelUpCard';
 import { AppData, Exercise } from '@/lib/types';
 import { useAuth } from '@/hooks/useAuth';
-import coachLogo from '@/assets/coach-logo.svg';
+import spotLogo from '@/assets/spot-ai-logo.svg';
 
 interface WorkoutPanelProps {
   data: AppData;
@@ -52,10 +52,10 @@ export function WorkoutPanel({ data, onLogNew, onSelectExercise, onOpenAuth, onO
                 onClick={() => setShowCoachPanel(true)}
                 className="group relative transition-transform duration-200 hover:scale-105 active:scale-95"
               >
-                <img src={coachLogo} alt="Coach" className="w-10 h-10 object-contain" />
+                <img src={spotLogo} alt="Spot.AI" className="h-8 object-contain" />
                 <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-primary rounded-full border-2 border-card animate-pulse" />
               </button>
-              <h1 className="text-2xl font-bold text-foreground">Coach</h1>
+              <h1 className="text-2xl font-bold text-foreground">Spot</h1>
             </div>
             <AccountMenu onCreateAccount={onOpenAuth} />
           </div>

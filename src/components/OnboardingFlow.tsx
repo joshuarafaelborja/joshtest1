@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import coachLogo from '@/assets/coach-logo.svg';
+import spotLogo from '@/assets/spot-ai-logo.svg';
 
 interface OnboardingFlowProps {
   onComplete: (userName?: string, goToCalculator?: boolean) => void;
@@ -116,8 +116,8 @@ export function OnboardingFlow({ onComplete, onSkip }: OnboardingFlowProps) {
       <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b px-4 py-3">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <img src={coachLogo} alt="Coach" className="w-8 h-8 object-contain" />
-            <span className="font-semibold">Coach AI</span>
+            <img src={spotLogo} alt="Spot.AI" className="h-6 object-contain" />
+            <span className="font-semibold">Spot.AI</span>
           </div>
         </div>
         <Progress value={progress} className="h-1" />
@@ -154,13 +154,13 @@ function WelcomeStep({ onNext, onSkip }: { onNext: () => void; onSkip: () => voi
       <div className="max-w-md mx-auto w-full text-center flex flex-col items-center">
         <div className="inline-flex items-center justify-center w-32 h-32 mb-8">
           <img 
-            src={coachLogo} 
-            alt="Coach mascot" 
-            className="w-32 h-32 object-contain drop-shadow-lg animate-scale-in" 
+            src={spotLogo} 
+            alt="Spot.AI" 
+            className="w-48 h-auto object-contain drop-shadow-lg animate-scale-in" 
           />
         </div>
         <h1 className="text-4xl font-extrabold tracking-tight mb-4">
-          Welcome to Coach AI
+          Welcome to Spot.AI
         </h1>
         <p className="text-xl text-muted-foreground mb-12">
           Your personal workout tracking assistant
@@ -208,7 +208,7 @@ function HowItWorksStep({ onNext, onSkip }: { onNext: () => void; onSkip: () => 
   return (
     <div className="flex-1 flex flex-col px-6 py-8 animate-fade-in">
       <div className="max-w-md mx-auto w-full flex-1 flex flex-col">
-        <h2 className="text-3xl font-bold mb-2">How Coach Works</h2>
+        <h2 className="text-3xl font-bold mb-2">How Spot Works</h2>
         <p className="text-muted-foreground mb-8">
           Simple, powerful, and designed for your gains
         </p>

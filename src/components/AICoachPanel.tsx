@@ -127,12 +127,12 @@ export function AICoachPanel({ isOpen, onClose, onOpenCalculators, data = defaul
             <div className="flex items-center gap-4">
               <img 
                 src={mascotNotification} 
-                alt="Coach mascot" 
+                alt="Spot.AI" 
                 className="w-14 h-14 object-contain"
               />
               <div>
                 <h2 className="text-2xl font-bold text-white">Ready to Level Up?</h2>
-                <p className="text-white/70 text-sm mt-0.5">Your AI Coach is here</p>
+                <p className="text-white/70 text-sm mt-0.5">Your AI Spotter is here</p>
               </div>
             </div>
           </div>
@@ -196,7 +196,7 @@ export function AICoachPanel({ isOpen, onClose, onOpenCalculators, data = defaul
 
             {/* How Coach Works */}
             <div className="animate-fade-in" style={{ animationDelay: '250ms' }}>
-              <h3 className="heading-card text-foreground mb-3">How Coach Works</h3>
+              <h3 className="heading-card text-foreground mb-3">How Spot Works</h3>
               <div className="space-y-3">
                 {howCoachWorks.map((item, index) => (
                   <div 

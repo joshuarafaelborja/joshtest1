@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { RecommendationType } from '@/lib/types';
-import mascotNotification from '@/assets/mascot-notification.svg';
+import spotLogoNoti from '@/assets/spot-logo-noti.svg';
 
 interface ProgressNotificationProps {
   type: RecommendationType;
@@ -80,7 +80,7 @@ export function ProgressNotification({
     if (showMascot) {
       return (
         <img 
-          src={mascotNotification} 
+          src={spotLogoNoti} 
           alt="Spot.AI" 
           className="w-12 h-12 object-contain flex-shrink-0"
         />

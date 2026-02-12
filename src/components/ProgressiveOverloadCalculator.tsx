@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TrendingUp, Dumbbell, Target, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { UnitToggle } from '@/components/UnitToggle';
 
 interface CalculatorResult {
   status: 'increase' | 'maintain' | 'decrease';
@@ -105,20 +106,7 @@ export function ProgressiveOverloadCalculator() {
       </div>
 
       {/* Unit Toggle */}
-      <div className="flex items-center gap-1 p-1 bg-secondary rounded-full w-fit">
-        <button
-          onClick={() => handleUnitChange('lbs')}
-          className={`pill-button ${unit === 'lbs' ? 'pill-button-active' : 'pill-button-inactive'}`}
-        >
-          LBS
-        </button>
-        <button
-          onClick={() => handleUnitChange('kg')}
-          className={`pill-button ${unit === 'kg' ? 'pill-button-active' : 'pill-button-inactive'}`}
-        >
-          KG
-        </button>
-      </div>
+      <UnitToggle value={unit} onChange={handleUnitChange} />
 
       {/* Input Fields */}
       <div className="grid grid-cols-3 gap-4">

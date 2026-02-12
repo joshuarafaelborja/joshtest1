@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { ArrowLeft, ChevronDown, Dumbbell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { UnitToggle } from '@/components/UnitToggle';
 import { Label } from '@/components/ui/label';
 import { AppData } from '@/lib/types';
 import { usePreviousExercises } from '@/hooks/usePreviousExercises';
@@ -174,30 +175,7 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
               onChange={(e) => setWeight(e.target.value)}
               className="h-14 text-lg flex-1"
             />
-            <div className="flex bg-secondary rounded-lg p-1">
-              <button
-                type="button"
-                onClick={() => setUnit('lbs')}
-                className={`px-4 py-2 rounded-md font-medium transition-all ${
-                  unit === 'lbs'
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                lbs
-              </button>
-              <button
-                type="button"
-                onClick={() => setUnit('kg')}
-                className={`px-4 py-2 rounded-md font-medium transition-all ${
-                  unit === 'kg'
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                kg
-              </button>
-            </div>
+            <UnitToggle value={unit} onChange={(u) => setUnit(u)} />
           </div>
           {errors.weight && (
             <p className="text-destructive text-sm mt-1">{errors.weight}</p>

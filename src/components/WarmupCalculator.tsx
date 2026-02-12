@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Flame, Scale, Dumbbell, Sparkles, Brain } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { UnitToggle } from '@/components/UnitToggle';
 import { useWarmupCalculation, AIWarmupSet } from '@/hooks/useWarmupCalculation';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -161,20 +162,7 @@ export function WarmupCalculator() {
       {/* Toggle Controls */}
       <div className="flex flex-wrap items-center gap-3">
         {/* Unit Toggle */}
-        <div className="flex items-center gap-1 p-1 bg-secondary rounded-full">
-          <button
-            onClick={() => handleUnitChange('lbs')}
-            className={`pill-button ${unit === 'lbs' ? 'pill-button-active' : 'pill-button-inactive'}`}
-          >
-            LBS
-          </button>
-          <button
-            onClick={() => handleUnitChange('kg')}
-            className={`pill-button ${unit === 'kg' ? 'pill-button-active' : 'pill-button-inactive'}`}
-          >
-            KG
-          </button>
-        </div>
+        <UnitToggle value={unit} onChange={handleUnitChange} />
 
         {/* Calculation Mode Toggle */}
         <div className="flex items-center gap-1 p-1 bg-secondary rounded-full">

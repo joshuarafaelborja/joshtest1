@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Battery, Brain, Dumbbell, Calendar, AlertCircle, Sparkles, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
+import { UnitToggle } from '@/components/UnitToggle';
 import { useDeloadCalculation, DeloadWeekResult } from '@/hooks/useDeloadCalculation';
 import { useAuth } from '@/hooks/useAuth';
 import { usePreviousExercises } from '@/hooks/usePreviousExercises';
@@ -103,20 +104,7 @@ export function DeloadPlanner() {
       {showForm && (
         <div className="space-y-5 animate-fade-in">
           {/* Unit Toggle */}
-          <div className="flex items-center gap-1 p-1 bg-secondary rounded-full w-fit">
-            <button
-              onClick={() => handleUnitChange('lbs')}
-              className={`pill-button ${unit === 'lbs' ? 'pill-button-active' : 'pill-button-inactive'}`}
-            >
-              LBS
-            </button>
-            <button
-              onClick={() => handleUnitChange('kg')}
-              className={`pill-button ${unit === 'kg' ? 'pill-button-active' : 'pill-button-inactive'}`}
-            >
-              KG
-            </button>
-          </div>
+          <UnitToggle value={unit} onChange={handleUnitChange} />
 
           {/* Training Frequency */}
           <div className="space-y-2">

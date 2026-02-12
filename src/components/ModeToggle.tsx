@@ -10,7 +10,7 @@ interface ModeToggleProps {
   aiLabel?: ReactNode;
 }
 
-export function ModeToggle({ value, onChange, manualLabel = 'Standard', aiLabel = 'AI' }: ModeToggleProps) {
+export function ModeToggle({ value, onChange, manualLabel = 'Manual', aiLabel = 'AI' }: ModeToggleProps) {
   return (
     <div
       className="relative inline-flex p-1 rounded-[28px] gap-1 group"

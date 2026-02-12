@@ -11,7 +11,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { AppData, Exercise } from '@/lib/types';
 import { useAuth } from '@/hooks/useAuth';
 import { usePreviousExercises, PreviousExercise } from '@/hooks/usePreviousExercises';
-import spotLogo from '@/assets/spot-ai-logo.svg';
+import spotLogo from '@/assets/spot-logo.svg';
 
 interface SplitScreenLayoutProps {
   data: AppData;
@@ -54,10 +54,9 @@ export function SplitScreenLayout({ data, onLogNew, onLogPreviousExercise, onSel
               onClick={() => setShowCoachPanel(true)}
               className="group relative transition-transform duration-200 hover:scale-105 active:scale-95"
             >
-              <img src={spotLogo} alt="Spot.AI" className="h-7 object-contain" />
+              <img src={spotLogo} alt="Spot.AI" className="w-9 h-9 object-contain" />
               <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-primary rounded-full border-2 border-background animate-pulse" />
             </button>
-            <h1 className="text-xl font-bold text-foreground">Spot</h1>
           </div>
           <div className="flex items-center gap-2">
             <button

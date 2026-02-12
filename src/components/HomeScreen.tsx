@@ -8,7 +8,7 @@ import { SyncBanner } from './SyncBanner';
 import { AccountMenu } from './AccountMenu';
 import { AppData, Exercise } from '@/lib/types';
 import { useAuth } from '@/hooks/useAuth';
-import spotLogo from '@/assets/spot-ai-logo.svg';
+import spotLogo from '@/assets/spot-logo.svg';
 
 interface HomeScreenProps {
   data: AppData;
@@ -50,10 +50,9 @@ export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators
               onClick={() => setShowCoachPanel(true)}
               className="group relative transition-transform duration-200 hover:scale-105 active:scale-95"
             >
-              <img src={spotLogo} alt="Spot.AI" className="h-8 object-contain" />
+              <img src={spotLogo} alt="Spot.AI" className="w-10 h-10 object-contain" />
               <span className="absolute -bottom-1 -right-1 w-3 h-3 bg-primary rounded-full border-2 border-card animate-pulse" />
             </button>
-            <h1 className="text-2xl font-bold text-foreground">Spot</h1>
           </div>
           <AccountMenu onCreateAccount={onOpenAuth} />
         </div>

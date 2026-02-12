@@ -1,54 +1,54 @@
-import { X } from 'lucide-react';
+import { X, TrendingUp, Minus, TrendingDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { RecommendationResult } from '@/lib/types';
+
+export interface AiRecommendation {
+  action: 'INCREASE_WEIGHT' | 'HOLD_WEIGHT' | 'DROP_WEIGHT';
+  current_weight: number;
+  recommended_weight: number;
+  trend: string;
+  explanation: string;
+}
 
 interface RecommendationModalProps {
-  recommendation: RecommendationResult;
+  recommendation: AiRecommendation;
   onClose: () => void;
 }
 
 export function RecommendationModal({ recommendation, onClose }: RecommendationModalProps) {
-  const getBgColor = () => {
-    switch (recommendation.type) {
-      case 'progressive_overload':
-      case 'acclimation':
-        return 'bg-primary/10';
-      case 'maintain':
-        return 'bg-success/10';
-      case 'acute_deload':
-      case 'scheduled_deload':
-        return 'bg-warning/10';
-      default:
-        return 'bg-secondary';
-    }
-  };
+  const config = {
+    INCREASE_WEIGHT: {
+      bg: 'bg-emerald-500/15 border-emerald-500/40',
+      iconBg: 'bg-emerald-500/20',
+      iconColor: 'text-emerald-400',
+      label: 'Time to go up!',
+      Icon: TrendingUp,
+    },
+    HOLD_WEIGHT: {
+      bg: 'bg-blue-500/15 border-blue-500/40',
+      iconBg: 'bg-blue-500/20',
+      iconColor: 'text-blue-400',
+      label: 'Hold steady',
+      Icon: Minus,
+    },
+    DROP_WEIGHT: {
+      bg: 'bg-yellow-500/15 border-yellow-500/40',
+      iconBg: 'bg-yellow-500/20',
+      iconColor: 'text-yellow-400',
+      label: 'Drop back',
+      Icon: TrendingDown,
+    },
+  }[recommendation.action];
 
-  const getIconColor = () => {
-    switch (recommendation.type) {
-      case 'progressive_overload':
-      case 'acclimation':
-        return 'text-primary';
-      case 'maintain':
-        return 'text-success';
-      case 'acute_deload':
-      case 'scheduled_deload':
-        return 'text-warning';
-      default:
-        return 'text-muted-foreground';
-    }
-  };
+  const { Icon } = config;
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center animate-fade-in">
-      {/* Overlay */}
       <div 
         className="absolute inset-0 bg-foreground/50 backdrop-blur-sm"
         onClick={onClose}
       />
       
-      {/* Modal */}
-      <div className="relative w-full max-w-md bg-card rounded-t-2xl sm:rounded-2xl p-6 shadow-xl animate-slide-up">
-        {/* Close button */}
+      <div className={`relative w-full max-w-md rounded-t-2xl sm:rounded-2xl p-6 shadow-xl animate-slide-up border ${config.bg}`}>
         <button
           onClick={onClose}
           className="absolute top-4 right-4 p-2 rounded-full hover:bg-secondary touch-target"
@@ -56,25 +56,37 @@ export function RecommendationModal({ recommendation, onClose }: RecommendationM
           <X className="w-5 h-5" />
         </button>
 
-        {/* Content */}
-        <div className="text-center pt-4">
-          {/* Icon */}
-          <div className={`inline-flex items-center justify-center w-20 h-20 rounded-full ${getBgColor()} mb-6`}>
-            <span className={`text-4xl ${getIconColor()}`}>{recommendation.icon}</span>
+        <div className="pt-2">
+          {/* Icon + Label */}
+          <div className="flex items-center gap-3 mb-4">
+            <div className={`p-2.5 rounded-full ${config.iconBg}`}>
+              <Icon className={`w-6 h-6 ${config.iconColor}`} />
+            </div>
+            <h2 className="text-xl font-bold">{config.label}</h2>
           </div>
 
-          {/* Headline */}
-          <h2 className="text-2xl font-bold mb-3">{recommendation.headline}</h2>
+          {/* Weight recommendation */}
+          {recommendation.action !== 'HOLD_WEIGHT' && (
+            <div className="flex items-baseline gap-2 mb-4">
+              <span className="text-muted-foreground text-sm">{recommendation.current_weight} lbs →</span>
+              <span className="text-2xl font-bold">{recommendation.recommended_weight} lbs</span>
+            </div>
+          )}
 
-          {/* Message */}
-          <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-            {recommendation.message}
+          {/* Trend line */}
+          <div className="bg-background/50 rounded-lg px-4 py-3 mb-4">
+            <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Trend</p>
+            <p className="text-sm font-medium">{recommendation.trend}</p>
+          </div>
+
+          {/* Explanation */}
+          <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+            {recommendation.explanation}
           </p>
 
-          {/* CTA */}
           <Button
             onClick={onClose}
-            className="w-full h-14 text-lg font-semibold touch-target"
+            className="w-full h-12 text-base font-semibold touch-target"
           >
             Got it
           </Button>

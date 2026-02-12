@@ -129,7 +129,13 @@ export function ProgressNotification({
         `}
       >
         {/* Mascot or Icon */}
-        {getMascotOrIcon()}
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {getMascotOrIcon()}
+          <span className="text-sm font-bold tracking-tight">
+            <span style={{ color: '#94A3B8' }}>Spot</span>
+            <span style={{ color: '#1E3A8A' }}>.AI</span>
+          </span>
+        </div>
 
         {/* Content */}
         <div className="flex-1 min-w-0">

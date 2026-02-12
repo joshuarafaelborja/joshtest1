@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -112,7 +112,7 @@
   }
 
   html {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Archivo', system-ui, sans-serif;
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -131,7 +131,7 @@
   input[type="text"] {
     font-size: 18px !important;
     font-variant-numeric: tabular-nums;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Archivo', system-ui, sans-serif;
   }
 
   /* Hide number input spinners/arrows */

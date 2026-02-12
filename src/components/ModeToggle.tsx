@@ -25,14 +25,12 @@ export function ModeToggle({ value, onChange, manualLabel = 'Standard', aiLabel 
         style={{ color: value === 'manual' ? '#FFFFFF' : '#A1A1AA' }}
       >
         <span className="relative z-10">{manualLabel}</span>
-        {value === 'manual' && (
-          <motion.div
-            layoutId="mode-pill"
-            className="absolute inset-0 rounded-[24px] shadow-none group-hover:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)] group-active:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)]"
-            style={{ background: '#1E3A8A' }}
-            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-          />
-        )}
+        <motion.div
+          layoutId="mode-pill"
+          className="absolute inset-0 rounded-[24px] shadow-none group-hover:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)] group-active:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)]"
+          style={{ background: value === 'manual' ? '#1E3A8A' : 'transparent' }}
+          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+        />
       </button>
       <button
         onClick={() => onChange('ai')}
@@ -41,14 +39,12 @@ export function ModeToggle({ value, onChange, manualLabel = 'Standard', aiLabel 
         style={{ color: value === 'ai' ? '#FFFFFF' : '#A1A1AA' }}
       >
         <span className="relative z-10">{aiLabel}</span>
-        {value === 'ai' && (
-          <motion.div
-            layoutId="mode-pill"
-            className="absolute inset-0 rounded-[24px] shadow-none group-hover:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)] group-active:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)]"
-            style={{ background: '#1E3A8A' }}
-            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-          />
-        )}
+        <motion.div
+          layoutId="mode-pill"
+          className="absolute inset-0 rounded-[24px] shadow-none group-hover:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)] group-active:shadow-[0_0_12px_2px_rgba(37,99,235,0.4)]"
+          style={{ background: value === 'ai' ? '#1E3A8A' : 'transparent' }}
+          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+        />
       </button>
     </div>
   );

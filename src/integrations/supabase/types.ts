@@ -192,9 +192,12 @@ export type Database = {
         Row: {
           created_at: string
           exercise_name: string
+          goal_max_reps: number | null
+          goal_min_reps: number | null
           id: string
           notes: string | null
           reps: number
+          rir: number | null
           sets: number
           timestamp: string
           unit: string
@@ -204,9 +207,12 @@ export type Database = {
         Insert: {
           created_at?: string
           exercise_name: string
+          goal_max_reps?: number | null
+          goal_min_reps?: number | null
           id?: string
           notes?: string | null
           reps: number
+          rir?: number | null
           sets?: number
           timestamp?: string
           unit?: string
@@ -216,9 +222,12 @@ export type Database = {
         Update: {
           created_at?: string
           exercise_name?: string
+          goal_max_reps?: number | null
+          goal_min_reps?: number | null
           id?: string
           notes?: string | null
           reps?: number
+          rir?: number | null
           sets?: number
           timestamp?: string
           unit?: string

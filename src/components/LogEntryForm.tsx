@@ -9,7 +9,7 @@ import { usePreviousExercises } from '@/hooks/usePreviousExercises';
 
 interface LogEntryFormProps {
   data: AppData;
-  onSubmit: (exerciseName: string, weight: number, unit: 'lbs' | 'kg', reps: number) => void;
+  onSubmit: (exerciseName: string, weight: number, unit: 'lbs' | 'kg', reps: number, rir: number | null) => void;
   onBack: () => void;
 }
 
@@ -18,6 +18,7 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
   const [weight, setWeight] = useState('');
   const [unit, setUnit] = useState<'lbs' | 'kg'>(data.userPreferences.defaultUnit);
   const [reps, setReps] = useState('');
+  const [rir, setRir] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showExercisePicker, setShowExercisePicker] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -59,7 +60,12 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
     }
 
     setErrors({});
-    onSubmit(exerciseName.trim(), parseFloat(weight), unit, parseInt(reps));
+    const rirValue = rir.trim() !== '' ? parseInt(rir) : null;
+    if (rirValue !== null && (isNaN(rirValue) || rirValue < 0 || rirValue > 10)) {
+      setErrors({ rir: 'RIR must be 0-10' });
+      return;
+    }
+    onSubmit(exerciseName.trim(), parseFloat(weight), unit, parseInt(reps), rirValue);
   };
 
   const selectSuggestion = (name: string) => {
@@ -198,6 +204,28 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
           />
           {errors.reps && (
             <p className="text-destructive text-sm mt-1">{errors.reps}</p>
+          )}
+        </div>
+
+        {/* RIR (Reps In Reserve) */}
+        <div>
+          <Label htmlFor="rir" className="text-base font-medium">
+            Reps In Reserve (RIR)
+          </Label>
+          <p className="text-sm text-muted-foreground mt-0.5 mb-2">How many more reps could you have done?</p>
+          <Input
+            id="rir"
+            type="number"
+            inputMode="numeric"
+            placeholder="e.g., 2"
+            value={rir}
+            onChange={(e) => setRir(e.target.value)}
+            className="h-14 text-lg"
+            min={0}
+            max={10}
+          />
+          {errors.rir && (
+            <p className="text-destructive text-sm mt-1">{errors.rir}</p>
           )}
         </div>
 

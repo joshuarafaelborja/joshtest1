@@ -9,6 +9,9 @@ export interface Workout {
   sets: number;
   timestamp: string;
   notes?: string;
+  rir?: number | null;
+  goal_min_reps?: number | null;
+  goal_max_reps?: number | null;
 }
 
 const LOCAL_STORAGE_KEY = 'coach-guest-workouts';
@@ -59,6 +62,9 @@ export async function getWorkouts(): Promise<Workout[]> {
       sets: w.sets,
       timestamp: w.timestamp,
       notes: w.notes || undefined,
+      rir: w.rir ?? null,
+      goal_min_reps: w.goal_min_reps ?? null,
+      goal_max_reps: w.goal_max_reps ?? null,
     }));
   }
   
@@ -82,6 +88,9 @@ export async function addWorkout(workout: Omit<Workout, 'id'>): Promise<Workout 
         sets: workout.sets,
         timestamp: workout.timestamp,
         notes: workout.notes || null,
+        rir: workout.rir ?? null,
+        goal_min_reps: workout.goal_min_reps ?? null,
+        goal_max_reps: workout.goal_max_reps ?? null,
       })
       .select()
       .single();
@@ -100,6 +109,9 @@ export async function addWorkout(workout: Omit<Workout, 'id'>): Promise<Workout 
       sets: data.sets,
       timestamp: data.timestamp,
       notes: data.notes || undefined,
+      rir: data.rir ?? null,
+      goal_min_reps: data.goal_min_reps ?? null,
+      goal_max_reps: data.goal_max_reps ?? null,
     };
   }
   

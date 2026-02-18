@@ -8,37 +8,24 @@ interface ScreenToggleProps {
 }
 
 const WorkoutIcon = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M14.4 14.4 9.6 9.6" />
-    <path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z" />
-    <path d="m21.5 21.5-1.4-1.4" />
-    <path d="M3.9 3.9 2.5 2.5" />
-    <path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z" />
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.25 12.5C17.25 12.6989 17.171 12.8897 17.0303 13.0303C16.8897 13.171 16.6989 13.25 16.5 13.25H10.5C10.3011 13.25 10.1103 13.171 9.96967 13.0303C9.82902 12.8897 9.75 12.6989 9.75 12.5C9.75 12.3011 9.82902 12.1103 9.96967 11.9697C10.1103 11.829 10.3011 11.75 10.5 11.75H16.5C16.6989 11.75 16.8897 11.829 17.0303 11.9697C17.171 12.1103 17.25 12.3011 17.25 12.5ZM16.5 14.75H10.5C10.3011 14.75 10.1103 14.829 9.96967 14.9697C9.82902 15.1103 9.75 15.3011 9.75 15.5C9.75 15.6989 9.82902 15.8897 9.96967 16.0303C10.1103 16.171 10.3011 16.25 10.5 16.25H16.5C16.6989 16.25 16.8897 16.171 17.0303 16.0303C17.171 15.8897 17.25 15.6989 17.25 15.5C17.25 15.3011 17.171 15.1103 17.0303 14.9697C16.8897 14.829 16.6989 14.75 16.5 14.75ZM21 6.5V21.5C21 21.8978 20.842 22.2794 20.5607 22.5607C20.2794 22.842 19.8978 23 19.5 23H4.5C4.10218 23 3.72064 22.842 3.43934 22.5607C3.15804 22.2794 3 21.8978 3 21.5V6.5C3 6.10218 3.15804 5.72064 3.43934 5.43934C3.72064 5.15804 4.10218 5 4.5 5H19.5C19.8978 5 20.2794 5.15804 20.5607 5.43934C20.842 5.72064 21 6.10218 21 6.5ZM4.5 21.5H6.75V6.5H4.5V21.5ZM19.5 21.5V6.5H8.25V21.5H19.5Z" fill="currentColor"/>
   </svg>
 );
 
 const CalcIcon = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="4" y="2" width="16" height="20" rx="2" />
-    <line x1="8" y1="6" x2="16" y2="6" />
-    <circle cx="8" cy="10" r="0.5" fill="currentColor" />
-    <circle cx="12" cy="10" r="0.5" fill="currentColor" />
-    <circle cx="16" cy="10" r="0.5" fill="currentColor" />
-    <circle cx="8" cy="14" r="0.5" fill="currentColor" />
-    <circle cx="12" cy="14" r="0.5" fill="currentColor" />
-    <circle cx="16" cy="14" r="0.5" fill="currentColor" />
-    <circle cx="8" cy="18" r="0.5" fill="currentColor" />
-    <line x1="12" y1="18" x2="16" y2="18" />
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7.5 11.25H16.5C16.6989 11.25 16.8897 11.171 17.0303 11.0303C17.171 10.8897 17.25 10.6989 17.25 10.5V6C17.25 5.80109 17.171 5.61032 17.0303 5.46967C16.8897 5.32902 16.6989 5.25 16.5 5.25H7.5C7.30109 5.25 7.11032 5.32902 6.96967 5.46967C6.82902 5.61032 6.75 5.80109 6.75 6V10.5C6.75 10.6989 6.82902 10.8897 6.96967 11.0303C7.11032 11.171 7.30109 11.25 7.5 11.25ZM8.25 6.75H15.75V9.75H8.25V6.75ZM18.75 2.25H5.25C4.85218 2.25 4.47064 2.40804 4.18934 2.68934C3.90804 2.97064 3.75 3.35218 3.75 3.75V20.25C3.75 20.6478 3.90804 21.0294 4.18934 21.3107C4.47064 21.592 4.85218 21.75 5.25 21.75H18.75C19.1478 21.75 19.5294 21.592 19.8107 21.3107C20.092 21.0294 20.25 20.6478 20.25 20.25V3.75C20.25 3.35218 20.092 2.97064 19.8107 2.68934C19.5294 2.40804 19.1478 2.25 18.75 2.25ZM18.75 20.25H5.25V3.75H18.75V20.25ZM9.375 13.875C9.375 14.0975 9.30902 14.315 9.1854 14.5C9.06179 14.685 8.88609 14.8292 8.68052 14.9144C8.47495 14.9995 8.24875 15.0218 8.03052 14.9784C7.81229 14.935 7.61184 14.8278 7.4545 14.6705C7.29717 14.5132 7.19002 14.3127 7.14662 14.0945C7.10321 13.8762 7.12549 13.65 7.21064 13.4445C7.29578 13.2389 7.43998 13.0632 7.62498 12.9396C7.80999 12.816 8.0275 12.75 8.25 12.75C8.54837 12.75 8.83452 12.8685 9.0455 13.0795C9.25647 13.2905 9.375 13.5766 9.375 13.875ZM13.125 13.875C13.125 14.0975 13.059 14.315 12.9354 14.5C12.8118 14.685 12.6361 14.8292 12.4305 14.9144C12.225 14.9995 11.9988 15.0218 11.7805 14.9784C11.5623 14.935 11.3618 14.8278 11.2045 14.6705C11.0472 14.5132 10.94 14.3127 10.8966 14.0945C10.8532 13.8762 10.8755 13.65 10.9606 13.4445C11.0458 13.2389 11.19 13.0632 11.375 12.9396C11.56 12.816 11.7775 12.75 12 12.75C12.2984 12.75 12.5845 12.8685 12.7955 13.0795C13.0065 13.2905 13.125 13.5766 13.125 13.875ZM16.875 13.875C16.875 14.0975 16.809 14.315 16.6854 14.5C16.5618 14.685 16.3861 14.8292 16.1805 14.9144C15.975 14.9995 15.7488 15.0218 15.5305 14.9784C15.3123 14.935 15.1118 14.8278 14.9545 14.6705C14.7972 14.5132 14.69 14.3127 14.6466 14.0945C14.6032 13.8762 14.6255 13.65 14.7106 13.4445C14.7958 13.2389 14.94 13.0632 15.125 12.9396C15.31 12.816 15.5275 12.75 15.75 12.75C16.0484 12.75 16.3345 12.8685 16.5455 13.0795C16.7565 13.2905 16.875 13.5766 16.875 13.875ZM9.375 17.625C9.375 17.8475 9.30902 18.065 9.1854 18.25C9.06179 18.435 8.88609 18.5792 8.68052 18.6644C8.47495 18.7495 8.24875 18.7718 8.03052 18.7284C7.81229 18.685 7.61184 18.5778 7.4545 18.4205C7.29717 18.2632 7.19002 18.0627 7.14662 17.8445C7.10321 17.6262 7.12549 17.4 7.21064 17.1945C7.29578 16.9889 7.43998 16.8132 7.62498 16.6896C7.80999 16.566 8.0275 16.5 8.25 16.5C8.54837 16.5 8.83452 16.6185 9.0455 16.8295C9.25647 17.0405 9.375 17.3266 9.375 17.625ZM13.125 17.625C13.125 17.8475 13.059 18.065 12.9354 18.25C12.8118 18.435 12.6361 18.5792 12.4305 18.6644C12.225 18.7495 11.9988 18.7718 11.7805 18.7284C11.5623 18.685 11.3618 18.5778 11.2045 18.4205C11.0472 18.2632 10.94 18.0627 10.8966 17.8445C10.8532 17.6262 10.8755 17.4 10.9606 17.1945C11.0458 16.9889 11.19 16.8132 11.375 16.6896C11.56 16.566 11.7775 16.5 12 16.5C12.2984 16.5 12.5845 16.6185 12.7955 16.8295C13.0065 17.0405 13.125 17.3266 13.125 17.625ZM16.875 17.625C16.875 17.8475 16.809 18.065 16.6854 18.25C16.5618 18.435 16.3861 18.5792 16.1805 18.6644C15.975 18.7495 15.7488 18.7718 15.5305 18.7284C15.3123 18.685 15.1118 18.5778 14.9545 18.4205C14.7972 18.2632 14.69 18.0627 14.6466 17.8445C14.6032 17.6262 14.6255 17.4 14.7106 17.1945C14.7958 16.9889 14.94 16.8132 15.125 16.6896C15.31 16.566 15.5275 16.5 15.75 16.5C16.0484 16.5 16.3345 16.6185 16.5455 16.8295C16.7565 17.0405 16.875 17.3266 16.875 17.625Z" fill="currentColor"/>
   </svg>
 );
 
-const TABS: { key: TabKey; icon: ReactNode }[] = [
-  { key: 'workout', icon: <WorkoutIcon /> },
-  { key: 'calculator', icon: <CalcIcon /> },
+const TABS: { key: TabKey; label: string; icon: ReactNode }[] = [
+  { key: 'workout', label: 'Workout', icon: <WorkoutIcon /> },
+  { key: 'calculator', label: 'Calculator', icon: <CalcIcon /> },
 ];
 
-const BUTTON_SIZE = 48;
-const PILL_PADDING = 4;
+const BTN_WIDTH = 80;
+const PILL_PAD = 4;
 
 export function ScreenToggle({ calculatorContent, workoutContent }: ScreenToggleProps) {
   const [activeTab, setActiveTab] = useState<TabKey>('workout');
@@ -56,11 +43,8 @@ export function ScreenToggle({ calculatorContent, workoutContent }: ScreenToggle
             transition: 'opacity 200ms ease',
           }}
         >
-          <div className="pb-28">
-            {workoutContent}
-          </div>
+          <div className="pb-28">{workoutContent}</div>
         </div>
-
         <div
           className="absolute inset-0 overflow-y-auto"
           style={{
@@ -69,9 +53,7 @@ export function ScreenToggle({ calculatorContent, workoutContent }: ScreenToggle
             transition: 'opacity 200ms ease',
           }}
         >
-          <div className="pb-28">
-            {calculatorContent}
-          </div>
+          <div className="pb-28">{calculatorContent}</div>
         </div>
       </div>
 
@@ -84,29 +66,28 @@ export function ScreenToggle({ calculatorContent, workoutContent }: ScreenToggle
         }}
       >
         <div
-          className="relative flex items-center"
+          className="relative flex"
           style={{
             background: '#FFFFFF',
-            padding: PILL_PADDING,
+            padding: PILL_PAD,
             borderRadius: 28,
             boxShadow: '0 4px 20px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.08)',
-            gap: 0,
           }}
         >
           {/* Sliding active indicator */}
           <div
             style={{
               position: 'absolute',
-              top: PILL_PADDING,
-              bottom: PILL_PADDING,
-              left: PILL_PADDING,
-              width: BUTTON_SIZE,
-              borderRadius: BUTTON_SIZE / 2,
+              top: PILL_PAD,
+              bottom: PILL_PAD,
+              left: PILL_PAD,
+              width: BTN_WIDTH,
+              borderRadius: 24,
               background: '#CCE0FF',
               border: '2px solid #0066FF',
               transition: 'transform 300ms ease',
               pointerEvents: 'none',
-              transform: `translateX(${activeIndex * BUTTON_SIZE}px)`,
+              transform: `translateX(${activeIndex * BTN_WIDTH}px)`,
             }}
           />
 
@@ -114,16 +95,18 @@ export function ScreenToggle({ calculatorContent, workoutContent }: ScreenToggle
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className="relative z-10 flex items-center justify-center border-none bg-transparent cursor-pointer"
+              className="relative z-10 flex flex-col items-center justify-center border-none bg-transparent cursor-pointer"
               style={{
-                width: BUTTON_SIZE,
-                height: BUTTON_SIZE,
-                borderRadius: BUTTON_SIZE / 2,
+                width: BTN_WIDTH,
+                height: 64,
+                borderRadius: 24,
                 color: '#0066FF',
                 padding: 0,
+                gap: 4,
               }}
             >
               {tab.icon}
+              <span style={{ fontSize: 12, fontWeight: 500, lineHeight: 1 }}>{tab.label}</span>
             </button>
           ))}
         </div>

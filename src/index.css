@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -7,11 +7,11 @@
 @layer base {
   :root {
     /* Industrial Dark Theme - Zinc + Cyan */
-    --background: 240 10% 4%; /* zinc-950 */
-    --foreground: 240 6% 97%; /* zinc-50 */
+    --background: 0 0% 100%;
+    --foreground: 217 91% 40%;
 
-    --card: 240 6% 10%; /* zinc-900 */
-    --card-foreground: 240 6% 97%; /* zinc-50 */
+    --card: 0 0% 100%;
+    --card-foreground: 217 91% 40%;
 
     --popover: 240 6% 10%; /* zinc-900 */
     --popover-foreground: 240 6% 97%; /* zinc-50 */
@@ -24,11 +24,11 @@
     --accent-yellow: 48 96% 53%; /* yellow-400 */
     --accent-yellow-foreground: 240 10% 4%; /* zinc-950 */
 
-    --secondary: 240 4% 16%; /* zinc-800 */
-    --secondary-foreground: 240 6% 97%; /* zinc-50 */
+    --secondary: 214 100% 93%;
+    --secondary-foreground: 240 6% 97%;
 
-    --muted: 240 4% 16%; /* zinc-800 */
-    --muted-foreground: 240 5% 65%; /* zinc-400 */
+    --muted: 214 100% 16%;
+    --muted-foreground: 240 5% 65%;
 
     --accent: 240 4% 16%; /* zinc-800 */
     --accent-foreground: 240 6% 97%; /* zinc-50 */
@@ -112,7 +112,7 @@
   }
 
   html {
-    font-family: 'Archivo', system-ui, sans-serif;
+    font-family: "Archivo", system-ui, sans-serif;
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -131,7 +131,7 @@
   input[type="text"] {
     font-size: 18px !important;
     font-variant-numeric: tabular-nums;
-    font-family: 'Archivo', system-ui, sans-serif;
+    font-family: "Archivo", system-ui, sans-serif;
   }
 
   /* Hide number input spinners/arrows */
@@ -151,12 +151,12 @@
   .concrete-overlay {
     @apply relative;
   }
-  
+
   .concrete-overlay::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
-    background-image: url('https://images.unsplash.com/photo-1559070169-a3077159ee16?w=1200');
+    background-image: url("https://images.unsplash.com/photo-1559070169-a3077159ee16?w=1200");
     opacity: 0.06;
     mix-blend-mode: overlay;
     pointer-events: none;
@@ -175,10 +175,10 @@
   }
 
   .concrete-subtle::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
-    background-image: url('https://images.unsplash.com/photo-1559070169-a3077159ee16?w=1200');
+    background-image: url("https://images.unsplash.com/photo-1559070169-a3077159ee16?w=1200");
     opacity: 0.04;
     mix-blend-mode: overlay;
     pointer-events: none;

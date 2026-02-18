@@ -11,41 +11,38 @@ interface CalculatorsScreenProps {
 
 export function CalculatorsScreen({ onBack }: CalculatorsScreenProps) {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col" style={{ background: '#FFFFFF' }}>
       {/* Header */}
-      <header className="bg-background px-6 pt-6 pb-4">
+      <header className="px-6 pt-6 pb-4" style={{ background: '#FFFFFF' }}>
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"
             size="icon"
             onClick={onBack}
             className="shrink-0 -ml-2"
+            style={{ color: '#0066FF' }}
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-            <Calculator className="w-5 h-5 text-primary-foreground" />
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: '#0066FF' }}>
+            <Calculator className="w-5 h-5" style={{ color: '#FFFFFF' }} />
           </div>
           <div>
-            <h1 className="text-xl font-bold tracking-tight text-foreground">CALCULATORS</h1>
-            <p className="text-sm text-muted-foreground">Smart tools for your training</p>
+            <h1 className="text-xl font-bold tracking-tight" style={{ color: '#0066FF' }}>CALCULATORS</h1>
+            <p className="text-sm" style={{ color: '#0066FF', opacity: 0.6 }}>Smart tools for your training</p>
           </div>
         </div>
       </header>
 
       {/* Divider */}
-      <div className="section-divider mx-6" />
+      <div className="mx-6 h-px" style={{ background: '#CCE0FF' }} />
 
       {/* Content */}
       <div className="flex-1 px-6 pb-8 space-y-8">
         <WarmupCalculator />
-        
-        <div className="section-divider" />
-        
+        <div className="h-px" style={{ background: '#CCE0FF' }} />
         <DeloadPlanner />
-        
-        <div className="section-divider" />
-        
+        <div className="h-px" style={{ background: '#CCE0FF' }} />
         <ProgressiveOverloadCalculator />
       </div>
     </div>

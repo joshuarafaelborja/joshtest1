@@ -10,17 +10,17 @@ interface CalculatorPanelProps {
 
 export function CalculatorPanel({ showHeader = true }: CalculatorPanelProps) {
   return (
-    <div className="h-full flex flex-col bg-background">
+    <div className="h-full flex flex-col" style={{ background: '#FFFFFF' }}>
       {/* Header */}
       {showHeader && (
-        <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b px-6 py-4">
+        <header className="sticky top-0 z-10 backdrop-blur-sm px-6 py-4" style={{ background: 'rgba(255,255,255,0.95)', borderBottom: '1px solid #CCE0FF' }}>
           <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-              <Calculator className="w-5 h-5 text-primary-foreground" />
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: '#0066FF' }}>
+              <Calculator className="w-5 h-5" style={{ color: '#FFFFFF' }} />
             </div>
             <div>
-              <h1 className="text-xl font-bold tracking-tight text-foreground">CALCULATORS</h1>
-              <p className="text-sm text-muted-foreground">Smart tools for your training</p>
+              <h1 className="text-xl font-bold tracking-tight" style={{ color: '#0066FF' }}>CALCULATORS</h1>
+              <p className="text-sm" style={{ color: '#0066FF', opacity: 0.6 }}>Smart tools for your training</p>
             </div>
           </div>
         </header>
@@ -31,11 +31,11 @@ export function CalculatorPanel({ showHeader = true }: CalculatorPanelProps) {
         <div className="px-6 py-6 space-y-8">
           <WarmupCalculator />
           
-          <div className="section-divider" />
+          <div className="section-divider" style={{ background: '#CCE0FF' }} />
           
           <DeloadPlanner />
           
-          <div className="section-divider" />
+          <div className="section-divider" style={{ background: '#CCE0FF' }} />
           
           <ProgressiveOverloadCalculator />
         </div>

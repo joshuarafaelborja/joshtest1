@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Plus, Dumbbell, ChevronDown, Users } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
+import { Plus, Dumbbell, ChevronDown, Users, Battery } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ExerciseCard } from './ExerciseCard';
 import { LevelUpCard } from './LevelUpCard';
@@ -23,6 +23,7 @@ interface WorkoutLogScreenProps {
 export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSelectExercise, onOpenAuth, onOpenSocial }: WorkoutLogScreenProps) {
   const [showCoachPanel, setShowCoachPanel] = useState(false);
   const [showExerciseDropdown, setShowExerciseDropdown] = useState(false);
+  const [dismissedDeloadBanner, setDismissedDeloadBanner] = useState(false);
   const { isAuthenticated, loading, user } = useAuth();
   const { exercises: previousExercises } = usePreviousExercises();
 
@@ -33,6 +34,30 @@ export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSele
       localStorage.setItem('coach-had-account', 'true');
     }
   }, [isAuthenticated, user]);
+
+  // Detect deload conditions: multiple exercises showing declining reps or acute deload recommendations
+  const shouldSuggestDeload = useMemo(() => {
+    if (data.exercises.length < 2) return false;
+    
+    let decliningCount = 0;
+    for (const exercise of data.exercises) {
+      const logs = exercise.logs;
+      if (logs.length < 3) continue;
+      
+      const recent = logs.slice(-3);
+      // Check if reps have been declining at the same weight
+      const sameWeight = recent.every(l => l.weight === recent[0].weight);
+      const declining = sameWeight && recent[2].reps < recent[0].reps;
+      // Or if the last recommendation was an acute deload
+      const lastLog = logs[logs.length - 1];
+      if (declining || lastLog.recommendation === 'acute_deload') {
+        decliningCount++;
+      }
+    }
+    
+    // Suggest deload if 2+ exercises show signs of fatigue
+    return decliningCount >= 2;
+  }, [data.exercises]);
 
   const sortedExercises = [...data.exercises].sort((a, b) => {
     const aLastLog = a.logs[a.logs.length - 1];
@@ -69,6 +94,23 @@ export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSele
           onCreateAccount={onOpenAuth}
           showLoginPrompt={hasLoggedOutBefore}
         />
+      )}
+
+      {/* Deload suggestion banner */}
+      {shouldSuggestDeload && !dismissedDeloadBanner && (
+        <div className="mx-4 mt-2 p-3 rounded-xl flex items-center gap-3" style={{ background: '#CCE0FF', border: '1px solid #0066FF' }}>
+          <Battery className="w-5 h-5 shrink-0" style={{ color: '#0066FF' }} />
+          <p className="text-sm flex-1" style={{ color: '#0066FF' }}>
+            Consider taking it easy today — your body may need recovery.
+          </p>
+          <button
+            onClick={() => setDismissedDeloadBanner(true)}
+            className="text-xs font-medium shrink-0 opacity-60 hover:opacity-100 transition-opacity"
+            style={{ color: '#0066FF' }}
+          >
+            Dismiss
+          </button>
+        </div>
       )}
 
       <div className="px-4 pb-6 space-y-6">

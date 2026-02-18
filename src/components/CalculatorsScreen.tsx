@@ -2,7 +2,6 @@ import { ArrowLeft, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { WarmupCalculator } from './WarmupCalculator';
 import { ProgressiveOverloadCalculator } from './ProgressiveOverloadCalculator';
-import { DeloadPlanner } from './DeloadPlanner';
 
 interface CalculatorsScreenProps {
   onBack: () => void;
@@ -40,8 +39,6 @@ export function CalculatorsScreen({ onBack }: CalculatorsScreenProps) {
       {/* Content */}
       <div className="flex-1 px-6 pb-8 space-y-8">
         <WarmupCalculator />
-        <div className="h-px" style={{ background: '#CCE0FF' }} />
-        <DeloadPlanner />
         <div className="h-px" style={{ background: '#CCE0FF' }} />
         <ProgressiveOverloadCalculator />
       </div>

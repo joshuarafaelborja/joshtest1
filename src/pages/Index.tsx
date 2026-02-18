@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { OnboardingFlow } from '@/components/OnboardingFlow';
-import { SplitScreenLayout } from '@/components/SplitScreenLayout';
+import { ScreenToggle } from '@/components/ScreenToggle';
+import { CalculatorScreenContent } from '@/components/CalculatorScreenContent';
+import { WorkoutLogScreen } from '@/components/WorkoutLogScreen';
 import { SocialScreen } from '@/components/SocialScreen';
 import { LogEntryForm } from '@/components/LogEntryForm';
 import { ExerciseHistory } from '@/components/ExerciseHistory';
@@ -329,13 +331,18 @@ export default function Index() {
       
       default:
         return (
-          <SplitScreenLayout
-            data={data}
-            onLogNew={() => setScreen('log')}
-            onLogPreviousExercise={handleLogPreviousExercise}
-            onSelectExercise={handleSelectExercise}
-            onOpenAuth={() => setShowAuthModal(true)}
-            onOpenSocial={() => setScreen('social')}
+          <ScreenToggle
+            calculatorContent={<CalculatorScreenContent />}
+            workoutContent={
+              <WorkoutLogScreen
+                data={data}
+                onLogNew={() => setScreen('log')}
+                onLogPreviousExercise={handleLogPreviousExercise}
+                onSelectExercise={handleSelectExercise}
+                onOpenAuth={() => setShowAuthModal(true)}
+                onOpenSocial={() => setScreen('social')}
+              />
+            }
           />
         );
     }

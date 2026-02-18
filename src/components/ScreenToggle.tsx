@@ -28,7 +28,7 @@ const BTN_WIDTH = 80;
 const PILL_PAD = 4;
 
 export function ScreenToggle({ calculatorContent, workoutContent }: ScreenToggleProps) {
-  const [activeTab, setActiveTab] = useState<TabKey>('workout');
+  const [activeTab, setActiveTab] = useState<TabKey>('calculator');
   const activeIndex = TABS.findIndex(t => t.key === activeTab);
 
   return (

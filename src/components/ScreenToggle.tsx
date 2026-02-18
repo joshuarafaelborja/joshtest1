@@ -42,10 +42,10 @@ export function ScreenToggle({ calculatorContent, workoutContent }: ScreenToggle
   const activeIndex = TABS.findIndex(t => t.key === activeTab);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="flex flex-col bg-background overflow-hidden" style={{ height: '100dvh' }}>
       {/* Fixed Toggle Bar */}
       <div
-        className="fixed top-0 left-0 right-0 z-50 flex justify-center"
+        className="shrink-0 flex justify-center"
         style={{
           paddingTop: `calc(env(safe-area-inset-top, 0px) + 12px)`,
           paddingBottom: '12px',
@@ -108,36 +108,31 @@ export function ScreenToggle({ calculatorContent, workoutContent }: ScreenToggle
       </div>
 
       {/* Screen content area */}
-      <div
-        className="flex-1 relative"
-        style={{ paddingTop: `calc(env(safe-area-inset-top, 0px) + 74px)` }}
-      >
+      <div className="relative flex-1 overflow-hidden">
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 overflow-y-auto"
           style={{
-            paddingTop: `calc(env(safe-area-inset-top, 0px) + 74px)`,
             opacity: activeTab === 'calculator' ? 1 : 0,
             pointerEvents: activeTab === 'calculator' ? 'auto' : 'none',
             transition: 'opacity 200ms ease',
-            overflow: 'auto',
-            height: '100vh',
           }}
         >
-          {calculatorContent}
+          <div className="pb-8">
+            {calculatorContent}
+          </div>
         </div>
 
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 overflow-y-auto"
           style={{
-            paddingTop: `calc(env(safe-area-inset-top, 0px) + 74px)`,
             opacity: activeTab === 'workout' ? 1 : 0,
             pointerEvents: activeTab === 'workout' ? 'auto' : 'none',
             transition: 'opacity 200ms ease',
-            overflow: 'auto',
-            height: '100vh',
           }}
         >
-          {workoutContent}
+          <div className="pb-8">
+            {workoutContent}
+          </div>
         </div>
       </div>
     </div>

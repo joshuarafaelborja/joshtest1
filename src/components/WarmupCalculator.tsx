@@ -7,8 +7,8 @@ import { useWarmupCalculation, AIWarmupSet } from '@/hooks/useWarmupCalculation'
 import { useAuth } from '@/hooks/useAuth';
 
 const WarmupMascotIcon = () => (
-  <svg width="48" height="48" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
-    <rect x="1" width="30" height="30" rx="15" fill="#0066FF"/>
+  <svg width="48" height="48" viewBox="-2 -2 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+    <rect x="1" width="30" height="30" rx="15" fill="#0066FF" opacity="0.9"/>
     <g clipPath="url(#warmup-clip)">
       <path opacity="0.1" d="M16 24.8C20.8601 24.8 24.8 20.8601 24.8 16C24.8 11.1399 20.8601 7.2 16 7.2C11.1398 7.2 7.19995 11.1399 7.19995 16C7.19995 20.8601 11.1398 24.8 16 24.8Z" fill="#3B82F6"/>
       <path d="M16 24C19.314 24 22 21.314 22 18C22 14.686 19.314 12 16 12C12.686 12 10 14.686 10 18C10 21.314 12.686 24 16 24Z" fill="#F1F5F9"/>

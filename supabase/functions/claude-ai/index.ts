@@ -13,6 +13,7 @@ serve(async (req) => {
 
   try {
     const apiKey = Deno.env.get("ANTHROPIC_API_KEY") || Deno.env.get("VITE_ANTHROPIC_API_KEY");
+    
     if (!apiKey) {
       throw new Error("ANTHROPIC_API_KEY is not configured");
     }

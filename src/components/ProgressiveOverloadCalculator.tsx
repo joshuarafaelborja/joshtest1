@@ -3,7 +3,7 @@ import { TrendingUp, Dumbbell, Target, CheckCircle2, Sparkles, Brain } from 'luc
 import { Button } from '@/components/ui/button';
 import { UnitToggle } from '@/components/UnitToggle';
 import { ModeToggle } from '@/components/ModeToggle';
-import { supabase } from '@/integrations/supabase/client';
+import { getClaudeRecommendation } from '@/lib/claudeAI';
 
 interface CalculatorResult {
   status: 'increase' | 'maintain' | 'decrease';
@@ -74,35 +74,27 @@ export function ProgressiveOverloadCalculator() {
     setAiError('');
 
     try {
-      const { data, error } = await supabase.functions.invoke('progression-recommendation', {
-        body: {
-          exercise: 'Exercise',
-          currentWeight: weight,
-          targetReps: target,
-          repsCompleted: completed,
-          unit,
-        },
-      });
+      // Use target as rep range center, create a range around it
+      const repRangeMin = Math.max(target - 2, 1);
+      const repRangeMax = target + 2;
 
-      if (error) throw error;
+      const data = await getClaudeRecommendation(
+        'Exercise', weight, target, completed, unit, repRangeMin, repRangeMax
+      );
 
-      // Use the AI response for reasoning, but still compute the result locally
-      let calcResult: CalculatorResult;
-      if (completed >= target) {
-        calcResult = { status: 'increase', message: 'Ready to progress', newWeight: Math.round(weight * 1.075), percentChange: 7.5 };
-      } else if (completed >= target - 2) {
-        calcResult = { status: 'maintain', message: 'Keep current weight', newWeight: weight };
-      } else {
-        calcResult = { status: 'decrease', message: 'Focus on form', newWeight: Math.max(weight - 5, 0) };
-      }
-
-      // Override with AI-suggested weight if available
-      if (data?.recommendation?.newWeight) {
-        calcResult.newWeight = data.recommendation.newWeight;
-      }
+      const calcResult: CalculatorResult = {
+        status: data.recommendation,
+        message: data.recommendation === 'increase' ? 'Ready to progress'
+          : data.recommendation === 'maintain' ? 'Keep current weight'
+          : 'Focus on form',
+        newWeight: data.nextWeight,
+        percentChange: data.recommendation === 'increase'
+          ? Math.round(((data.nextWeight - weight) / weight) * 100 * 10) / 10
+          : undefined,
+      };
 
       setResult(calcResult);
-      setAiReasoning(data?.recommendation?.reasoning || data?.reasoning || '');
+      setAiReasoning(data.reasoning || '');
     } catch (err) {
       console.error('AI progression error:', err);
       setAiError('AI calculation failed. Using manual calculation.');

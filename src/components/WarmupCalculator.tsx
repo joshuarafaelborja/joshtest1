@@ -3,8 +3,7 @@ import { Scale, Dumbbell, Sparkles, Brain } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { UnitToggle } from '@/components/UnitToggle';
 import { ModeToggle } from '@/components/ModeToggle';
-import { useWarmupCalculation, AIWarmupSet } from '@/hooks/useWarmupCalculation';
-import { useAuth } from '@/hooks/useAuth';
+import { getClaudeRecommendation } from '@/lib/claudeAI';
 
 const WarmupMascotIcon = () => (
   <svg width="48" height="48" viewBox="-2 -2 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
@@ -43,17 +42,7 @@ function roundToPlate(weight: number, unit: WeightUnit): number {
   return Math.round(weight / increment) * increment;
 }
 
-// Convert AI warmup sets to our format
-function convertAIWarmupSets(aiSets: AIWarmupSet[], unit: WeightUnit): WarmupSet[] {
-  return aiSets.map(set => ({
-    setNumber: set.setNumber,
-    percentage: set.percentage || 0,
-    weight: roundToPlate(set.weight, unit),
-    reps: set.reps,
-    sets: 1,
-    notes: set.notes || '',
-  }));
-}
+// Set label based on percentage
 
 // Set label based on percentage
 function getSetLabel(percentage: number): string {
@@ -72,8 +61,8 @@ export function WarmupCalculator() {
   const [calculationMode, setCalculationMode] = useState<CalculationMode>('manual');
   const [aiReasoning, setAiReasoning] = useState<string>('');
 
-  const { calculateWarmups, loading: aiLoading, error: aiError } = useWarmupCalculation();
-  const { isAuthenticated } = useAuth();
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
 
   const calculateStaticWarmup = () => {
     const weight = parseFloat(workingWeight);
@@ -94,16 +83,32 @@ export function WarmupCalculator() {
     const reps = parseInt(workingReps);
     if (isNaN(weight) || weight <= 0 || isNaN(reps) || reps <= 0) return;
 
-    const name = exerciseName.trim() || 'Exercise';
-    const result = await calculateWarmups(name, weight, reps, unit, isAuthenticated);
+    setAiLoading(true);
+    setAiError(null);
 
-    if (result) {
-      if (result.warmupSets && Array.isArray(result.warmupSets)) {
-        setWarmupSets(convertAIWarmupSets(result.warmupSets, unit));
-        setAiReasoning(result.reasoning || '');
-      } else {
-        console.error('Invalid warmup response structure:', result);
-      }
+    try {
+      const name = exerciseName.trim() || 'Exercise';
+      // Use working reps as AMRAP default, and a standard 8-12 range
+      const result = await getClaudeRecommendation(name, weight, reps, reps, unit, 8, 12);
+
+      const convertedSets: WarmupSet[] = result.warmup.map((s, i) => ({
+        setNumber: s.set,
+        percentage: Math.round((s.weight / weight) * 100),
+        weight: roundToPlate(s.weight, unit),
+        reps: s.reps,
+        sets: 1,
+        notes: i === 0 ? 'Light weight, focus on form' : i === 1 ? 'Moderate load, controlled tempo' : 'Heavy prep, prime nervous system',
+      }));
+
+      setWarmupSets(convertedSets);
+      setAiReasoning(result.reasoning || '');
+    } catch (err) {
+      console.error('Claude AI warmup error:', err);
+      setAiError(err instanceof Error ? err.message : 'AI calculation failed');
+      // Fallback to manual
+      calculateStaticWarmup();
+    } finally {
+      setAiLoading(false);
     }
   };
 
@@ -271,11 +276,6 @@ export function WarmupCalculator() {
           </div>
         )}
 
-        {calculationMode === 'ai' && !isAuthenticated && (
-          <p className="text-xs text-center" style={{ color: '#0066FF', opacity: 0.6 }}>
-            Sign in to save your warm-up calculations to the cloud
-          </p>
-        )}
 
         {/* Results: Set Progression */}
         {hasResults && warmupSets && (

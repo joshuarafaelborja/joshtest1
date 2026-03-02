@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -112,13 +112,13 @@
   }
 
   html {
-    font-family: "Archivo", system-ui, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
     -webkit-tap-highlight-color: transparent;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-feature-settings: "ss01", "tnum";
+    font-feature-settings: "tnum";
   }
 
   /* Tabular numbers for all numeric displays */
@@ -131,7 +131,7 @@
   input[type="text"] {
     font-size: 18px !important;
     font-variant-numeric: tabular-nums;
-    font-family: "Archivo", system-ui, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
   }
 
   /* Hide number input spinners/arrows */
@@ -186,32 +186,31 @@
     border-radius: inherit;
   }
 
-  /* Industrial Typography Classes */
+  /* Typography Classes */
   .heading-hero {
-    @apply text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight;
+    @apply text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight;
     letter-spacing: -0.02em;
   }
 
   .heading-section {
-    @apply text-3xl sm:text-4xl font-bold tracking-tight;
-    letter-spacing: -0.01em;
+    @apply text-xl font-semibold tracking-tight;
   }
 
   .heading-card {
-    @apply text-xl sm:text-2xl font-semibold tracking-tight;
+    @apply text-xl font-semibold tracking-tight;
   }
 
   .label-bold {
-    @apply text-xs font-semibold uppercase tracking-wider;
+    @apply text-xs font-medium uppercase tracking-wide;
   }
 
   .stat-number {
-    @apply text-4xl sm:text-5xl font-bold tracking-tighter tabular-nums;
+    @apply text-4xl sm:text-5xl font-semibold tracking-tighter tabular-nums;
     letter-spacing: -0.04em;
   }
 
   .stat-number-sm {
-    @apply text-2xl sm:text-3xl font-bold tracking-tighter tabular-nums;
+    @apply text-2xl sm:text-3xl font-semibold tracking-tighter tabular-nums;
     letter-spacing: -0.03em;
   }
 
@@ -220,13 +219,17 @@
     @apply min-h-[48px] min-w-[48px];
   }
 
-  /* Industrial Card Style */
+  /* Card Style */
   .card-industrial {
-    @apply concrete-overlay bg-card rounded-xl border border-border;
+    @apply bg-card rounded-2xl border border-gray-100 shadow-sm;
   }
 
   .card-industrial-accent {
-    @apply concrete-overlay bg-card rounded-xl border-2 border-primary;
+    @apply bg-card rounded-2xl border border-primary shadow-sm;
+  }
+
+  .card-elevated {
+    @apply bg-card rounded-2xl border border-gray-100 shadow-sm;
   }
 
   /* Bold accent bar for cards */
@@ -236,7 +239,7 @@
 
   /* Recommendation badges - Industrial style */
   .recommendation-badge {
-    @apply inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold uppercase tracking-wide;
+    @apply inline-flex items-center px-2.5 py-1 rounded-xl text-xs font-medium uppercase tracking-wide;
   }
 
   .recommendation-badge-progress {
@@ -262,35 +265,35 @@
 
   /* Minimal fitness calculator styles */
   .calc-label {
-    @apply text-xs uppercase tracking-wider text-muted-foreground font-semibold flex items-center gap-1.5;
+    @apply text-xs font-medium uppercase tracking-wide text-muted-foreground flex items-center gap-1.5;
   }
 
   .calc-input {
-    @apply text-3xl sm:text-4xl font-bold text-foreground bg-transparent border-b-2 border-border focus:border-primary focus:outline-none transition-colors tabular-nums w-full py-2 tracking-tight;
+    @apply text-3xl sm:text-4xl font-semibold text-foreground bg-transparent border-b border-gray-200 focus:border-primary focus:outline-none transition-colors tabular-nums w-full py-2 tracking-tight;
   }
 
   .calc-unit {
-    @apply text-xs uppercase text-muted-foreground tracking-wider font-semibold;
+    @apply text-xs uppercase text-muted-foreground tracking-wide font-medium;
   }
 
   .calc-result-card {
-    @apply concrete-overlay bg-secondary rounded-xl p-5 border border-primary/30;
+    @apply bg-secondary rounded-2xl p-4 border border-gray-100 shadow-sm;
   }
 
   .calc-result-label {
-    @apply text-xs uppercase tracking-wider text-muted-foreground font-semibold;
+    @apply text-xs font-medium uppercase tracking-wide text-muted-foreground;
   }
 
   .calc-result-value {
-    @apply text-4xl sm:text-5xl font-bold text-primary tabular-nums tracking-tighter;
+    @apply text-4xl sm:text-5xl font-semibold text-primary tabular-nums tracking-tighter;
   }
 
   .calc-result-unit {
-    @apply text-sm text-muted-foreground ml-1 font-semibold uppercase;
+    @apply text-sm text-muted-foreground ml-1 font-medium uppercase;
   }
 
   .pill-button {
-    @apply px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-200;
+    @apply px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200;
   }
 
   .pill-button-active {
@@ -302,7 +305,7 @@
   }
 
   .live-indicator {
-    @apply inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-muted-foreground font-semibold;
+    @apply inline-flex items-center gap-1.5 text-xs uppercase tracking-wide text-muted-foreground font-medium;
   }
 
   .live-dot {
@@ -313,9 +316,9 @@
     @apply w-full h-px bg-border my-8;
   }
 
-  /* Industrial button base */
+  /* Button base */
   .btn-industrial {
-    @apply px-6 py-3 text-sm font-semibold rounded-lg transition-all duration-200;
+    @apply px-6 py-3 text-sm font-semibold rounded-xl transition-all duration-200;
   }
 
   /* Glow effects */

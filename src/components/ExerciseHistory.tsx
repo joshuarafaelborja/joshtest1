@@ -33,18 +33,18 @@ export function ExerciseHistory({ exercise, onBack, onUpdateRepRange }: Exercise
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b px-4 py-3">
+      <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-gray-100 px-4 py-3">
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}
-            className="p-2 -ml-2 rounded-full hover:bg-secondary touch-target"
+            className="p-2 -ml-2 rounded-xl hover:bg-secondary touch-target"
           >
             <ArrowLeft className="w-6 h-6" />
           </button>
           <div className="flex-1">
-            <h1 className="text-xl font-bold">{exercise.name}</h1>
+            <h1 className="text-xl font-semibold">{exercise.name}</h1>
             <div className="flex items-center gap-2">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-gray-600">
                 Target: {exercise.minReps}-{exercise.goalReps} reps
               </p>
               {onUpdateRepRange && (
@@ -63,8 +63,8 @@ export function ExerciseHistory({ exercise, onBack, onUpdateRepRange }: Exercise
       {/* History List */}
       <div className="flex-1 p-4">
         {sortedLogs.length === 0 ? (
-          <div className="text-center py-12 text-muted-foreground">
-            <p>No logs yet for this exercise.</p>
+          <div className="text-center py-12 text-gray-600">
+            <p className="text-sm">No logs yet for this exercise.</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -74,7 +74,7 @@ export function ExerciseHistory({ exercise, onBack, onUpdateRepRange }: Exercise
                 className="card-elevated p-4"
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-sm text-gray-600">
                     {format(new Date(log.timestamp), 'MMM d, yyyy')}
                   </span>
                   {getRecommendationBadge(log.recommendation)}

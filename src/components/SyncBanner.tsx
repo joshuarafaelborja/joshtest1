@@ -13,14 +13,14 @@ export function SyncBanner({ onCreateAccount, showLoginPrompt = false }: SyncBan
   if (dismissed) return null;
 
   return (
-    <div className="mx-4 mt-4 p-3 rounded-lg bg-[#CCE0FF] flex items-center justify-between gap-3">
+    <div className="mx-4 mt-4 p-4 rounded-2xl bg-[#CCE0FF] flex items-center justify-between gap-3">
       <div className="flex items-center gap-3 flex-1 min-w-0">
         {showLoginPrompt ? (
           <LogIn className="w-4 h-4 text-[#0066FF] flex-shrink-0" />
         ) : (
           <Cloud className="w-4 h-4 text-[#0066FF] flex-shrink-0" />
         )}
-        <p className="text - [#0066FF]">
+        <p className="text-sm text-[#0066FF]">
           {showLoginPrompt ? (
             <>
               <span className="hidden sm:inline">Welcome back! </span>

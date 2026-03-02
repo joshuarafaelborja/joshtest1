@@ -68,9 +68,9 @@ export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSele
   });
 
   return (
-    <div className="flex flex-col min-h-full">
+    <div className="flex flex-col min-h-full bg-background">
       {/* Top bar with social + account */}
-      <div className="flex items-center justify-end px-4 py-3 gap-2">
+      <div className="flex items-center justify-end px-4 py-3 gap-3">
         <button
           onClick={() => setShowCoachPanel(true)}
           className="mr-auto group relative transition-transform duration-200 hover:scale-105 active:scale-95"
@@ -98,7 +98,7 @@ export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSele
 
       {/* Deload suggestion banner */}
       {shouldSuggestDeload && !dismissedDeloadBanner && (
-        <div className="mx-4 mt-2 p-3 rounded-xl flex items-center gap-3" style={{ background: '#CCE0FF', border: '1px solid #0066FF' }}>
+        <div className="mx-4 mt-2 p-4 rounded-2xl flex items-center gap-3" style={{ background: '#CCE0FF', border: '1px solid #0066FF' }}>
           <Battery className="w-5 h-5 shrink-0" style={{ color: '#0066FF' }} />
           <p className="text-sm flex-1" style={{ color: '#0066FF' }}>
             Consider taking it easy today — your body may need recovery.
@@ -141,7 +141,7 @@ export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSele
               </Button>
 
               {showExerciseDropdown && (
-                <div className="absolute z-30 w-full mt-2 border border-border rounded-xl overflow-hidden bg-card shadow-lg max-h-64 overflow-y-auto">
+                <div className="absolute z-30 w-full mt-2 border border-gray-100 rounded-2xl overflow-hidden bg-card shadow-sm max-h-64 overflow-y-auto">
                   {previousExercises.map((exercise) => (
                     <button
                       key={exercise.name}
@@ -152,8 +152,8 @@ export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSele
                       }}
                       className="w-full px-4 py-3 text-left border-b border-border last:border-b-0 hover:bg-secondary/50 transition-colors"
                     >
-                      <p className="font-medium text-foreground">{exercise.name}</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm font-semibold text-foreground">{exercise.name}</p>
+                      <p className="text-sm text-gray-600">
                         Last: {exercise.lastWeight} {exercise.lastUnit} × {exercise.lastReps} reps
                       </p>
                     </button>
@@ -169,19 +169,19 @@ export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSele
 
         {/* Divider */}
         <div className="flex items-center gap-3">
-          <div className="h-px flex-1 bg-border" />
-          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Your Exercises</span>
-          <div className="h-px flex-1 bg-border" />
+          <div className="h-px flex-1 bg-gray-100" />
+          <span className="text-xs font-medium uppercase tracking-wide text-gray-600">Your Exercises</span>
+          <div className="h-px flex-1 bg-gray-100" />
         </div>
 
         {/* Exercise List */}
         {sortedExercises.length === 0 ? (
-          <div className="flex flex-col items-center justify-center min-h-[20vh] text-center border border-dashed border-border rounded-xl p-8 bg-card/50">
+          <div className="flex flex-col items-center justify-center min-h-[20vh] text-center border border-dashed border-gray-200 rounded-2xl p-8 bg-card/50">
             <div className="w-14 h-14 rounded-xl bg-secondary flex items-center justify-center mb-4">
-              <Dumbbell className="w-7 h-7 text-muted-foreground" />
+              <Dumbbell className="w-7 h-7 text-gray-600" />
             </div>
-            <h2 className="text-lg font-bold mb-2 text-foreground">No exercises yet</h2>
-            <p className="text-muted-foreground text-sm">Start by logging your first set</p>
+            <h2 className="text-xl font-semibold mb-2 text-foreground">No exercises yet</h2>
+            <p className="text-sm text-gray-600">Start by logging your first set</p>
           </div>
         ) : (
           <div className="space-y-3">

@@ -76,15 +76,15 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b px-4 py-3">
+      <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-gray-100 px-4 py-3">
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}
-            className="p-2 -ml-2 rounded-full hover:bg-secondary touch-target"
+            className="p-2 -ml-2 rounded-xl hover:bg-secondary touch-target"
           >
             <ArrowLeft className="w-6 h-6" />
           </button>
-          <h1 className="text-xl font-bold">Log New Set</h1>
+          <h1 className="text-xl font-semibold">Log New Set</h1>
         </div>
       </header>
 
@@ -96,7 +96,7 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
             <button
               type="button"
               onClick={() => setShowExercisePicker(!showExercisePicker)}
-              className="w-full flex items-center justify-between p-4 rounded-xl border border-border bg-card"
+              className="w-full flex items-center justify-between p-4 rounded-2xl border border-gray-100 bg-card shadow-sm"
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -104,23 +104,23 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
                 </div>
                 <div className="text-left">
                   <p className="font-semibold text-foreground">Previous Exercises</p>
-                  <p className="text-sm text-muted-foreground">{previousExercises.length} exercises logged</p>
+                  <p className="text-sm text-gray-600">{previousExercises.length} exercises logged</p>
                 </div>
               </div>
               <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform ${showExercisePicker ? 'rotate-180' : ''}`} />
             </button>
             
             {showExercisePicker && (
-              <div className="mt-2 border border-border rounded-xl overflow-hidden bg-card max-h-64 overflow-y-auto">
+              <div className="mt-2 border border-gray-100 rounded-2xl overflow-hidden bg-card shadow-sm max-h-64 overflow-y-auto">
                 {previousExercises.map((exercise) => (
                   <button
                     key={exercise.name}
                     type="button"
                     onClick={() => selectExercise(exercise)}
-                    className="w-full px-4 py-3 text-left border-b border-border last:border-b-0 bg-card"
+                    className="w-full px-4 py-3 text-left border-b border-gray-100 last:border-b-0 bg-card"
                   >
-                    <p className="font-medium text-foreground">{exercise.name}</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm font-semibold text-foreground">{exercise.name}</p>
+                    <p className="text-sm text-gray-600">
                       Last: {exercise.lastWeight} {exercise.lastUnit} × {exercise.lastReps} reps
                     </p>
                   </button>
@@ -132,7 +132,7 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
 
         {/* Exercise Name */}
         <div className="relative">
-          <Label htmlFor="exerciseName" className="text-base font-medium">
+          <Label htmlFor="exerciseName" className="text-xs font-medium uppercase tracking-wide">
             Exercise Name
           </Label>
           <Input
@@ -154,7 +154,7 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
           
           {/* Autocomplete suggestions */}
           {showSuggestions && filteredSuggestions.length > 0 && (
-            <div className="absolute z-20 w-full mt-1 bg-card border rounded-lg shadow-lg overflow-hidden">
+            <div className="absolute z-20 w-full mt-1 bg-card border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
               {filteredSuggestions.map((name) => (
                 <button
                   key={name}
@@ -171,7 +171,7 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
 
         {/* Weight & Unit */}
         <div>
-          <Label className="text-base font-medium">Weight</Label>
+          <Label className="text-xs font-medium uppercase tracking-wide">Weight</Label>
           <div className="flex gap-3 mt-2">
             <Input
               type="number"
@@ -190,7 +190,7 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
 
         {/* Reps */}
         <div>
-          <Label htmlFor="reps" className="text-base font-medium">
+          <Label htmlFor="reps" className="text-xs font-medium uppercase tracking-wide">
             Reps
           </Label>
           <Input
@@ -209,10 +209,10 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
 
         {/* RIR (Reps In Reserve) */}
         <div>
-          <Label htmlFor="rir" className="text-base font-medium">
+          <Label htmlFor="rir" className="text-xs font-medium uppercase tracking-wide">
             Reps In Reserve (RIR)
           </Label>
-          <p className="text-sm text-muted-foreground mt-0.5 mb-2">How many more reps could you have done?</p>
+          <p className="text-sm text-gray-600 mt-0.5 mb-2">How many more reps could you have done?</p>
           <Input
             id="rir"
             type="number"

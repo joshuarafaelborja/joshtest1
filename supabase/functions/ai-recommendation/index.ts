@@ -81,7 +81,9 @@ Output ONLY this JSON, no text outside it:
     }
 
     const result = await response.json();
-    const rawText = result.content?.[0]?.text || "";
+    let rawText = result.content?.[0]?.text || "";
+    // Strip markdown code fences if present
+    rawText = rawText.replace(/^```(?:json)?\s*\n?/i, '').replace(/\n?```\s*$/i, '').trim();
     const parsed = JSON.parse(rawText);
 
     return new Response(JSON.stringify(parsed), {

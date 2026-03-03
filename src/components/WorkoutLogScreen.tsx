@@ -9,7 +9,6 @@ import { AICoachPanel } from './AICoachPanel';
 import { AppData, Exercise } from '@/lib/types';
 import { useAuth } from '@/hooks/useAuth';
 import { usePreviousExercises, PreviousExercise } from '@/hooks/usePreviousExercises';
-import spotLogo from '@/assets/spot-logo.svg';
 
 interface WorkoutLogScreenProps {
   data: AppData;
@@ -35,27 +34,21 @@ export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSele
     }
   }, [isAuthenticated, user]);
 
-  // Detect deload conditions: multiple exercises showing declining reps or acute deload recommendations
+  // Detect deload conditions
   const shouldSuggestDeload = useMemo(() => {
     if (data.exercises.length < 2) return false;
-    
     let decliningCount = 0;
     for (const exercise of data.exercises) {
       const logs = exercise.logs;
       if (logs.length < 3) continue;
-      
       const recent = logs.slice(-3);
-      // Check if reps have been declining at the same weight
       const sameWeight = recent.every(l => l.weight === recent[0].weight);
       const declining = sameWeight && recent[2].reps < recent[0].reps;
-      // Or if the last recommendation was an acute deload
       const lastLog = logs[logs.length - 1];
       if (declining || lastLog.recommendation === 'acute_deload') {
         decliningCount++;
       }
     }
-    
-    // Suggest deload if 2+ exercises show signs of fatigue
     return decliningCount >= 2;
   }, [data.exercises]);
 
@@ -68,24 +61,33 @@ export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSele
   });
 
   return (
-    <div className="flex flex-col min-h-full bg-background">
-      {/* Top bar with social + account */}
-      <div className="flex items-center justify-end px-4 py-3 gap-3">
-        <button
-          onClick={() => setShowCoachPanel(true)}
-          className="mr-auto group relative transition-transform duration-200 hover:scale-105 active:scale-95"
-        >
-          <img src={spotLogo} alt="Spot.AI" className="w-9 h-9 object-contain" />
-          <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-primary rounded-full border-2 border-background animate-pulse" />
-        </button>
-        <button
-          onClick={onOpenSocial}
-          className="p-2 rounded-lg hover:bg-secondary transition-colors"
-          title="Social"
-        >
-          <Users className="w-5 h-5 text-muted-foreground" />
-        </button>
-        <AccountMenu onCreateAccount={onOpenAuth} />
+    <div className="flex flex-col min-h-full" style={{ background: '#FFFFFF' }}>
+      {/* Header */}
+      <div className="flex items-center justify-between px-5 pt-6 pb-4">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setShowCoachPanel(true)}
+            className="relative w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-200 hover:scale-105 active:scale-95"
+            style={{ background: '#3B82F6' }}
+          >
+            <Dumbbell className="w-5 h-5 text-white" />
+            <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-white" />
+          </button>
+          <div>
+            <h1 className="text-lg font-bold tracking-tight" style={{ color: '#3B82F6' }}>Coach</h1>
+            <p className="text-xs" style={{ color: '#3B82F6', opacity: 0.6 }}>Track your workouts</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={onOpenSocial}
+            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            title="Social"
+          >
+            <Users className="w-5 h-5 text-gray-400" />
+          </button>
+          <AccountMenu onCreateAccount={onOpenAuth} />
+        </div>
       </div>
 
       {/* Sync Banner for guests */}
@@ -98,32 +100,32 @@ export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSele
 
       {/* Deload suggestion banner */}
       {shouldSuggestDeload && !dismissedDeloadBanner && (
-        <div className="mx-4 mt-2 p-4 rounded-2xl flex items-center gap-3" style={{ background: '#CCE0FF', border: '1px solid #0066FF' }}>
-          <Battery className="w-5 h-5 shrink-0" style={{ color: '#0066FF' }} />
-          <p className="text-sm flex-1" style={{ color: '#0066FF' }}>
+        <div className="mx-4 mt-2 p-4 rounded-2xl flex items-center gap-3" style={{ background: '#CCE0FF', border: '1px solid #3B82F6' }}>
+          <Battery className="w-5 h-5 shrink-0" style={{ color: '#3B82F6' }} />
+          <p className="text-sm flex-1" style={{ color: '#3B82F6' }}>
             Consider taking it easy today — your body may need recovery.
           </p>
           <button
             onClick={() => setDismissedDeloadBanner(true)}
             className="text-xs font-medium shrink-0 opacity-60 hover:opacity-100 transition-opacity"
-            style={{ color: '#0066FF' }}
+            style={{ color: '#3B82F6' }}
           >
             Dismiss
           </button>
         </div>
       )}
 
-      <div className="px-4 pb-6 space-y-6">
+      <div className="px-4 pb-6 space-y-5">
         {/* Log New Set */}
         <div className="space-y-3">
-          <Button
-            size="xl"
+          <button
             onClick={onLogNew}
-            className="w-full shadow-lg shadow-primary/20"
+            className="w-full rounded-xl py-3.5 font-semibold text-white transition-colors active:bg-[#2563EB] flex items-center justify-center gap-2 shadow-lg"
+            style={{ background: '#3B82F6' }}
           >
-            <Plus className="w-6 h-6" />
+            <Plus className="w-5 h-5" />
             Log New Set
-          </Button>
+          </button>
 
           {previousExercises.length > 0 && (
             <div className="relative">
@@ -131,7 +133,7 @@ export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSele
                 variant="outline"
                 size="lg"
                 onClick={() => setShowExerciseDropdown(!showExerciseDropdown)}
-                className="w-full justify-between"
+                className="w-full justify-between border-gray-200"
               >
                 <span className="flex items-center gap-2">
                   <Dumbbell className="w-5 h-5" />
@@ -141,7 +143,7 @@ export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSele
               </Button>
 
               {showExerciseDropdown && (
-                <div className="absolute z-30 w-full mt-2 border border-gray-100 rounded-2xl overflow-hidden bg-card shadow-sm max-h-64 overflow-y-auto">
+                <div className="absolute z-30 w-full mt-2 border border-gray-100 rounded-2xl overflow-hidden bg-white shadow-md max-h-64 overflow-y-auto">
                   {previousExercises.map((exercise) => (
                     <button
                       key={exercise.name}
@@ -150,10 +152,10 @@ export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSele
                         if (onLogPreviousExercise) onLogPreviousExercise(exercise);
                         setShowExerciseDropdown(false);
                       }}
-                      className="w-full px-4 py-3 text-left border-b border-border last:border-b-0 hover:bg-secondary/50 transition-colors"
+                      className="w-full px-4 py-3 text-left border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition-colors"
                     >
-                      <p className="text-sm font-semibold text-foreground">{exercise.name}</p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm font-semibold text-gray-900">{exercise.name}</p>
+                      <p className="text-sm text-gray-500">
                         Last: {exercise.lastWeight} {exercise.lastUnit} × {exercise.lastReps} reps
                       </p>
                     </button>
@@ -170,18 +172,18 @@ export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSele
         {/* Divider */}
         <div className="flex items-center gap-3">
           <div className="h-px flex-1 bg-gray-100" />
-          <span className="text-xs font-medium uppercase tracking-wide text-gray-600">Your Exercises</span>
+          <span className="text-xs font-medium uppercase tracking-wide text-gray-400">Your Exercises</span>
           <div className="h-px flex-1 bg-gray-100" />
         </div>
 
         {/* Exercise List */}
         {sortedExercises.length === 0 ? (
-          <div className="flex flex-col items-center justify-center min-h-[20vh] text-center border border-dashed border-gray-200 rounded-2xl p-8 bg-card/50">
-            <div className="w-14 h-14 rounded-xl bg-secondary flex items-center justify-center mb-4">
-              <Dumbbell className="w-7 h-7 text-gray-600" />
+          <div className="flex flex-col items-center justify-center min-h-[20vh] text-center border border-dashed border-gray-200 rounded-2xl p-8">
+            <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-4" style={{ background: '#F1F5F9' }}>
+              <Dumbbell className="w-7 h-7 text-gray-400" />
             </div>
-            <h2 className="text-xl font-semibold mb-2 text-foreground">No exercises yet</h2>
-            <p className="text-sm text-gray-600">Start by logging your first set</p>
+            <h2 className="text-lg font-semibold mb-1 text-gray-900">No workouts yet</h2>
+            <p className="text-sm text-gray-400">Start by logging your first set</p>
           </div>
         ) : (
           <div className="space-y-3">

@@ -4,25 +4,7 @@ import { Button } from '@/components/ui/button';
 import { UnitToggle } from '@/components/UnitToggle';
 import { ModeToggle } from '@/components/ModeToggle';
 import { getClaudeRecommendation } from '@/lib/claudeAI';
-
-const WarmupMascotIcon = () => (
-  <svg width="48" height="48" viewBox="-2 -2 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
-    <rect x="1" width="30" height="30" rx="15" fill="#0066FF" opacity="0.9"/>
-    <g clipPath="url(#warmup-clip)">
-      <path opacity="0.1" d="M16 24.8C20.8601 24.8 24.8 20.8601 24.8 16C24.8 11.1399 20.8601 7.2 16 7.2C11.1398 7.2 7.19995 11.1399 7.19995 16C7.19995 20.8601 11.1398 24.8 16 24.8Z" fill="#3B82F6"/>
-      <path d="M16 24C19.314 24 22 21.314 22 18C22 14.686 19.314 12 16 12C12.686 12 10 14.686 10 18C10 21.314 12.686 24 16 24Z" fill="#F1F5F9"/>
-      <path d="M16 22.56C18.32 22.56 20.2 21.056 20.2 19.2C20.2 17.344 18.32 15.84 16 15.84C13.68 15.84 11.8 17.344 11.8 19.2C11.8 21.056 13.68 22.56 16 22.56Z" fill="#E2E8F0"/>
-      <path d="M14.2 18.24C14.664 18.24 15.04 17.864 15.04 17.4C15.04 16.936 14.664 16.56 14.2 16.56C13.736 16.56 13.36 16.936 13.36 17.4C13.36 17.864 13.736 18.24 14.2 18.24Z" fill="#1E293B"/>
-      <path d="M17.8 18.24C18.264 18.24 18.64 17.864 18.64 17.4C18.64 16.936 18.264 16.56 17.8 16.56C17.336 16.56 16.96 16.936 16.96 17.4C16.96 17.864 17.336 18.24 17.8 18.24Z" fill="#1E293B"/>
-      <path d="M14.2 20.16C15.4 20.72 16.6 20.72 17.8 20.16" stroke="#64748B" strokeWidth="2.5" strokeLinecap="round"/>
-    </g>
-    <defs>
-      <clipPath id="warmup-clip">
-        <rect width="32" height="32" fill="white"/>
-      </clipPath>
-    </defs>
-  </svg>
-);
+import { WarmUpIcon } from '@/components/WarmUpIcon';
 
 interface WarmupSet {
   setNumber: number;
@@ -161,7 +143,7 @@ export function WarmupCalculator() {
       {/* Card Header */}
       <div className="px-5 py-4 flex items-center justify-between" style={{ background: '#CCE0FF' }}>
         <div className="flex items-center gap-3">
-          <WarmupMascotIcon />
+          <WarmUpIcon size={48} />
           <div>
             <h2 className="text-base font-bold tracking-tight uppercase" style={{ color: '#0066FF' }}>
               Warm-Up Sets

@@ -8,7 +8,7 @@ import { SyncBanner } from './SyncBanner';
 import { AccountMenu } from './AccountMenu';
 import { AppData, Exercise } from '@/lib/types';
 import { useAuth } from '@/hooks/useAuth';
-import spotLogo from '@/assets/spot-logo.svg';
+import { DogLogo } from './DogLogo';
 
 interface HomeScreenProps {
   data: AppData;
@@ -50,8 +50,7 @@ export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators
               onClick={() => setShowCoachPanel(true)}
               className="group relative transition-transform duration-200 hover:scale-105 active:scale-95"
             >
-              <img src={spotLogo} alt="Spot.AI" className="w-10 h-10 object-contain" />
-              <span className="absolute -bottom-1 -right-1 w-3 h-3 bg-primary rounded-full border-2 border-card animate-pulse" />
+              <DogLogo size={40} />
             </button>
           </div>
           <AccountMenu onCreateAccount={onOpenAuth} />
@@ -70,7 +69,7 @@ export function HomeScreen({ data, onLogNew, onSelectExercise, onOpenCalculators
       <div className="flex-1 p-4 pb-24">
         {sortedExercises.length === 0 ? (
           <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
-            <img src={spotLogo} alt="Spot.AI" className="w-32 h-auto object-contain mb-6 opacity-60" />
+            <DogLogo size={128} />
             <h2 className="text-xl font-semibold mb-2 text-foreground">No exercises yet</h2>
             <p className="text-muted-foreground mb-6">
               Start by logging your first set

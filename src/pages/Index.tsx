@@ -57,6 +57,7 @@ export default function Index() {
   const [showMigrationModal, setShowMigrationModal] = useState(false);
   const [localWorkoutCount, setLocalWorkoutCount] = useState(0);
   const [loadingAiRec, setLoadingAiRec] = useState(false);
+  const [hasNewRecommendation, setHasNewRecommendation] = useState(false);
 
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const { postActivity } = useActivityFeed();
@@ -134,6 +135,7 @@ export default function Index() {
         toast.error('Could not get AI recommendation');
       } else if (fnData && fnData.action) {
         setRecommendation(fnData as AiRecommendation);
+        setHasNewRecommendation(true);
       }
     } catch (e) {
       console.error('AI recommendation error:', e);
@@ -260,6 +262,7 @@ export default function Index() {
   const handleRecommendationClose = () => {
     setRecommendation(null);
     setNotification(null);
+    setHasNewRecommendation(false);
     setScreen('home');
   };
 
@@ -341,6 +344,8 @@ export default function Index() {
                 onSelectExercise={handleSelectExercise}
                 onOpenAuth={() => setShowAuthModal(true)}
                 onOpenSocial={() => setScreen('social')}
+                hasNewRecommendation={hasNewRecommendation}
+                onDismissNotification={() => setHasNewRecommendation(false)}
               />
             }
           />

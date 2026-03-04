@@ -6,6 +6,7 @@ import { LevelUpCard } from './LevelUpCard';
 import { SyncBanner } from './SyncBanner';
 import { AccountMenu } from './AccountMenu';
 import { AICoachPanel } from './AICoachPanel';
+import { DogLogo } from './DogLogo';
 import { AppData, Exercise } from '@/lib/types';
 import { useAuth } from '@/hooks/useAuth';
 import { usePreviousExercises, PreviousExercise } from '@/hooks/usePreviousExercises';
@@ -17,9 +18,11 @@ interface WorkoutLogScreenProps {
   onSelectExercise: (exercise: Exercise) => void;
   onOpenAuth: () => void;
   onOpenSocial: () => void;
+  hasNewRecommendation?: boolean;
+  onDismissNotification?: () => void;
 }
 
-export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSelectExercise, onOpenAuth, onOpenSocial }: WorkoutLogScreenProps) {
+export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSelectExercise, onOpenAuth, onOpenSocial, hasNewRecommendation, onDismissNotification }: WorkoutLogScreenProps) {
   const [showCoachPanel, setShowCoachPanel] = useState(false);
   const [showExerciseDropdown, setShowExerciseDropdown] = useState(false);
   const [dismissedDeloadBanner, setDismissedDeloadBanner] = useState(false);
@@ -66,12 +69,13 @@ export function WorkoutLogScreen({ data, onLogNew, onLogPreviousExercise, onSele
       <div className="flex items-center justify-between px-5 pt-6 pb-4">
         <div className="flex items-center gap-3">
           <button
-            onClick={() => setShowCoachPanel(true)}
-            className="relative w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-200 hover:scale-105 active:scale-95"
-            style={{ background: '#3B82F6' }}
+            onClick={() => {
+              setShowCoachPanel(true);
+              if (hasNewRecommendation && onDismissNotification) onDismissNotification();
+            }}
+            className="relative transition-transform duration-200 hover:scale-105 active:scale-95"
           >
-            <Dumbbell className="w-5 h-5 text-white" />
-            <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-white" />
+            <DogLogo size={40} hasNotification={hasNewRecommendation} />
           </button>
           <div>
             <h1 className="text-lg font-bold tracking-tight" style={{ color: '#3B82F6' }}>Coach</h1>

@@ -3,6 +3,7 @@ import { X, Mail, CheckCircle, Loader2, Eye, EyeOff, Dumbbell, Link as LinkIcon 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
 import { migrateLocalWorkoutsToSupabase, getLocalWorkoutCount } from '@/lib/workoutService';
 import { z } from 'zod';
 
@@ -29,6 +30,9 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = 'signup' }
   const [isLoading, setIsLoading] = useState(false);
   const [migratedCount, setMigratedCount] = useState(0);
   const [profileLink, setProfileLink] = useState<string | null>(null);
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetSent, setResetSent] = useState(false);
   const { signUp, signIn, getProfileLink, profile } = useAuth();
 
   const localWorkoutCount = getLocalWorkoutCount();
@@ -41,6 +45,26 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = 'signup' }
   }, [profile, step, getProfileLink]);
 
   if (!isOpen) return null;
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    const emailResult = emailSchema.safeParse(resetEmail);
+    if (!emailResult.success) {
+      setError(emailResult.error.errors[0].message);
+      return;
+    }
+    setIsLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setIsLoading(false);
+    if (error) {
+      setError(error.message);
+      return;
+    }
+    setResetSent(true);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -110,6 +134,9 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = 'signup' }
     setMode(initialMode);
     setMigratedCount(0);
     setProfileLink(null);
+    setForgotPassword(false);
+    setResetEmail('');
+    setResetSent(false);
     onClose();
   };
 
@@ -170,6 +197,47 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = 'signup' }
               Migrating {localWorkoutCount} workout{localWorkoutCount !== 1 ? 's' : ''} to your account...
             </p>
           </div>
+        ) : forgotPassword ? (
+          resetSent ? (
+            <div className="text-center py-4 space-y-4">
+              <div className="w-12 h-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
+                <Mail className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="text-lg font-semibold">Check your email</h3>
+              <p className="text-sm text-muted-foreground">Check your email for a reset link</p>
+              <Button variant="outline" className="w-full" onClick={() => { setForgotPassword(false); setResetSent(false); setResetEmail(''); setError(''); }}>
+                Back to Sign In
+              </Button>
+            </div>
+          ) : (
+            <>
+              <div className="text-center mb-6">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Mail className="w-6 h-6 text-primary" />
+                </div>
+                <h2 className="text-xl font-bold">Reset Password</h2>
+                <p className="text-muted-foreground text-sm mt-1">Enter your email to receive a reset link</p>
+              </div>
+              <form onSubmit={handleForgotPassword} className="space-y-4">
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  className="h-12 text-base"
+                  autoFocus
+                  disabled={isLoading}
+                />
+                {error && <p className="text-sm text-destructive">{error}</p>}
+                <Button type="submit" className="w-full h-12 text-base font-semibold" disabled={isLoading || !resetEmail}>
+                  {isLoading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Sending...</> : 'Send Reset Link'}
+                </Button>
+                <button type="button" onClick={() => { setForgotPassword(false); setError(''); }} className="w-full text-sm text-muted-foreground hover:text-foreground">
+                  Back to Sign In
+                </button>
+              </form>
+            </>
+          )
         ) : (
           <>
             <div className="text-center mb-6">
@@ -224,9 +292,15 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = 'signup' }
                 </button>
               </div>
 
-              {error && (
-                <p className="text-sm text-destructive">{error}</p>
+              {mode === 'login' && (
+                <div className="text-right">
+                  <button type="button" onClick={() => { setForgotPassword(true); setError(''); }} className="text-sm text-primary hover:underline font-medium">
+                    Forgot password?
+                  </button>
+                </div>
               )}
+
+              {error && <p className="text-sm text-destructive">{error}</p>}
 
               <Button
                 type="submit"

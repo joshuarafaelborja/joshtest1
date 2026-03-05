@@ -4,6 +4,7 @@ import { ArrowLeft, Mail, Eye, EyeOff, Loader2, Dumbbell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
 import { migrateLocalWorkoutsToSupabase, getLocalWorkoutCount } from '@/lib/workoutService';
 import { z } from 'zod';
 import coachLogo from '@/assets/coach-logo.svg';
@@ -23,6 +24,9 @@ export default function AuthPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetSent, setResetSent] = useState(false);
 
   const localWorkoutCount = getLocalWorkoutCount();
 
@@ -32,6 +36,26 @@ export default function AuthPage() {
       navigate('/');
     }
   }, [isAuthenticated, loading, navigate]);
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    const emailResult = emailSchema.safeParse(resetEmail);
+    if (!emailResult.success) {
+      setError(emailResult.error.errors[0].message);
+      return;
+    }
+    setIsLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setIsLoading(false);
+    if (error) {
+      setError(error.message);
+      return;
+    }
+    setResetSent(true);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -138,82 +162,101 @@ export default function AuthPage() {
             </p>
           </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="h-12 text-base"
-                autoFocus
-                disabled={isLoading}
-              />
-            </div>
-
-            <div className="relative">
-              <Input
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="h-12 text-base pr-12"
-                disabled={isLoading}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground"
-              >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-              </button>
-            </div>
-
-            {error && (
-              <p className="text-sm text-destructive">{error}</p>
-            )}
-
-            <Button
-              type="submit"
-              className="w-full h-12 text-base font-semibold"
-              disabled={isLoading || !email || !password}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  {mode === 'signup' ? 'Creating Account...' : 'Signing In...'}
-                </>
-              ) : (
-                mode === 'signup' ? 'Create Account' : 'Sign In'
-              )}
-            </Button>
-          </form>
-
-          {/* Switch mode */}
-          <p className="text-sm text-muted-foreground text-center mt-6">
-            {mode === 'signup' ? (
-              <>
-                Already have an account?{' '}
-                <button 
-                  onClick={() => { setMode('login'); setError(''); }}
-                  className="text-primary hover:underline font-medium"
-                >
-                  Sign in
-                </button>
-              </>
+          {forgotPassword ? (
+            resetSent ? (
+              <div className="text-center space-y-4">
+                <div className="w-12 h-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
+                  <Mail className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold">Check your email</h3>
+                <p className="text-sm text-muted-foreground">Check your email for a reset link</p>
+                <Button variant="outline" className="w-full" onClick={() => { setForgotPassword(false); setResetSent(false); setResetEmail(''); setError(''); }}>
+                  Back to Sign In
+                </Button>
+              </div>
             ) : (
-              <>
-                Don't have an account?{' '}
-                <button 
-                  onClick={() => { setMode('signup'); setError(''); }}
-                  className="text-primary hover:underline font-medium"
-                >
-                  Create one
+              <form onSubmit={handleForgotPassword} className="space-y-4">
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  className="h-12 text-base"
+                  autoFocus
+                  disabled={isLoading}
+                />
+                {error && <p className="text-sm text-destructive">{error}</p>}
+                <Button type="submit" className="w-full h-12 text-base font-semibold" disabled={isLoading || !resetEmail}>
+                  {isLoading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Sending...</> : 'Send Reset Link'}
+                </Button>
+                <button type="button" onClick={() => { setForgotPassword(false); setError(''); }} className="w-full text-sm text-muted-foreground hover:text-foreground">
+                  Back to Sign In
                 </button>
-              </>
-            )}
-          </p>
+              </form>
+            )
+          ) : (
+            <>
+              {/* Form */}
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <Input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="h-12 text-base"
+                    autoFocus
+                    disabled={isLoading}
+                  />
+                </div>
+
+                <div className="relative">
+                  <Input
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="h-12 text-base pr-12"
+                    disabled={isLoading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground"
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                </div>
+
+                {mode === 'login' && (
+                  <div className="text-right">
+                    <button type="button" onClick={() => { setForgotPassword(true); setError(''); }} className="text-sm text-primary hover:underline font-medium">
+                      Forgot password?
+                    </button>
+                  </div>
+                )}
+
+                {error && <p className="text-sm text-destructive">{error}</p>}
+
+                <Button type="submit" className="w-full h-12 text-base font-semibold" disabled={isLoading || !email || !password}>
+                  {isLoading ? (
+                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{mode === 'signup' ? 'Creating Account...' : 'Signing In...'}</>
+                  ) : (
+                    mode === 'signup' ? 'Create Account' : 'Sign In'
+                  )}
+                </Button>
+              </form>
+
+              {/* Switch mode */}
+              <p className="text-sm text-muted-foreground text-center mt-6">
+                {mode === 'signup' ? (
+                  <>Already have an account?{' '}<button onClick={() => { setMode('login'); setError(''); }} className="text-primary hover:underline font-medium">Sign in</button></>
+                ) : (
+                  <>Don't have an account?{' '}<button onClick={() => { setMode('signup'); setError(''); }} className="text-primary hover:underline font-medium">Create one</button></>
+                )}
+              </p>
+            </>
+          )}
         </div>
       </div>
     </div>

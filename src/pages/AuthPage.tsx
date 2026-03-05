@@ -47,7 +47,7 @@ export default function AuthPage() {
     }
     setIsLoading(true);
     const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: 'https://coachtest.vercel.app/reset-password',
     });
     setIsLoading(false);
     if (error) {

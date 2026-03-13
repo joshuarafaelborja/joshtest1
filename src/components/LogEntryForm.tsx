@@ -181,7 +181,11 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
               onChange={(e) => setWeight(e.target.value)}
               className="h-14 text-lg flex-1"
             />
-            <UnitToggle value={unit} onChange={(u) => setUnit(u)} />
+            <PillToggle
+              options={['LBS', 'KG']}
+              activeIndex={unit === 'lbs' ? 0 : 1}
+              onChange={(i) => setUnit(i === 0 ? 'lbs' : 'kg')}
+            />
           </div>
           {errors.weight && (
             <p className="text-destructive text-sm mt-1">{errors.weight}</p>

@@ -140,7 +140,7 @@ export function WarmupCalculator() {
   return (
     <div className="rounded-2xl overflow-hidden" style={{ background: '#FFFFFF', border: '1px solid #CCE0FF' }}>
       {/* Card Header */}
-      <div className="px-5 py-4 flex items-center justify-between" style={{ background: '#CCE0FF' }}>
+      <div className="px-5 py-4 flex items-center justify-between" style={{ background: 'transparent' }}>
         <div className="flex items-center gap-3">
           <WarmUpIcon size={48} />
           <div>

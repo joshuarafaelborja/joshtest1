@@ -148,6 +148,8 @@ export function WarmupCalculator() {
             options={['Manual', <><Sparkles className="w-3 h-3 mr-1" />AI</>]}
             activeIndex={calculationMode === 'manual' ? 0 : 1}
             onChange={(i) => setCalculationMode(i === 0 ? 'manual' : 'ai')}
+            size="md"
+            fullWidth
           />
         </div>
 

@@ -175,6 +175,22 @@ export function WarmupCalculator() {
           />
         </div>
 
+        {/* Exercise Name Input */}
+        <div className="space-y-2">
+          <label className="calc-label" style={{ color: '#0066FF' }}>
+            <Dumbbell className="w-3.5 h-3.5" />
+            EXERCISE NAME
+          </label>
+          <input
+            type="text"
+            placeholder="e.g., Squat, Bench Press, Deadlift"
+            value={exerciseName}
+            onChange={(e) => setExerciseName(e.target.value)}
+            className="calc-input w-full"
+            style={{ borderColor: '#0066FF', color: '#0066FF' }}
+          />
+        </div>
+
         {/* Working Weight Input with inline LBS/KG toggle */}
         <div className="space-y-2">
           <label className="calc-label" style={{ color: '#0066FF' }}>
@@ -189,12 +205,9 @@ export function WarmupCalculator() {
                 placeholder="0"
                 value={workingWeight}
                 onChange={handleInputChange}
-                className="calc-input pr-12 w-full"
+                className="calc-input w-full"
                 style={{ borderColor: '#0066FF', color: '#0066FF' }}
               />
-              <span className="absolute right-0 top-1/2 -translate-y-1/2 calc-unit" style={{ color: '#0066FF' }}>
-                {unit.toUpperCase()}
-              </span>
             </div>
             <PillToggle
               options={['LBS', 'KG']}

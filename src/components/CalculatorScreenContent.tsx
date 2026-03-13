@@ -29,6 +29,7 @@ export function CalculatorScreenContent() {
           activeIndex={activeTab}
           onChange={setActiveTab}
           size="md"
+          fullWidth
         />
       </div>
 

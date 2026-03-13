@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { ArrowLeft, ChevronDown, Dumbbell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { UnitToggle } from '@/components/UnitToggle';
+import { PillToggle } from '@/components/PillToggle';
 import { Label } from '@/components/ui/label';
 import { AppData } from '@/lib/types';
 import { usePreviousExercises } from '@/hooks/usePreviousExercises';
@@ -181,7 +181,11 @@ export function LogEntryForm({ data, onSubmit, onBack }: LogEntryFormProps) {
               onChange={(e) => setWeight(e.target.value)}
               className="h-14 text-lg flex-1"
             />
-            <UnitToggle value={unit} onChange={(u) => setUnit(u)} />
+            <PillToggle
+              options={['LBS', 'KG']}
+              activeIndex={unit === 'lbs' ? 0 : 1}
+              onChange={(i) => setUnit(i === 0 ? 'lbs' : 'kg')}
+            />
           </div>
           {errors.weight && (
             <p className="text-destructive text-sm mt-1">{errors.weight}</p>

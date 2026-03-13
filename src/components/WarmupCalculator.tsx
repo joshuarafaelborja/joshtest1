@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Scale, Dumbbell, Sparkles, Brain } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { UnitToggle } from '@/components/UnitToggle';
-import { ModeToggle } from '@/components/ModeToggle';
+import { PillToggle } from '@/components/PillToggle';
 import { getClaudeRecommendation } from '@/lib/claudeAI';
 import { WarmUpIcon } from '@/components/WarmUpIcon';
 
@@ -169,11 +168,15 @@ export function WarmupCalculator() {
       <div className="p-5 space-y-5">
         {/* Toggle Controls */}
         <div className="flex flex-wrap items-center gap-3">
-          <UnitToggle value={unit} onChange={handleUnitChange} />
-          <ModeToggle
-            value={calculationMode}
-            onChange={setCalculationMode}
-            aiLabel={<><Sparkles className="w-3 h-3 mr-1" />AI</>}
+          <PillToggle
+            options={['LBS', 'KG']}
+            activeIndex={unit === 'lbs' ? 0 : 1}
+            onChange={(i) => handleUnitChange(i === 0 ? 'lbs' : 'kg')}
+          />
+          <PillToggle
+            options={['Manual', <><Sparkles className="w-3 h-3 mr-1" />AI</>]}
+            activeIndex={calculationMode === 'manual' ? 0 : 1}
+            onChange={(i) => setCalculationMode(i === 0 ? 'manual' : 'ai')}
           />
         </div>
 

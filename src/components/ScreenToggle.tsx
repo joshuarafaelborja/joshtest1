@@ -23,7 +23,7 @@ export function ScreenToggle({ calculatorContent, workoutContent }: ScreenToggle
             transition: 'opacity 200ms ease',
           }}
         >
-          <div className="pb-28">{workoutContent}</div>
+          <div className="pb-20">{workoutContent}</div>
         </div>
         <div
           className="absolute inset-0 overflow-y-auto"
@@ -33,7 +33,7 @@ export function ScreenToggle({ calculatorContent, workoutContent }: ScreenToggle
             transition: 'opacity 200ms ease',
           }}
         >
-          <div className="pb-28">{calculatorContent}</div>
+          <div className="pb-20">{calculatorContent}</div>
         </div>
       </div>
 

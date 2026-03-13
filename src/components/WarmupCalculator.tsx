@@ -3,7 +3,7 @@ import { Scale, Dumbbell, Sparkles, Brain } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PillToggle } from '@/components/PillToggle';
 import { getClaudeRecommendation } from '@/lib/claudeAI';
-import { WarmUpIcon } from '@/components/WarmUpIcon';
+
 
 interface WarmupSet {
   setNumber: number;
@@ -139,30 +139,6 @@ export function WarmupCalculator() {
 
   return (
     <div className="rounded-2xl overflow-hidden" style={{ background: 'transparent' }}>
-      {/* Card Header */}
-      <div className="px-5 py-4 flex items-center justify-between" style={{ background: 'transparent' }}>
-        <div className="flex items-center gap-3">
-          <WarmUpIcon size={48} />
-          <div>
-            <h2 className="text-base font-bold tracking-tight uppercase" style={{ color: '#0066FF' }}>
-              Warm-Up Sets
-            </h2>
-            <p className="text-xs" style={{ color: '#0066FF', opacity: 0.7 }}>
-              {hasResults
-                ? `Based on ${workingWeight} ${unit} working weight`
-                : 'Enter your working weight to begin'}
-            </p>
-          </div>
-        </div>
-        {hasResults && isValidWeight && (
-          <span
-            className="px-3 py-1 rounded-full text-xs font-bold"
-            style={{ background: '#FFFFFF', color: '#0066FF' }}
-          >
-            {workingWeight} {unit}
-          </span>
-        )}
-      </div>
 
       {/* Card Body */}
       <div className="p-5 space-y-5">

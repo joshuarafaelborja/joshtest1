@@ -147,34 +147,7 @@ export function ProgressiveOverloadCalculator() {
     : '';
 
   return (
-    <div className="rounded-2xl overflow-hidden" style={{ background: '#FFFFFF', border: '1px solid #CCE0FF' }}>
-      {/* Card Header */}
-      <div className="px-5 py-4 flex items-center justify-between" style={{ background: '#CCE0FF' }}>
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: '#0066FF' }}>
-            <TrendingUp className="w-5 h-5" style={{ color: '#FFFFFF' }} />
-          </div>
-          <div>
-            <h2 className="text-base font-bold tracking-tight uppercase" style={{ color: '#0066FF' }}>
-              Progressive Overload
-            </h2>
-            <p className="text-xs" style={{ color: '#0066FF', opacity: 0.7 }}>
-              {hasResults
-                ? `Based on ${currentWeight} ${unit} working weight`
-                : 'Calculate your next weight target'}
-            </p>
-          </div>
-        </div>
-        {hasResults && result?.newWeight && (
-          <span
-            className="px-3 py-1 rounded-full text-xs font-bold"
-            style={{ background: '#0066FF', color: '#FFFFFF' }}
-          >
-            {result.newWeight} {unit}
-          </span>
-        )}
-      </div>
-
+    <div className="rounded-2xl overflow-hidden" style={{ background: '#FFFFFF' }}>
       {/* Card Body */}
       <div className="p-5 space-y-5">
         {/* Toggle Controls */}
@@ -200,63 +173,61 @@ export function ProgressiveOverloadCalculator() {
           </div>
         )}
 
-        {/* Input Fields */}
-        <div className="grid grid-cols-3 gap-4">
+        {/* Input Fields - Stacked vertically */}
+        <div className="space-y-4">
           <div className="space-y-2">
             <label className="text-xs uppercase tracking-wider font-semibold flex items-center gap-1.5" style={{ color: '#0066FF' }}>
               <Dumbbell className="w-3.5 h-3.5" />
               WEIGHT
             </label>
-            <div className="relative">
+            <div className="flex items-center gap-3">
               <input
                 type="number"
                 inputMode="decimal"
                 placeholder="0"
                 value={currentWeight}
                 onChange={(e) => { setCurrentWeight(e.target.value); if (result) setResult(null); }}
-                className="calc-input text-2xl pr-1"
+                className="calc-input w-full"
                 style={{ borderColor: '#0066FF', color: '#0066FF' }}
               />
-              <span className="absolute right-0 bottom-2 text-[10px] uppercase tracking-wider font-semibold" style={{ color: '#0066FF' }}>{unit.toUpperCase()}</span>
+              <PillToggle
+                options={['LBS', 'KG']}
+                activeIndex={unit === 'lbs' ? 0 : 1}
+                onChange={(i) => handleUnitChange(i === 0 ? 'lbs' : 'kg')}
+              />
             </div>
           </div>
 
           <div className="space-y-2">
             <label className="text-xs uppercase tracking-wider font-semibold flex items-center gap-1.5" style={{ color: '#0066FF' }}>
               <Target className="w-3.5 h-3.5" />
-              TARGET
+              TARGET REPS
             </label>
-            <div className="relative">
-              <input
-                type="number"
-                inputMode="numeric"
-                placeholder="0"
-                value={targetReps}
-                onChange={(e) => { setTargetReps(e.target.value); if (result) setResult(null); }}
-                className="calc-input text-2xl pr-1"
-                style={{ borderColor: '#0066FF', color: '#0066FF' }}
-              />
-              <span className="absolute right-0 bottom-2 text-[10px] uppercase tracking-wider font-semibold" style={{ color: '#0066FF' }}>REPS</span>
-            </div>
+            <input
+              type="number"
+              inputMode="numeric"
+              placeholder="0"
+              value={targetReps}
+              onChange={(e) => { setTargetReps(e.target.value); if (result) setResult(null); }}
+              className="calc-input w-full"
+              style={{ borderColor: '#0066FF', color: '#0066FF' }}
+            />
           </div>
 
           <div className="space-y-2">
             <label className="text-xs uppercase tracking-wider font-semibold flex items-center gap-1.5" style={{ color: '#0066FF' }}>
               <CheckCircle2 className="w-3.5 h-3.5" />
-              DONE
+              REPS COMPLETED
             </label>
-            <div className="relative">
-              <input
-                type="number"
-                inputMode="numeric"
-                placeholder="0"
-                value={repsCompleted}
-                onChange={(e) => { setRepsCompleted(e.target.value); if (result) setResult(null); }}
-                className="calc-input text-2xl pr-1"
-                style={{ borderColor: '#0066FF', color: '#0066FF' }}
-              />
-              <span className="absolute right-0 bottom-2 text-[10px] uppercase tracking-wider font-semibold" style={{ color: '#0066FF' }}>REPS</span>
-            </div>
+            <input
+              type="number"
+              inputMode="numeric"
+              placeholder="0"
+              value={repsCompleted}
+              onChange={(e) => { setRepsCompleted(e.target.value); if (result) setResult(null); }}
+              className="calc-input w-full"
+              style={{ borderColor: '#0066FF', color: '#0066FF' }}
+            />
           </div>
         </div>
 

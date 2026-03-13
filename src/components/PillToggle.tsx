@@ -18,7 +18,7 @@ export function PillToggle({
   return (
     <div
       className={`inline-flex rounded-full p-1 ${fullWidth ? 'w-full' : ''}`}
-      style={{ background: '#F1F5F9', height: size === 'sm' ? 32 : 38 }}
+      style={{ background: '#F0F0F0', height: size === 'sm' ? 32 : 38 }}
       role="group"
     >
       {options.map((option, index) => (

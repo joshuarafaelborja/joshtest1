@@ -3,7 +3,7 @@ import { Scale, Dumbbell, Sparkles, Brain } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PillToggle } from '@/components/PillToggle';
 import { getClaudeRecommendation } from '@/lib/claudeAI';
-import { WarmUpIcon } from '@/components/WarmUpIcon';
+
 
 interface WarmupSet {
   setNumber: number;

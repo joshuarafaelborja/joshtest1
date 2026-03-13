@@ -138,7 +138,7 @@ export function WarmupCalculator() {
   const isValidWeight = !isNaN(parsedWeight) && parsedWeight > 0;
 
   return (
-    <div className="rounded-2xl overflow-hidden" style={{ background: '#FFFFFF', border: '1px solid #CCE0FF' }}>
+    <div className="rounded-2xl overflow-hidden" style={{ background: 'transparent' }}>
       {/* Card Header */}
       <div className="px-5 py-4 flex items-center justify-between" style={{ background: 'transparent' }}>
         <div className="flex items-center gap-3">

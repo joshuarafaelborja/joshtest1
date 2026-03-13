@@ -166,13 +166,8 @@ export function WarmupCalculator() {
 
       {/* Card Body */}
       <div className="p-5 space-y-5">
-        {/* Toggle Controls */}
-        <div className="flex flex-wrap items-center gap-3">
-          <PillToggle
-            options={['LBS', 'KG']}
-            activeIndex={unit === 'lbs' ? 0 : 1}
-            onChange={(i) => handleUnitChange(i === 0 ? 'lbs' : 'kg')}
-          />
+        {/* Manual/AI Toggle */}
+        <div>
           <PillToggle
             options={['Manual', <><Sparkles className="w-3 h-3 mr-1" />AI</>]}
             activeIndex={calculationMode === 'manual' ? 0 : 1}
@@ -180,52 +175,32 @@ export function WarmupCalculator() {
           />
         </div>
 
-        {/* AI Mode Tip */}
-        {calculationMode === 'ai' && (
-          <div className="p-3 rounded-lg animate-fade-in" style={{ background: '#CCE0FF', border: '1px solid #0066FF' }}>
-            <p className="text-xs leading-relaxed" style={{ color: '#0066FF' }}>
-              <span className="font-semibold">AI Mode</span> tailors warm-up sets to your specific exercise, considering movement patterns and optimal rep schemes for performance.
-            </p>
-          </div>
-        )}
-
-        {/* AI Mode: Exercise Name Input */}
-        {calculationMode === 'ai' && (
-          <div className="space-y-2 animate-fade-in">
-            <label className="calc-label" style={{ color: '#0066FF' }}>
-              <Dumbbell className="w-3.5 h-3.5" />
-              EXERCISE NAME
-            </label>
-            <input
-              type="text"
-              placeholder="e.g., Squat, Bench Press, Deadlift"
-              value={exerciseName}
-              onChange={(e) => setExerciseName(e.target.value)}
-              className="calc-input w-full"
-              style={{ borderColor: '#0066FF', color: '#0066FF' }}
-            />
-          </div>
-        )}
-
-        {/* Working Weight Input */}
+        {/* Working Weight Input with inline LBS/KG toggle */}
         <div className="space-y-2">
           <label className="calc-label" style={{ color: '#0066FF' }}>
             <Scale className="w-3.5 h-3.5" />
-            WORKING WEIGHT ({unit.toUpperCase()})
+            WORKING WEIGHT
           </label>
-          <div className="relative">
-            <input
-              type="number"
-              inputMode="decimal"
-              placeholder="0"
-              value={workingWeight}
-              onChange={handleInputChange}
-              className="calc-input pr-12"
-              style={{ borderColor: '#0066FF', color: '#0066FF' }}
+          <div className="flex items-center gap-3">
+            <div className="relative flex-1">
+              <input
+                type="number"
+                inputMode="decimal"
+                placeholder="0"
+                value={workingWeight}
+                onChange={handleInputChange}
+                className="calc-input pr-12 w-full"
+                style={{ borderColor: '#0066FF', color: '#0066FF' }}
+              />
+              <span className="absolute right-0 top-1/2 -translate-y-1/2 calc-unit" style={{ color: '#0066FF' }}>
+                {unit.toUpperCase()}
+              </span>
+            </div>
+            <PillToggle
+              options={['LBS', 'KG']}
+              activeIndex={unit === 'lbs' ? 0 : 1}
+              onChange={(i) => handleUnitChange(i === 0 ? 'lbs' : 'kg')}
             />
-            <span className="absolute right-0 top-1/2 -translate-y-1/2 calc-unit" style={{ color: '#0066FF' }}>
-              {unit.toUpperCase()}
-            </span>
           </div>
         </div>
 

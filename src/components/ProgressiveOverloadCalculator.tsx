@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { TrendingUp, Dumbbell, Target, CheckCircle2, Sparkles, Brain } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { UnitToggle } from '@/components/UnitToggle';
-import { ModeToggle } from '@/components/ModeToggle';
+import { PillToggle } from '@/components/PillToggle';
 import { getClaudeRecommendation } from '@/lib/claudeAI';
 
 interface CalculatorResult {

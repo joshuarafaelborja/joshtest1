@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { ArrowLeft, ChevronDown, Dumbbell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { UnitToggle } from '@/components/UnitToggle';
+import { PillToggle } from '@/components/PillToggle';
 import { Label } from '@/components/ui/label';
 import { AppData } from '@/lib/types';
 import { usePreviousExercises } from '@/hooks/usePreviousExercises';

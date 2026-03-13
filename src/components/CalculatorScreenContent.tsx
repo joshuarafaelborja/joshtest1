@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { WarmupCalculator } from './WarmupCalculator';
 import { ProgressiveOverloadCalculator } from './ProgressiveOverloadCalculator';
 import { DogLogo } from './DogLogo';
+import { PillToggle } from './PillToggle';
 
 export function CalculatorScreenContent() {
   const [activeTab, setActiveTab] = useState(0); // 0 = Warm-Up, 1 = Progression
@@ -23,20 +24,12 @@ export function CalculatorScreenContent() {
 
       {/* Sub-tab Switcher */}
       <div className="px-5 pb-4">
-        <div className="inline-flex rounded-full p-1" style={{ background: '#F1F5F9' }}>
-          {['Warm-Up', 'Progression'].map((label, index) => (
-            <button
-              key={label}
-              onClick={() => setActiveTab(index)}
-              className={`
-                rounded-full font-medium transition-colors px-4 py-1.5 text-sm
-                ${activeTab === index ? 'bg-[#CCE0FF] text-[#3B82F6]' : 'bg-transparent text-gray-400'}
-              `}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+        <PillToggle
+          options={['Warm-Up', 'Progression']}
+          activeIndex={activeTab}
+          onChange={setActiveTab}
+          size="md"
+        />
       </div>
 
       {/* Tab Content */}

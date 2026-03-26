@@ -17,17 +17,17 @@ interface ProgressMetric {
 }
 
 function getProgressColor(value: number): string {
-  if (value >= 100) return 'from-primary to-blue-500';
+  if (value >= 100) return 'from-primary to-blue-400';
   if (value >= 80) return 'from-emerald-400 to-emerald-500';
-  if (value >= 50) return 'from-zinc-400 to-zinc-500';
+  if (value >= 50) return 'from-gray-400 to-gray-500';
   return 'from-rose-400 to-rose-500';
 }
 
 function getProgressTextColor(value: number): string {
   if (value >= 100) return 'text-primary';
-  if (value >= 80) return 'text-emerald-400';
-  if (value >= 50) return 'text-zinc-50';
-  return 'text-rose-400';
+  if (value >= 80) return 'text-emerald-500';
+  if (value >= 50) return 'text-foreground';
+  return 'text-rose-500';
 }
 
 function getMotivationalText(value: number, type: string): string {
@@ -198,22 +198,22 @@ export function LevelUpCard({ data, onOpenCalculator }: LevelUpCardProps) {
   }
 
   return (
-    <div className="concrete-subtle relative overflow-hidden rounded-2xl border border-slate-600/30 bg-card">
+    <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-[#FAFAFA] shadow-sm">
       <div className="relative p-9">
         {/* Header */}
         <div className="flex items-start justify-between mb-10">
           <div>
-            <h2 className="text-3xl font-bold text-slate-100">
+            <h2 className="text-3xl font-bold text-foreground">
               Ready to <span className="text-primary">Level Up?</span>
             </h2>
-            <p className="text-sm text-slate-400 mt-2">Your progress this week</p>
+            <p className="text-sm text-muted-foreground mt-2">Your progress this week</p>
           </div>
           {onOpenCalculator && (
             <Button 
               variant="ghost" 
               size="sm" 
               onClick={onOpenCalculator}
-              className="gap-2 text-slate-400 hover:text-slate-100"
+              className="gap-2 text-muted-foreground hover:text-foreground"
             >
               <Calculator className="w-5 h-5" />
               Calc
@@ -227,14 +227,14 @@ export function LevelUpCard({ data, onOpenCalculator }: LevelUpCardProps) {
           {metrics.map((metric, index) => (
             <div 
               key={index}
-              className="concrete-subtle relative rounded-2xl p-10 border border-slate-600/30 hover:border-primary/50 transition-all duration-200"
+              className="relative rounded-2xl p-10 border border-gray-100 bg-white hover:border-primary/50 transition-all duration-200 shadow-sm"
             >
               {/* Icon and Label */}
               <div className="flex items-center gap-3 mb-5">
                 <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${getProgressTextColor(metric.value)} bg-current/10`}>
                   {metric.icon}
                 </div>
-                <span className="text-sm font-semibold uppercase tracking-wide text-slate-400">{metric.label}</span>
+                <span className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">{metric.label}</span>
               </div>
               
               {/* Big percentage number */}
@@ -246,7 +246,7 @@ export function LevelUpCard({ data, onOpenCalculator }: LevelUpCardProps) {
               </div>
               
               {/* Progress bar */}
-              <div className="h-2.5 rounded-full bg-slate-600/30 overflow-hidden mb-5">
+              <div className="h-2.5 rounded-full bg-gray-200 overflow-hidden mb-5">
                 <div 
                   className={`progress-bar-fill bg-gradient-to-r ${getProgressColor(metric.value)}`}
                   style={{ width: `${Math.min(metric.value, 100)}%` }}
@@ -254,10 +254,10 @@ export function LevelUpCard({ data, onOpenCalculator }: LevelUpCardProps) {
               </div>
               
               {/* Description */}
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-muted-foreground">
                 {metric.description}
               </p>
-              <p className="text-base font-semibold text-slate-200 mt-2">
+              <p className="text-base font-semibold text-foreground mt-2">
                 {metric.motivationalText}
               </p>
             </div>

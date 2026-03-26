@@ -17,17 +17,17 @@ interface ProgressMetric {
 }
 
 function getProgressColor(value: number): string {
-  if (value >= 100) return 'from-primary to-blue-500';
+  if (value >= 100) return 'from-primary to-blue-400';
   if (value >= 80) return 'from-emerald-400 to-emerald-500';
-  if (value >= 50) return 'from-zinc-400 to-zinc-500';
+  if (value >= 50) return 'from-gray-400 to-gray-500';
   return 'from-rose-400 to-rose-500';
 }
 
 function getProgressTextColor(value: number): string {
   if (value >= 100) return 'text-primary';
-  if (value >= 80) return 'text-emerald-400';
-  if (value >= 50) return 'text-zinc-50';
-  return 'text-rose-400';
+  if (value >= 80) return 'text-emerald-500';
+  if (value >= 50) return 'text-foreground';
+  return 'text-rose-500';
 }
 
 function getMotivationalText(value: number, type: string): string {

@@ -131,23 +131,23 @@ export function StatsCard({ data }: StatsCardProps) {
   }
 
   return (
-    <Card className="concrete-subtle relative overflow-hidden rounded-xl border border-border p-7 shadow-lg">
+    <Card className="relative overflow-hidden rounded-xl border border-gray-100 bg-[#FAFAFA] p-7 shadow-sm">
       <div className="relative">
-        <h2 className="text-xs font-semibold uppercase tracking-wide text-zinc-400 mb-6">
+        <h2 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-6">
           Your Progress
         </h2>
         
         <div className="grid grid-cols-2 gap-6">
           {/* Total Sets */}
           <div className="flex items-start gap-4">
-            <div className="w-11 h-11 rounded-xl bg-zinc-800 flex items-center justify-center flex-shrink-0">
-              <Target className="w-5 h-5 text-zinc-50" />
+            <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Target className="w-5 h-5 text-primary" />
             </div>
             <div className="min-w-0">
-              <p className="text-4xl font-black text-zinc-50 leading-none tracking-tight">
+              <p className="text-4xl font-black text-primary leading-none tracking-tight">
                 {stats.totalSets}
               </p>
-              <p className="text-xs text-zinc-400 mt-1.5">
+              <p className="text-xs text-muted-foreground mt-1.5">
                 Total Sets
               </p>
             </div>
@@ -155,14 +155,14 @@ export function StatsCard({ data }: StatsCardProps) {
 
           {/* Total Volume */}
           <div className="flex items-start gap-4">
-            <div className="w-11 h-11 rounded-xl bg-zinc-800 flex items-center justify-center flex-shrink-0">
-              <Dumbbell className="w-5 h-5 text-zinc-50" />
+            <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Dumbbell className="w-5 h-5 text-primary" />
             </div>
             <div className="min-w-0">
-              <p className="text-4xl font-black text-zinc-50 leading-none tracking-tight">
+              <p className="text-4xl font-black text-primary leading-none tracking-tight">
                 {formatVolume(stats.totalVolume)}
               </p>
-              <p className="text-xs text-zinc-400 mt-1.5">
+              <p className="text-xs text-muted-foreground mt-1.5">
                 lbs Lifted
               </p>
             </div>
@@ -171,13 +171,13 @@ export function StatsCard({ data }: StatsCardProps) {
           {/* Current Streak */}
           <div className="flex items-start gap-4">
             <div className="w-11 h-11 rounded-xl bg-orange-500/10 flex items-center justify-center flex-shrink-0">
-              <Flame className="w-5 h-5 text-orange-400" />
+              <Flame className="w-5 h-5 text-orange-500" />
             </div>
             <div className="min-w-0">
-              <p className="text-4xl font-black text-zinc-50 leading-none tracking-tight">
+              <p className="text-4xl font-black text-foreground leading-none tracking-tight">
                 {stats.currentStreak}
               </p>
-              <p className="text-xs text-zinc-400 mt-1.5">
+              <p className="text-xs text-muted-foreground mt-1.5">
                 Day Streak
               </p>
             </div>
@@ -186,13 +186,13 @@ export function StatsCard({ data }: StatsCardProps) {
           {/* Most Trained */}
           <div className="flex items-start gap-4">
             <div className="w-11 h-11 rounded-xl bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
-              <Trophy className="w-5 h-5 text-emerald-400" />
+              <Trophy className="w-5 h-5 text-emerald-500" />
             </div>
             <div className="min-w-0">
-              <p className="text-lg font-bold text-zinc-50 leading-tight truncate" title={stats.mostTrainedExercise || ''}>
+              <p className="text-lg font-bold text-foreground leading-tight truncate" title={stats.mostTrainedExercise || ''}>
                 {stats.mostTrainedExercise || '—'}
               </p>
-              <p className="text-xs text-zinc-400 mt-1.5">
+              <p className="text-xs text-muted-foreground mt-1.5">
                 Top Exercise
               </p>
             </div>

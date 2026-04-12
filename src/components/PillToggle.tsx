@@ -53,7 +53,7 @@ export function PillToggle({
                 {label}
               </>
             ) : (
-              opt
+              opt as ReactNode
             )}
           </button>
         );

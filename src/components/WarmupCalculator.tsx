@@ -33,13 +33,18 @@ function getSetLabel(percentage: number): string {
   return 'Heavy Prep';
 }
 
-export function WarmupCalculator() {
+interface WarmupCalculatorProps {
+  mode?: CalculationMode;
+}
+
+export function WarmupCalculator({ mode }: WarmupCalculatorProps = {}) {
   const [workingWeight, setWorkingWeight] = useState<string>('');
   const [exerciseName, setExerciseName] = useState<string>('');
   const [workingReps, setWorkingReps] = useState<string>('5');
   const [unit, setUnit] = useState<WeightUnit>('lbs');
   const [warmupSets, setWarmupSets] = useState<WarmupSet[] | null>(null);
-  const [calculationMode, setCalculationMode] = useState<CalculationMode>('manual');
+  const [internalMode, setInternalMode] = useState<CalculationMode>('manual');
+  const calculationMode = mode ?? internalMode;
   const [aiReasoning, setAiReasoning] = useState<string>('');
 
   const [aiLoading, setAiLoading] = useState(false);
@@ -142,16 +147,18 @@ export function WarmupCalculator() {
 
       {/* Card Body */}
       <div className="p-5 space-y-5">
-        {/* Manual/AI Toggle */}
-        <div>
-          <PillToggle
-            options={['Manual', <><Sparkles className="w-3 h-3 mr-1" />AI</>]}
-            activeIndex={calculationMode === 'manual' ? 0 : 1}
-            onChange={(i) => setCalculationMode(i === 0 ? 'manual' : 'ai')}
-            size="md"
-            fullWidth
-          />
-        </div>
+        {/* Manual/AI Toggle - only show if mode not controlled by parent */}
+        {!mode && (
+          <div>
+            <PillToggle
+              options={['Manual', <><Sparkles className="w-3 h-3 mr-1" />AI</>]}
+              activeIndex={calculationMode === 'manual' ? 0 : 1}
+              onChange={(i) => setInternalMode(i === 0 ? 'manual' : 'ai')}
+              size="md"
+              fullWidth
+            />
+          </div>
+        )}
 
         {/* Exercise Name Input */}
         <div className="space-y-2">

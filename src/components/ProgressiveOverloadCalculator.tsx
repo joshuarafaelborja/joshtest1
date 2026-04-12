@@ -14,13 +14,18 @@ interface CalculatorResult {
 type WeightUnit = 'lbs' | 'kg';
 type CalculationMode = 'manual' | 'ai';
 
-export function ProgressiveOverloadCalculator() {
+interface ProgressiveOverloadCalculatorProps {
+  mode?: CalculationMode;
+}
+
+export function ProgressiveOverloadCalculator({ mode }: ProgressiveOverloadCalculatorProps = {}) {
   const [currentWeight, setCurrentWeight] = useState<string>('');
   const [targetReps, setTargetReps] = useState<string>('');
   const [repsCompleted, setRepsCompleted] = useState<string>('');
   const [unit, setUnit] = useState<WeightUnit>('lbs');
   const [result, setResult] = useState<CalculatorResult | null>(null);
-  const [calculationMode, setCalculationMode] = useState<CalculationMode>('manual');
+  const [internalMode, setInternalMode] = useState<CalculationMode>('manual');
+  const calculationMode = mode ?? internalMode;
   const [aiReasoning, setAiReasoning] = useState<string>('');
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string>('');

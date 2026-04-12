@@ -56,8 +56,8 @@ export function ScreenToggle({ calculatorContent, workoutContent }: ScreenToggle
           <button
             onClick={() => setActiveTab('workouts')}
             className={`
-              flex flex-col items-center gap-1 rounded-full px-5 py-2.5 transition-colors duration-200
-              ${activeTab === 'workouts' ? 'border border-[#3B82F6] bg-[#CCE0FF]' : 'bg-white border border-transparent'}
+              flex flex-col items-center gap-1 rounded-[20px] px-5 py-2.5 transition-colors duration-200
+              ${activeTab === 'workouts' ? 'bg-[#CCE0FF]' : 'bg-white'}
             `}
             style={{ minWidth: 100 }}
           >
@@ -71,8 +71,8 @@ export function ScreenToggle({ calculatorContent, workoutContent }: ScreenToggle
           <button
             onClick={() => setActiveTab('calculator')}
             className={`
-              flex flex-col items-center gap-1 rounded-full px-5 py-2.5 transition-colors duration-200
-              ${activeTab === 'calculator' ? 'border border-[#3B82F6] bg-[#CCE0FF]' : 'bg-white border border-transparent'}
+              flex flex-col items-center gap-1 rounded-[20px] px-5 py-2.5 transition-colors duration-200
+              ${activeTab === 'calculator' ? 'bg-[#CCE0FF]' : 'bg-white'}
             `}
             style={{ minWidth: 100 }}
           >

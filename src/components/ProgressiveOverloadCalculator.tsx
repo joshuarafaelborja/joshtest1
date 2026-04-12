@@ -14,13 +14,18 @@ interface CalculatorResult {
 type WeightUnit = 'lbs' | 'kg';
 type CalculationMode = 'manual' | 'ai';
 
-export function ProgressiveOverloadCalculator() {
+interface ProgressiveOverloadCalculatorProps {
+  mode?: CalculationMode;
+}
+
+export function ProgressiveOverloadCalculator({ mode }: ProgressiveOverloadCalculatorProps = {}) {
   const [currentWeight, setCurrentWeight] = useState<string>('');
   const [targetReps, setTargetReps] = useState<string>('');
   const [repsCompleted, setRepsCompleted] = useState<string>('');
   const [unit, setUnit] = useState<WeightUnit>('lbs');
   const [result, setResult] = useState<CalculatorResult | null>(null);
-  const [calculationMode, setCalculationMode] = useState<CalculationMode>('manual');
+  const [internalMode, setInternalMode] = useState<CalculationMode>('manual');
+  const calculationMode = mode ?? internalMode;
   const [aiReasoning, setAiReasoning] = useState<string>('');
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string>('');
@@ -150,16 +155,18 @@ export function ProgressiveOverloadCalculator() {
     <div className="rounded-2xl overflow-hidden" style={{ background: '#FFFFFF' }}>
       {/* Card Body */}
       <div className="p-5 space-y-5">
-        {/* Manual/AI Toggle */}
-        <div>
-          <PillToggle
-            options={['Manual', <><Sparkles className="w-3 h-3 mr-1" />AI</>]}
-            activeIndex={calculationMode === 'manual' ? 0 : 1}
-            onChange={(i) => setCalculationMode(i === 0 ? 'manual' : 'ai')}
-            size="md"
-            fullWidth
-          />
-        </div>
+        {/* Manual/AI Toggle - only show if mode not controlled by parent */}
+        {!mode && (
+          <div>
+            <PillToggle
+              options={['Manual', <><Sparkles className="w-3 h-3 mr-1" />AI</>]}
+              activeIndex={calculationMode === 'manual' ? 0 : 1}
+              onChange={(i) => setInternalMode(i === 0 ? 'manual' : 'ai')}
+              size="md"
+              fullWidth
+            />
+          </div>
+        )}
 
         {/* AI Mode Tip */}
         {calculationMode === 'ai' && (

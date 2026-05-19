@@ -20,6 +20,22 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
+      // Mobile-optimized font size caps (global)
+      fontSize: {
+        xs: ['0.6875rem', { lineHeight: '1rem' }],        // 11px – labels/captions
+        sm: ['0.875rem', { lineHeight: '1.25rem' }],      // 14px – body
+        base: ['0.875rem', { lineHeight: '1.25rem' }],    // 14px – body
+        lg: ['0.9375rem', { lineHeight: '1.375rem' }],    // 15px – H3/buttons
+        xl: ['1.125rem', { lineHeight: '1.5rem' }],       // 18px – H2
+        '2xl': ['1.125rem', { lineHeight: '1.5rem' }],    // 18px – H2 cap
+        '3xl': ['1.375rem', { lineHeight: '1.75rem' }],   // 22px – H1
+        '4xl': ['1.5rem', { lineHeight: '1.875rem' }],    // 24px
+        '5xl': ['1.75rem', { lineHeight: '2rem' }],       // 28px
+        '6xl': ['2.25rem', { lineHeight: '2.5rem' }],     // 36px – stat max
+        '7xl': ['2.25rem', { lineHeight: '2.5rem' }],     // 36px cap
+        '8xl': ['2.25rem', { lineHeight: '2.5rem' }],
+        '9xl': ['2.25rem', { lineHeight: '2.5rem' }],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

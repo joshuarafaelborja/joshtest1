@@ -129,7 +129,7 @@
   /* Large touch-friendly inputs for gym use */
   input[type="number"],
   input[type="text"] {
-    font-size: 18px !important;
+    font-size: 14px !important;
     font-variant-numeric: tabular-nums;
     font-family: "Inter", system-ui, sans-serif;
   }
@@ -188,7 +188,7 @@
 
   /* Typography Classes */
   .heading-hero {
-    @apply text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight;
+    @apply text-3xl font-semibold tracking-tight;
     letter-spacing: -0.02em;
   }
 
@@ -269,7 +269,7 @@
   }
 
   .calc-input {
-    @apply text-3xl sm:text-4xl font-semibold text-foreground bg-transparent border-b border-gray-200 focus:border-primary focus:outline-none transition-colors tabular-nums w-full py-2 tracking-tight;
+    @apply text-sm font-semibold text-foreground bg-transparent border-b border-gray-200 focus:border-primary focus:outline-none transition-colors tabular-nums w-full py-2 tracking-tight;
   }
 
   .calc-unit {

@@ -269,7 +269,7 @@
   }
 
   .calc-input {
-    @apply text-3xl sm:text-4xl font-semibold text-foreground bg-transparent border-b border-gray-200 focus:border-primary focus:outline-none transition-colors tabular-nums w-full py-2 tracking-tight;
+    @apply text-sm font-semibold text-foreground bg-transparent border-b border-gray-200 focus:border-primary focus:outline-none transition-colors tabular-nums w-full py-2 tracking-tight;
   }
 
   .calc-unit {

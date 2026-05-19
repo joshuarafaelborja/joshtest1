@@ -129,7 +129,7 @@
   /* Large touch-friendly inputs for gym use */
   input[type="number"],
   input[type="text"] {
-    font-size: 18px !important;
+    font-size: 14px !important;
     font-variant-numeric: tabular-nums;
     font-family: "Inter", system-ui, sans-serif;
   }
